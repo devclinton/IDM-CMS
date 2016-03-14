@@ -1,0 +1,55 @@
+﻿; garki model
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "garki")
+
+(species X1 1000)
+(species X2)
+(species X3)
+(species X4)
+(species Y1 100)
+(species Y2)
+(species Y3)
+
+(observe Susceptible X1)
+(observe RecoverFast Y3)
+
+(param delta  0.0001)
+(param a      0.3)
+(param N     15)
+(param n     10)
+(param alpha2 0.00019)
+(param g      0.097)
+(param r1     0.0023)
+(param r2     0.023)
+(param alpha1 0.002)
+
+(func C (* 0.2 (+ 1.01 (sin (* (/ time 365) 6.28)))))
+(func h (* g (- 1 (exp (* (- C) (/ Y1 (+ X1 X2 X3 X4 Y1 Y2 Y3)))))))
+
+(reaction deathX1 (X1) () (* delta X1))
+(reaction deathX2 (X2) () (* delta X2))
+(reaction deathX3 (X3) () (* delta X3))
+(reaction deathX4 (X4) () (* delta X4))
+(reaction deathY1 (Y1) () (* delta Y1))
+(reaction deathY2 (Y2) () (* delta Y2))
+(reaction deathY3 (Y3) () (* delta Y3))
+
+(reaction birth () (X1) (* delta (+ X1 X2 X3 X4 Y1 Y2 Y3)))
+
+(reaction infectX1 (X1) (Y1) (* h X1) N)
+(reaction infectX3 (X3) (Y3) (* h X3) N)
+
+(reaction recoveryY3 (Y3) (X3) (/ (* Y3 h) (- (exp (/ h r2)) 1)))
+(reaction recoveryY2 (Y2) (X1) (/ (* Y2 h) (- (exp (/ h r1)) 1)))
+
+(reaction lossinfectY1 (Y1) (Y2) (* alpha1 Y1))
+(reaction acquireimmunityY2 (Y2) (Y3) (* alpha2 Y2))
+
+(locale solitary)
+(set-locale solitary)
+(species loner 1)
+(reaction hermit () (loner) 0.25)
+
+(end-model)

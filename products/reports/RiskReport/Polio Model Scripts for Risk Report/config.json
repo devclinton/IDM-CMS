@@ -1,0 +1,9 @@
+{ 
+"solver":  "TAU", 
+"runs":  200, 
+"duration":  10, 
+"samples":  200, 
+"tau-leaping": {  
+"epsilon": 0.01 
+} 
+} 

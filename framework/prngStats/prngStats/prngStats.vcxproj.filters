@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="framework">
+      <UniqueIdentifier>{b7dc9166-6708-4b2a-a214-ce5e09237989}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prngs">
+      <UniqueIdentifier>{5ad5aa14-ed80-4d28-b879-ee0037c2dace}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prngs\AES">
+      <UniqueIdentifier>{da374a64-f4c3-4989-8ad0-10ce5473f726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prngs\EMOD">
+      <UniqueIdentifier>{29307661-407e-4ece-8b12-595a670d1a09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prngs\MersenneTwister">
+      <UniqueIdentifier>{14ab16c5-e7db-46dd-bcf9-a09f1d5f63b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prngs\MersenneTwister\original">
+      <UniqueIdentifier>{a5c5d1fd-780d-4aaf-9663-b2ea2ecccf45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prngs\MersenneTwister\sixtyFour">
+      <UniqueIdentifier>{28988d52-9437-4388-9904-6cdd8694e09a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prngs\MersenneTwister\tiny-mt">
+      <UniqueIdentifier>{97b8df43-e07e-4f34-8167-e9bdb7fb4cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prngs\MersenneTwister\sfmt">
+      <UniqueIdentifier>{835f726c-27dc-42b8-8fd5-836a58fe742f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prngs\RANDLIB">
+      <UniqueIdentifier>{db6b50cb-a651-4204-bc3a-ea03f23928d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prngs\well">
+      <UniqueIdentifier>{f6d6772f-b376-4a2d-8cc8-445af34dfa71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bitstreamtests">
+      <UniqueIdentifier>{2284594f-0b30-424d-8a44-54149e23ccd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fptests">
+      <UniqueIdentifier>{a1411e67-7c57-4af0-b6bc-606cc299046c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fptests\diehard">
+      <UniqueIdentifier>{fc3fea36-e206-4832-a188-4a38a75a0162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bitstreamtests\nist">
+      <UniqueIdentifier>{3ef79c55-9082-4e2d-a524-1f0ebd5fe057}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cephes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\decls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\externs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\generators.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\genutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stat_fncs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="emod\RANDOM.h">
+      <Filter>prngs\EMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="randlib\ranlib.h">
+      <Filter>prngs\RANDLIB</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\original\mt19937ar.h">
+      <Filter>prngs\MersenneTwister\original</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sixtyFour\mt64.h">
+      <Filter>prngs\MersenneTwister\sixtyFour</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\tinymt\tinymt64.h">
+      <Filter>prngs\MersenneTwister\tiny-mt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-sse2.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-alti.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-params.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-params607.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-params1279.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-params2281.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-params4253.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-params11213.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-params19937.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-params44497.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-params86243.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-params132049.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="twister\sfmt\SFMT-params216091.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="well\WELL19937a.h">
+      <Filter>prngs\well</Filter>
+    </ClInclude>
+    <ClInclude Include="diehard\header.h">
+      <Filter>fptests\diehard</Filter>
+    </ClInclude>
+    <ClInclude Include="diehard\macro.h">
+      <Filter>fptests\diehard</Filter>
+    </ClInclude>
+    <ClInclude Include="aes\aes.h">
+      <Filter>prngs\AES</Filter>
+    </ClInclude>
+    <ClInclude Include="IRandom.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomFactory.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearCongruential.h">
+      <Filter>prngs\EMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="MersenneTwister64.h">
+      <Filter>prngs\MersenneTwister\sixtyFour</Filter>
+    </ClInclude>
+    <ClInclude Include="SimdTwister.h">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClInclude>
+    <ClInclude Include="AesCounter.h">
+      <Filter>prngs\AES</Filter>
+    </ClInclude>
+    <ClInclude Include="PseudoDES.h">
+      <Filter>prngs\EMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="RandLib.h">
+      <Filter>prngs\RANDLIB</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="prngStats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="emod\RANDOM.cpp">
+      <Filter>prngs\EMOD</Filter>
+    </ClCompile>
+    <ClCompile Include="randlib\com.cpp">
+      <Filter>prngs\RANDLIB</Filter>
+    </ClCompile>
+    <ClCompile Include="randlib\linpack.cpp">
+      <Filter>prngs\RANDLIB</Filter>
+    </ClCompile>
+    <ClCompile Include="randlib\ranlib.cpp">
+      <Filter>prngs\RANDLIB</Filter>
+    </ClCompile>
+    <ClCompile Include="twister\sfmt\SFMT.cpp">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClCompile>
+    <ClCompile Include="twister\tinymt\tinymt64.cpp">
+      <Filter>prngs\MersenneTwister\tiny-mt</Filter>
+    </ClCompile>
+    <ClCompile Include="twister\sixtyFour\mt19937-64.cpp">
+      <Filter>prngs\MersenneTwister\sixtyFour</Filter>
+    </ClCompile>
+    <ClCompile Include="twister\original\mt19937ar.cpp">
+      <Filter>prngs\MersenneTwister\original</Filter>
+    </ClCompile>
+    <ClCompile Include="well\WELL19937a.cpp">
+      <Filter>prngs\well</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\cdbday.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\cdbinrnk.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\cdbitst.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\cdomso.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\cdoperm5.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\cdosum.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\cdpark.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\cnt1s.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\craptest.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\d3sphere.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\df.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\diehard.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\funct.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\kstest.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\mindist.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\runtest.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="diehard\squeez.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="aes\ctrFunction.cpp">
+      <Filter>prngs\AES</Filter>
+    </ClCompile>
+    <ClCompile Include="src\approximateEntropy.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\assess.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\blockFrequency.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cephes.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cusum.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dfft.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\discreteFourierTransform.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\frequency.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\generators.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\genutils.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\linearComplexity.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\longestRunOfOnes.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\matrix.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nonOverlappingTemplateMatchings.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\overlappingTemplateMatchings.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\randomExcursions.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\randomExcursionsVariant.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rank.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\runs.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\serial.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\universal.cpp">
+      <Filter>bitstreamtests\nist</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomFactory.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearCongruential.cpp">
+      <Filter>prngs\EMOD</Filter>
+    </ClCompile>
+    <ClCompile Include="PseudoDES.cpp">
+      <Filter>prngs\EMOD</Filter>
+    </ClCompile>
+    <ClCompile Include="MersenneTwister64.cpp">
+      <Filter>prngs\MersenneTwister\sixtyFour</Filter>
+    </ClCompile>
+    <ClCompile Include="SimdTwister.cpp">
+      <Filter>prngs\MersenneTwister\sfmt</Filter>
+    </ClCompile>
+    <ClCompile Include="AesCounter.cpp">
+      <Filter>prngs\AES</Filter>
+    </ClCompile>
+    <ClCompile Include="operm5cov.cpp">
+      <Filter>fptests\diehard</Filter>
+    </ClCompile>
+    <ClCompile Include="RandLib.cpp">
+      <Filter>prngs\RANDLIB</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

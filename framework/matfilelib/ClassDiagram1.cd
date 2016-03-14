@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="matfilelib.ArrayDimensions" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ArrayDimensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.ArrayName" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ArrayName.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="matfilelib.CharacterBuffer" Collapsed="true">
+    <Position X="5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CharacterBuffer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.ClassTag" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAgAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>ClassTag.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="matfilelib.CompressedData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAARAAAgAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>CompressedData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="matfilelib.CompressedElement" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQIAAgAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CompressedElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.DataBuffer&lt;T&gt;" Collapsed="true">
+    <Position X="5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAARAAAgAACAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataBuffer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="matfilelib.DotMatFile" Collapsed="true">
+    <Position X="18" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAACAAACAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DotMatFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.DoubleBuffer" Collapsed="true">
+    <Position X="2.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DoubleBuffer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.FieldNameLength" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAgAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FieldNameLength.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="matfilelib.FieldNames" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAgAAAAAAAAAAIAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>FieldNames.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="matfilelib.FileElement" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileElement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="matfilelib.FileHeader" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAQAAAgAAAAAAAAAAAAAAAAAAAABAAAAAgAAA=</HashCode>
+      <FileName>FileHeader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.FloatBuffer" Collapsed="true">
+    <Position X="7.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FloatBuffer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.MatlabCell" Collapsed="true">
+    <Position X="5.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MatlabCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.MatlabMatrix" Collapsed="true">
+    <Position X="9.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MatlabMatrix.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.MatlabString" Collapsed="true">
+    <Position X="12" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MatlabString.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.MatlabStructure" Collapsed="true">
+    <Position X="7.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MatlabStructure.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.MatrixElement" Collapsed="true">
+    <Position X="8.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAASAAAgIABAAAAAAQAIAABAAAAAAAAAABAAAA=</HashCode>
+      <FileName>MatrixElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.MatrixTag" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MatrixTag.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="matfilelib.StructMatrix" Collapsed="true">
+    <Position X="7.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>StructMatrix.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Crc.CRC32" Collapsed="true">
+    <Position X="21.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AkAAAAAQAAAAhAIAgAAFAAAAiAAAgAoAIgABAEBAAAA=</HashCode>
+      <FileName>Ionic\Crc\CRC32.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Crc.CrcCalculatorStream" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAARAACAAQAAgGAAAAABgAAAAAAADCIABAAGIACg=</HashCode>
+      <FileName>Ionic\Crc\CRC32.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Ionic.Zlib.DeflateManager" Collapsed="true">
+    <Position X="14.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>VAb6FB4VwqSSzSBZ5gUIZxQAoYQIwbdoASTCdJkgACM=</HashCode>
+      <FileName>Ionic\Zlib\Deflate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.DeflateStream" Collapsed="true">
+    <Position X="16.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAQBAACAEYAAwGAAAAABgIQACAAABAAAAABEIACA=</HashCode>
+      <FileName>Ionic\Zlib\DeflateStream.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.GZipStream" Collapsed="true">
+    <Position X="23.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAQQEECAEYAAwGAAIAQBiIQAiAAQBAEAQAAFIBCA=</HashCode>
+      <FileName>Ionic\Zlib\GZipStream.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.InflateBlocks" Collapsed="true">
+    <Position X="14.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACQAAKBxDIAwEgBABAAAAIAAANAAAQAAApAgI=</HashCode>
+      <FileName>Ionic\Zlib\Inflate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.InternalInflateConstants" Collapsed="true">
+    <Position X="23.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Ionic\Zlib\Inflate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.InflateCodes" Collapsed="true">
+    <Position X="16.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEBDEQAAAAAgAgKAggCAAADAhBAAAACAgEECAAgAAkg=</HashCode>
+      <FileName>Ionic\Zlib\Inflate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.InflateManager" Collapsed="true">
+    <Position X="18" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAIAAAAAQAAABSCBAAKAABAAAAAAAAAEAAAAQAAgxAI=</HashCode>
+      <FileName>Ionic\Zlib\Inflate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.InfTree" Collapsed="true">
+    <Position X="19.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QIAAEIAAEAAAIACKAAAABgAERAAJAACEEBdRAABBABA=</HashCode>
+      <FileName>Ionic\Zlib\InfTree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.Tree" Collapsed="true">
+    <Position X="19.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACABAAAKCAAQAAAIAAAAABAAAAgAAAJkAAAAAAFgAAE=</HashCode>
+      <FileName>Ionic\Zlib\Tree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.ZlibException" Collapsed="true">
+    <Position X="16.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Ionic\Zlib\Zlib.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.SharedUtils" Collapsed="true">
+    <Position X="16.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQICAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Ionic\Zlib\Zlib.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.InternalConstants" Collapsed="true">
+    <Position X="21.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAQAAAAAAAAAAAAICAAAAAAAIAAgAQAAAhIAA=</HashCode>
+      <FileName>Ionic\Zlib\Zlib.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.StaticTree" Collapsed="true">
+    <Position X="18" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAABAAAAAgAAABBAAAiAaAAAAAA=</HashCode>
+      <FileName>Ionic\Zlib\Zlib.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.Adler" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAgAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Ionic\Zlib\Zlib.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.ZlibBaseStream" Collapsed="true">
+    <Position X="21.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACAAQCgAABUABhGAAIAQBkIQOAUAABAAAICRHIJDg=</HashCode>
+      <FileName>Ionic\Zlib\ZlibBaseStream.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.ZlibCodec" Collapsed="true">
+    <Position X="23.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CQEIwAgQQKAAEEAAQCIAAAAAABASAgAiABBAIBBAAAI=</HashCode>
+      <FileName>Ionic\Zlib\ZlibCodec.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.ZlibConstants" Collapsed="true">
+    <Position X="14.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAEAAAAAACAAAABgAAEACEEAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Ionic\Zlib\ZlibConstants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ionic.Zlib.ZlibStream" Collapsed="true">
+    <Position X="18" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAQAAACAEYAAwGAAAAABgIQACAAABAAAAAAEIACA=</HashCode>
+      <FileName>Ionic\Zlib\ZlibStream.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="matfilelib.SbyteBuffer" Collapsed="true">
+    <Position X="9.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SbyteBuffer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="matfilelib.IElement">
+    <Position X="12" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="matfilelib.MatlabClass" Collapsed="true">
+    <Position X="14.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CBAAAAAAgAAAAAAIAAAAACgAAAAAAQBAAAAAAQAhAIA=</HashCode>
+      <FileName>MatlabClass.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="matfilelib.MatlabType" Collapsed="true">
+    <Position X="16.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CQAgAABAAAAAAgAAAAAACAAVAUAAABAQAQAAQAAAABA=</HashCode>
+      <FileName>MatlabType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ionic.Zlib.BlockState" Collapsed="true">
+    <Position X="14.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACIAAAAAABAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Ionic\Zlib\Deflate.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ionic.Zlib.DeflateFlavor" Collapsed="true">
+    <Position X="21.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAQAABAA=</HashCode>
+      <FileName>Ionic\Zlib\Deflate.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ionic.Zlib.FlushType" Collapsed="true">
+    <Position X="23.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAgAEAAEAAAg=</HashCode>
+      <FileName>Ionic\Zlib\Zlib.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ionic.Zlib.CompressionLevel" Collapsed="true">
+    <Position X="16.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAQAAABAAAAAAkAAAA=</HashCode>
+      <FileName>Ionic\Zlib\Zlib.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ionic.Zlib.CompressionStrategy" Collapsed="true">
+    <Position X="19.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Ionic\Zlib\Zlib.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ionic.Zlib.CompressionMode" Collapsed="true">
+    <Position X="18" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Ionic\Zlib\Zlib.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Ionic.Zlib.ZlibStreamFlavor" Collapsed="true">
+    <Position X="18" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Ionic\Zlib\ZlibBaseStream.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

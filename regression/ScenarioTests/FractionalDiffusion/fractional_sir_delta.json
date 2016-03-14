@@ -1,0 +1,36 @@
+{
+    "duration" : 10,
+    "runs" : 1,
+    "samples" : 200,
+    "solver" : "FD",
+    "output" : {
+        "headers" : true
+    },
+    "tau-leaping" : {
+        "epsilon" : 0.15
+    },
+    "r-leaping" : {
+        "epsilon" : 0.15
+    },
+    "tssa" : {
+    	"verbose" : true
+    },
+    "dfsp" : {
+    	"verbose" : true
+    },
+    "otssa" : {
+    	"verbose" : true
+    },
+    "et" : {
+	"verbose" : false,
+	"testing" : false,
+	"convergence" : false, 
+	"epsilon" : 0.5
+    },
+    "fd" : {
+         "alpha" : 0.6,
+	 "constant" : 0.025,
+         "Dalpha": 1.0,
+         "verbose" : true
+    }
+}

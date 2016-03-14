@@ -1,0 +1,20 @@
+echo SRFI tests > srfitest.log
+call isc srfi\tests\and-let_.sps >> srfitest.log
+call isc srfi\tests\compare-procedures.sps >> srfitest.log
+call isc srfi\tests\cut.sps >> srfitest.log
+call isc srfi\tests\eager-comprehensions.sps >> srfitest.log
+call isc srfi\tests\intermediate-format-strings.sps >> srfitest.log
+call isc srfi\tests\lightweight-testing.sps >> srfitest.log
+call isc srfi\tests\lists.sps >> srfitest.log
+call isc srfi\tests\multi-dimensional-arrays--arlib.sps >> srfitest.log
+call isc srfi\tests\multi-dimensional-arrays.sps >> srfitest.log
+call isc srfi\tests\os-environment-variables.sps >> srfitest.log
+call isc srfi\tests\procedure-arity.sps >> srfitest.log
+call isc srfi\tests\print-ascii.sps >> srfitest.log
+rem call isc srfi\tests\random-conftest.sps >> srfitest.log
+call isc srfi\tests\random.sps >> srfitest.log
+call isc srfi\tests\random-access-lists.sps >> srfitest.log
+call isc srfi\tests\rec-factorial.sps >> srfitest.log
+call isc srfi\tests\records.sps >> srfitest.log
+call isc srfi\tests\testing.sps >> srfitest.log
+call isc srfi\tests\time.sps >> srfitest.log

@@ -1,0 +1,15 @@
+{
+    "populations" : {
+        "X1" : 1000,
+        "Y1" :  100
+    },
+    "parameters" : {
+        "bitingrate" :       0.3,
+        "infectivityloss" :  0.002,
+        "transitiontofast" : 0.00019,
+        "birthrate" :        0.0001,
+        "susceptibility" :   0.097,
+        "slowrecovery" :     0.0023,
+        "fastrecovery" :     0.023
+    }
+}

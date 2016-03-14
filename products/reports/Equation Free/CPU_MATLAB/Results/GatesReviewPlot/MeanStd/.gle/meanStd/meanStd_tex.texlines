@@ -1,0 +1,24 @@
+tex {\footnotesize 300}
+tex {\footnotesize 350}
+tex {\footnotesize 400}
+tex {\footnotesize 450}
+tex {\normalsize $W_{21}$}
+tex {\footnotesize 0}
+tex {\footnotesize 2}
+tex {\footnotesize 4}
+tex {\footnotesize 6}
+tex {\footnotesize 8}
+tex {\footnotesize 10}
+tex {\normalsize Time [years]}
+tex {\footnotesize 50}
+tex {\footnotesize 100}
+tex {\footnotesize 150}
+tex {\footnotesize 200}
+tex {\footnotesize 250}
+tex {\footnotesize 0.0}
+tex {\footnotesize 0.2}
+tex {\footnotesize 0.4}
+tex {\footnotesize 0.6}
+tex {\footnotesize 0.8}
+tex {\footnotesize 1.0}
+tex {\normalsize P(Eradication)}

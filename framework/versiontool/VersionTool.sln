@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionTool", "VersionTool.csproj", "{A86BAB3C-943E-40ED-B2BE-68565D7D34B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A86BAB3C-943E-40ED-B2BE-68565D7D34B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A86BAB3C-943E-40ED-B2BE-68565D7D34B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A86BAB3C-943E-40ED-B2BE-68565D7D34B9}.Debug|x64.ActiveCfg = Debug|x64
+		{A86BAB3C-943E-40ED-B2BE-68565D7D34B9}.Debug|x64.Build.0 = Debug|x64
+		{A86BAB3C-943E-40ED-B2BE-68565D7D34B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A86BAB3C-943E-40ED-B2BE-68565D7D34B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A86BAB3C-943E-40ED-B2BE-68565D7D34B9}.Release|x64.ActiveCfg = Release|x64
+		{A86BAB3C-943E-40ED-B2BE-68565D7D34B9}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 1
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfs12:8080/tfs/ivlabs_cms
+		SccProjectUniqueName0 = VersionTool.csproj
+		SccProjectName0 = .
+		SccAuxPath0 = http://tfs12:8080/tfs/ivlabs_cms
+		SccLocalPath0 = .
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
+EndGlobal

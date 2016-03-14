@@ -1,0 +1,19 @@
+﻿;test MidPoint model
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "testMP")
+
+(species reactant1 400)
+(species reactant2 200)
+(species product1 900)
+
+(observe R1 reactant1)
+(observe R2 reactant2)
+(observe P1 product1)
+
+(param rate1 (/ 20 400))
+
+(reaction deathY3 (reactant1 reactant2) (product1) (* reactant1 reactant2 rate1))
+
+(end-model)

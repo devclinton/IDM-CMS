@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0F7FC5C3-FB17-456B-87C6-39F8991A7A81}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>compartments</RootNamespace>
+    <AssemblyName>compartments</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\compartments.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\compartments.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>compartments.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="IronScheme, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\ironscheme\IronScheme.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Json40R2\Bin\Net\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="cmdl\CmdlLoader.cs" />
+    <Compile Include="CommandLine\CommandLineParameters.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="emodl\EmodlLoader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="emod\BooleanExpressionTree.cs" />
+    <Compile Include="emod\ConstraintInfo.cs" />
+    <Compile Include="emod\distributions\Empirical.cs" />
+    <Compile Include="emod\distributions\Normal.cs" />
+    <Compile Include="emod\distributions\Uniform.cs" />
+    <Compile Include="emod\EventInfoBase.cs" />
+    <Compile Include="emod\expressions\BinaryBooleanOp.cs" />
+    <Compile Include="emod\expressions\BinaryBooleanOperation.cs" />
+    <Compile Include="emod\expressions\BinaryOp.cs" />
+    <Compile Include="emod\expressions\BinaryOperation.cs" />
+    <Compile Include="emod\expressions\ComparisonOp.cs" />
+    <Compile Include="emod\expressions\ComparisonOperation.cs" />
+    <Compile Include="emod\expressions\Constant.cs" />
+    <Compile Include="emod\expressions\ConstantValue.cs" />
+    <Compile Include="emod\expressions\SymbolReference.cs" />
+    <Compile Include="emod\expressions\TargetReference.cs" />
+    <Compile Include="emod\expressions\UnaryBooleanOp.cs" />
+    <Compile Include="emod\expressions\UnaryBooleanOperation.cs" />
+    <Compile Include="emod\expressions\UnaryOp.cs" />
+    <Compile Include="emod\expressions\UnaryOperation.cs" />
+    <Compile Include="emod\interfaces\IPerformanceDataWriter.cs" />
+    <Compile Include="emod\perf\PerformanceDataWriterFactory.cs" />
+    <Compile Include="emod\perf\PerformanceMeasurementConfigurationParameters.cs" />
+    <Compile Include="emod\perf\PerformanceMeasurements.cs" />
+    <Compile Include="emod\perf\PerformanceDataWriterBase.cs" />
+    <Compile Include="emod\perf\PerformanceDataWriterCsv.cs" />
+    <Compile Include="emod\perf\PerformanceDataWriterJson.cs" />
+    <Compile Include="emod\ScheduledEventInfo.cs" />
+    <Compile Include="emod\TriggeredEventInfo.cs" />
+    <Compile Include="emod\interfaces\IUpdateable.cs" />
+    <Compile Include="emod\NumericExpressionTree.cs" />
+    <Compile Include="emod\interfaces\IBoolean.cs" />
+    <Compile Include="emod\interfaces\IBooleanOperator.cs" />
+    <Compile Include="emod\interfaces\IDistribution.cs" />
+    <Compile Include="emod\interfaces\INumericOperator.cs" />
+    <Compile Include="emod\interfaces\ISolver.cs" />
+    <Compile Include="emod\interfaces\IValue.cs" />
+    <Compile Include="emod\LocaleInfo.cs" />
+    <Compile Include="emod\ModelInfo.cs" />
+    <Compile Include="emod\ObservableInfo.cs" />
+    <Compile Include="emod\ParameterInfo.cs" />
+    <Compile Include="emod\ReactionInfo.cs" />
+    <Compile Include="emod\utils\DynamicHistogram.cs" />
+    <Compile Include="emod\utils\HistogramConverter.cs" />
+    <Compile Include="emod\utils\BiasingParameters.cs" />
+    <Compile Include="emod\utils\BiasingParametersDeserializer.cs" />
+    <Compile Include="emod\utils\BiasingParametersSerializer.cs" />
+    <Compile Include="emod\utils\RandomNumber.cs" />
+    <Compile Include="emod\utils\RNGFactory.cs" />
+    <Compile Include="emod\utils\SimulationResults.cs" />
+    <Compile Include="emod\utils\SolverFactory.cs" />
+    <Compile Include="emod\SpeciesDescription.cs" />
+    <Compile Include="emod\utils\VersionInfo.cs" />
+    <Compile Include="ModelRepresentation.cs" />
+    <Compile Include="PriorityQueue.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="solvers\Bleaping.cs" />
+    <Compile Include="solvers\ExitTimes.cs" />
+    <Compile Include="solvers\FractionalDiffusion.cs" />
+    <Compile Include="solvers\MidPoint.cs" />
+    <Compile Include="solvers\OptimalTransportSSA.cs" />
+    <Compile Include="solvers\DFSP.cs" />
+    <Compile Include="solvers\dwSSA.cs" />
+    <Compile Include="solvers\GibsonBruck.cs" />
+    <Compile Include="solvers\Gillespie.cs" />
+    <Compile Include="solvers\GillespieFirstReaction.cs" />
+    <Compile Include="solvers\HybridSSA.cs" />
+    <Compile Include="solvers\RLeaping.cs" />
+    <Compile Include="solvers\RLeapingFast.cs" />
+    <Compile Include="solvers\sdwSSA.cs" />
+    <Compile Include="solvers\solverbase\Constraint.cs" />
+    <Compile Include="solvers\solverbase\CsvOutputOptions.cs" />
+    <Compile Include="solvers\solverbase\CsvSupport.cs" />
+    <Compile Include="solvers\solverbase\JsonOutputOptions.cs" />
+    <Compile Include="solvers\solverbase\JsonSupport.cs" />
+    <Compile Include="solvers\solverbase\MatlabOutputOptions.cs" />
+    <Compile Include="solvers\solverbase\MatlabSupport.cs" />
+    <Compile Include="solvers\solverbase\MPModelBuilder.cs" />
+    <Compile Include="solvers\solverbase\RealizationData.cs" />
+    <Compile Include="solvers\solverbase\SolverBase.cs" />
+    <Compile Include="solvers\solverbase\SpeciesMP.cs" />
+    <Compile Include="solvers\solverbase\TriggeredEvent.cs" />
+    <Compile Include="solvers\solverbase\Expression.cs" />
+    <Compile Include="solvers\solverbase\IModel.cs" />
+    <Compile Include="solvers\solverbase\IModelBuilder.cs" />
+    <Compile Include="solvers\solverbase\Model.cs" />
+    <Compile Include="solvers\solverbase\ModelBuilder.cs" />
+    <Compile Include="solvers\solverbase\Observable.cs" />
+    <Compile Include="solvers\solverbase\Parameter.cs" />
+    <Compile Include="solvers\solverbase\Predicate.cs" />
+    <Compile Include="solvers\solverbase\Reaction.cs" />
+    <Compile Include="solvers\solverbase\Species.cs" />
+    <Compile Include="solvers\solverbase\ScheduledEvent.cs" />
+    <Compile Include="solvers\solverbase\EventBase.cs" />
+    <Compile Include="solvers\TauLeaping.cs" />
+    <Compile Include="solvers\TransportSSA.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ironscheme\ironscheme\syntax\shorthand.sls">
+      <Link>ironscheme\syntax\shorthand.sls</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\ironscheme\ironscheme\typed\integrable.sls">
+      <Link>ironscheme\typed\integrable.sls</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="app.config" />
+    <None Include="config.json" />
+    <None Include="emodl\cmsexpressions.ss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="emodl\cmslib.ss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\ironscheme\ironscheme\clr.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\clr.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\console.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\console.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\contracts-helper.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\contracts-helper.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\contracts.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\contracts.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\conversions.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\conversions.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\datetime.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\datetime.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\debugger.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\debugger.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\environment.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\environment.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\ffi.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\ffi.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\files.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\files.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\fsm-cond-helpers.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\fsm-cond-helpers.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\fsm-cond.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\fsm-cond.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\integrable.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\integrable.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\io.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\io.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\linq.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\linq.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\process.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\process.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\random.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\random.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\record-case.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\record-case.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\regex-cond.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\regex-cond.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\regex.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\regex.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\registry.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\registry.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\strings.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\strings.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\syntax.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\syntax.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\threading.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\threading.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\typed.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\typed.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\web-utils.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\web-utils.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\web.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\web.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\xml.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\xml.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\clr\dynamic.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\clr\dynamic.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\clr\helpers.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\clr\helpers.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\clr\reflection.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\clr\reflection.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\clr\shorthand-helper.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\clr\shorthand-helper.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\clr\shorthand.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\clr\shorthand.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\syntax\define-macro.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\syntax\define-macro.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\syntax\library-utils.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\syntax\library-utils.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\syntax\parameters.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\syntax\parameters.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\syntax\symbolic-case.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\syntax\symbolic-case.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\syntax\utils.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\syntax\utils.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\typed\core.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\typed\core.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\typed\parsing-helper.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\typed\parsing-helper.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\typed\parsing.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\typed\parsing.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\typed\struct-case.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\typed\struct-case.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\typed\struct-descriptor.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\typed\struct-descriptor.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\typed\struct.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\typed\struct.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\web\controllers.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\web\controllers.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\web\models.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\web\models.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\web\routing-helper.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\web\routing-helper.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\web\routing.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\web\routing.sls</Link>
+    </None>
+    <None Include="..\ironscheme\ironscheme\web\views.sls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>ironscheme\web\views.sls</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cmdlParser\cmdlParser.csproj">
+      <Project>{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}</Project>
+      <Name>cmdlParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\distlib\distlib.csproj">
+      <Project>{48F95A69-B79F-4FE3-8599-CD69FA6103DD}</Project>
+      <Name>distlib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\matfilelib\matfilelib.csproj">
+      <Project>{E094483E-8B78-4734-AE21-161FC707EC0D}</Project>
+      <Name>matfilelib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\common\PrngLib.dll">
+      <Link>PrngLib.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="compartments.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)versiontool\bin\Release\versiontool.exe -d $(SolutionDir) $(ProjectDir)properties\AssemblyInfo.tmpl $(ProjectDir)properties\AssemblyInfo.cs</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,16 @@
+{
+    "duration" : .1,
+    "runs" : 500000,
+    "samples" : 2,
+    "solver" : "TAU",
+    "output" : {
+        "headers" : true
+    },
+    "tau-leaping" : {
+        "epsilon" : .4
+    },
+    "midpoint" : {
+        "epsilon" : .4
+    }
+}
+	

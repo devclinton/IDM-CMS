@@ -1,0 +1,24 @@
+{
+    "duration" : 5,
+    "runs" : 1,
+    "samples" : 100,
+    "solver" : "tssa",
+    "output" : {
+        "headers" : true
+    },
+    "tau-leaping" : {
+        "epsilon" : 0.15
+    },
+    "r-leaping" : {
+        "epsilon" : 0.15
+    },
+    "tssa" : {
+    	"verbose" : true
+    },
+    "dfsp" : {
+    	"verbose" : true
+    },
+    "otssa" : {
+    	"verbose" : true
+    }
+}

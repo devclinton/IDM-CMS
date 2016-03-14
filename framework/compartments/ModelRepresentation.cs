@@ -1,0 +1,7 @@
+﻿namespace compartments
+{
+    class ModelRepresentation
+    {
+
+    }
+}

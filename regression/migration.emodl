@@ -1,0 +1,66 @@
+; migration model
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "migration")
+
+(locale site-a)
+(set-locale site-a)
+
+(species A::S 990)
+(species A::E)
+(species A::I 10)
+(species A::R)
+
+(observe susceptibleA A::S)
+(observe exposedA     A::E)
+(observe infectiousA  A::I)
+(observe recoveredA   A::R)
+;(observe populationA  (sum A::S A::E A::I A::R))
+;(observe prevalenceA (/ A::I (sum A::S A::E A::I A::R)))
+
+(param Ki 0.0005)
+(param Kl 0.2)
+(param Kr (/ 1 7))
+(param Kw (/ 1 135))
+
+(reaction exposureA   (A::S) (A::E) (* Ki A::S A::I))
+(reaction infectionA  (A::E) (A::I) (* Kl A::E))
+(reaction recoveryA   (A::I) (A::R) (* Kr A::I))
+(reaction waningA     (A::R) (A::S) (* Kw A::R))
+
+(locale site-b)
+(set-locale site-b)
+
+(species B::S 100)
+(species B::E)
+(species B::I)
+(species B::R)
+
+(observe susceptibleB B::S)
+(observe exposedB     B::E)
+(observe infectiousB  B::I)
+(observe recoveredB   B::R)
+;(observe populationB  (sum B::S B::E B::I B::R))
+;(observe prevalenceB (/ B::I (sum B::S B::E B::I B::R)))
+
+(reaction exposureB   (B::S) (B::E) (* Ki B::S B::I))
+(reaction infectionB  (B::E) (B::I) (* Kl B::E))
+(reaction recoveryB   (B::I) (B::R) (* Kr B::I))
+(reaction waningB     (B::R) (B::S) (* Kw B::R))
+
+; migration
+
+(param Km 0.01)
+
+(reaction SA->SB (A::S) (B::S) (* Km A::S))
+(reaction EA->EB (A::E) (B::E) (* Km A::E))
+(reaction IA->IB (A::I) (B::I) (* Km A::I))
+(reaction RA->RB (A::R) (B::R) (* Km A::R))
+                                
+(reaction SB->SA (B::S) (A::S) (* Km B::S 10))
+(reaction EB->EA (B::E) (A::E) (* Km B::E 10))
+(reaction IB->IA (B::I) (A::I) (* Km B::I 10))
+(reaction RB->RA (B::R) (A::R) (* Km B::R 10))
+
+(end-model)

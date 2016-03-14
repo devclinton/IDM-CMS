@@ -1,0 +1,12 @@
+{
+    "duration" : 2,
+    "runs" : 10000,
+    "samples" : 4,
+    "solver" : "TAU",
+    "output" : {
+        "headers" : true
+    },
+    "midpoint" : {
+        "epsilon" : 0.1
+    }
+}

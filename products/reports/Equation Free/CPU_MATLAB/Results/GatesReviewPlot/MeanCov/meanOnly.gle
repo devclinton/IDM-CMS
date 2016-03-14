@@ -1,0 +1,25 @@
+size 5.35 3.04
+set texlabels 1
+
+begin graph
+	amove 0.4 .5
+	size 5 2.54
+	begin layer 300
+		data SSAEradicate.dat d1=c1,c22
+		d1 line color blue
+		
+	end layer 300
+	
+	begin layer 301
+		data CovarianceMeanStd.dat d2=c1,c22
+		d2 line color red lstyle 3
+	end layer 301
+	xaxis min 0 max 10 dticks 2
+	yaxis min 0 max 1 dticks .2
+	xtitle "Time [years]"
+	ytitle "P(Erad)"
+	
+end graph
+
+
+

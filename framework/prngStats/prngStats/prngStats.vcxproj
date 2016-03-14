@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8E8BFC06-D832-498E-B99D-DF2A8F593930}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>prngStats</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);HAVE_SSE2</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);HAVE_SSE2</PreprocessorDefinitions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AesCounter.h" />
+    <ClInclude Include="aes\aes.h" />
+    <ClInclude Include="diehard\header.h" />
+    <ClInclude Include="diehard\macro.h" />
+    <ClInclude Include="emod\RANDOM.h" />
+    <ClInclude Include="include\cephes.h" />
+    <ClInclude Include="include\config.h" />
+    <ClInclude Include="include\decls.h" />
+    <ClInclude Include="include\defs.h" />
+    <ClInclude Include="include\externs.h" />
+    <ClInclude Include="include\generators.h" />
+    <ClInclude Include="include\genutils.h" />
+    <ClInclude Include="include\matrix.h" />
+    <ClInclude Include="include\stat_fncs.h" />
+    <ClInclude Include="include\utilities.h" />
+    <ClInclude Include="IRandom.h" />
+    <ClInclude Include="LinearCongruential.h" />
+    <ClInclude Include="MersenneTwister64.h" />
+    <ClInclude Include="PseudoDES.h" />
+    <ClInclude Include="RandLib.h" />
+    <ClInclude Include="randlib\ranlib.h" />
+    <ClInclude Include="RandomFactory.h" />
+    <ClInclude Include="SimdTwister.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="twister\original\mt19937ar.h" />
+    <ClInclude Include="twister\sfmt\SFMT-alti.h" />
+    <ClInclude Include="twister\sfmt\SFMT-params.h" />
+    <ClInclude Include="twister\sfmt\SFMT-params11213.h" />
+    <ClInclude Include="twister\sfmt\SFMT-params1279.h" />
+    <ClInclude Include="twister\sfmt\SFMT-params132049.h" />
+    <ClInclude Include="twister\sfmt\SFMT-params19937.h" />
+    <ClInclude Include="twister\sfmt\SFMT-params216091.h" />
+    <ClInclude Include="twister\sfmt\SFMT-params2281.h" />
+    <ClInclude Include="twister\sfmt\SFMT-params4253.h" />
+    <ClInclude Include="twister\sfmt\SFMT-params44497.h" />
+    <ClInclude Include="twister\sfmt\SFMT-params607.h" />
+    <ClInclude Include="twister\sfmt\SFMT-params86243.h" />
+    <ClInclude Include="twister\sfmt\SFMT-sse2.h" />
+    <ClInclude Include="twister\sfmt\SFMT.h" />
+    <ClInclude Include="twister\sixtyFour\mt64.h" />
+    <ClInclude Include="twister\tinymt\tinymt64.h" />
+    <ClInclude Include="well\WELL19937a.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AesCounter.cpp" />
+    <ClCompile Include="aes\ctrFunction.cpp" />
+    <ClCompile Include="diehard\cdbday.cpp" />
+    <ClCompile Include="diehard\cdbinrnk.cpp" />
+    <ClCompile Include="diehard\cdbitst.cpp" />
+    <ClCompile Include="diehard\cdomso.cpp" />
+    <ClCompile Include="diehard\cdoperm5.cpp" />
+    <ClCompile Include="diehard\cdosum.cpp" />
+    <ClCompile Include="diehard\cdpark.cpp" />
+    <ClCompile Include="diehard\cnt1s.cpp" />
+    <ClCompile Include="diehard\craptest.cpp" />
+    <ClCompile Include="diehard\d3sphere.cpp" />
+    <ClCompile Include="diehard\df.cpp" />
+    <ClCompile Include="diehard\diehard.cpp" />
+    <ClCompile Include="diehard\funct.cpp" />
+    <ClCompile Include="diehard\kstest.cpp" />
+    <ClCompile Include="diehard\mindist.cpp" />
+    <ClCompile Include="diehard\runtest.cpp" />
+    <ClCompile Include="diehard\squeez.cpp" />
+    <ClCompile Include="emod\RANDOM.cpp" />
+    <ClCompile Include="LinearCongruential.cpp" />
+    <ClCompile Include="MersenneTwister64.cpp" />
+    <ClCompile Include="operm5cov.cpp" />
+    <ClCompile Include="prngStats.cpp" />
+    <ClCompile Include="PseudoDES.cpp" />
+    <ClCompile Include="RandLib.cpp" />
+    <ClCompile Include="randlib\com.cpp" />
+    <ClCompile Include="randlib\linpack.cpp" />
+    <ClCompile Include="randlib\ranlib.cpp" />
+    <ClCompile Include="RandomFactory.cpp" />
+    <ClCompile Include="SimdTwister.cpp" />
+    <ClCompile Include="src\approximateEntropy.cpp" />
+    <ClCompile Include="src\assess.cpp" />
+    <ClCompile Include="src\blockFrequency.cpp" />
+    <ClCompile Include="src\cephes.cpp" />
+    <ClCompile Include="src\cusum.cpp" />
+    <ClCompile Include="src\dfft.cpp" />
+    <ClCompile Include="src\discreteFourierTransform.cpp" />
+    <ClCompile Include="src\frequency.cpp" />
+    <ClCompile Include="src\generators.cpp" />
+    <ClCompile Include="src\genutils.cpp" />
+    <ClCompile Include="src\linearComplexity.cpp" />
+    <ClCompile Include="src\longestRunOfOnes.cpp" />
+    <ClCompile Include="src\matrix.cpp" />
+    <ClCompile Include="src\nonOverlappingTemplateMatchings.cpp" />
+    <ClCompile Include="src\overlappingTemplateMatchings.cpp" />
+    <ClCompile Include="src\randomExcursions.cpp" />
+    <ClCompile Include="src\randomExcursionsVariant.cpp" />
+    <ClCompile Include="src\rank.cpp" />
+    <ClCompile Include="src\runs.cpp" />
+    <ClCompile Include="src\serial.cpp" />
+    <ClCompile Include="src\universal.cpp" />
+    <ClCompile Include="src\utilities.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="twister\original\mt19937ar.cpp" />
+    <ClCompile Include="twister\sfmt\SFMT.cpp" />
+    <ClCompile Include="twister\sixtyFour\mt19937-64.cpp" />
+    <ClCompile Include="twister\tinymt\tinymt64.cpp" />
+    <ClCompile Include="well\WELL19937a.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

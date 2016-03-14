@@ -1,0 +1,89 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "compartments", "compartments\compartments.csproj", "{0F7FC5C3-FB17-456B-87C6-39F8991A7A81}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0E712D7D-7911-4DB1-B035-B2E1A57C6C32} = {0E712D7D-7911-4DB1-B035-B2E1A57C6C32}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cmdlParser", "cmdlParser\cmdlParser.csproj", "{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cmsunittests", "cmsunittests\cmsunittests.csproj", "{3DC28325-B59F-48DD-B4DC-8C7FC7D8E79D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0E712D7D-7911-4DB1-B035-B2E1A57C6C32} = {0E712D7D-7911-4DB1-B035-B2E1A57C6C32}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PrngLib", "AesCounterPrng\AesCounterPrng.vcxproj", "{0E712D7D-7911-4DB1-B035-B2E1A57C6C32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cmsregressiontests", "cmsregressiontests\cmsregressiontests.csproj", "{2173902F-9B89-45B0-B81A-664B6D285908}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "distlib", "distlib\distlib.csproj", "{48F95A69-B79F-4FE3-8599-CD69FA6103DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "matfilelib", "matfilelib\matfilelib.csproj", "{E094483E-8B78-4734-AE21-161FC707EC0D}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfs/tfs/ivlabs_cms
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = compartments\\compartments.csproj
+		SccProjectName1 = compartments
+		SccLocalPath1 = compartments
+		SccProjectUniqueName2 = cmdlParser\\cmdlParser.csproj
+		SccProjectName2 = cmdlParser
+		SccLocalPath2 = cmdlParser
+		SccProjectUniqueName3 = cmsunittests\\cmsunittests.csproj
+		SccProjectName3 = cmsunittests
+		SccLocalPath3 = cmsunittests
+		SccProjectUniqueName4 = AesCounterPrng\\AesCounterPrng.vcxproj
+		SccProjectName4 = AesCounterPrng
+		SccLocalPath4 = AesCounterPrng
+		SccProjectUniqueName5 = cmsregressiontests\\cmsregressiontests.csproj
+		SccProjectName5 = cmsregressiontests
+		SccLocalPath5 = cmsregressiontests
+		SccProjectUniqueName6 = distlib\\distlib.csproj
+		SccProjectName6 = distlib
+		SccLocalPath6 = distlib
+		SccProjectUniqueName7 = matfilelib\\matfilelib.csproj
+		SccProjectName7 = matfilelib
+		SccLocalPath7 = matfilelib
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F7FC5C3-FB17-456B-87C6-39F8991A7A81}.Debug|x64.ActiveCfg = Debug|x64
+		{0F7FC5C3-FB17-456B-87C6-39F8991A7A81}.Debug|x64.Build.0 = Debug|x64
+		{0F7FC5C3-FB17-456B-87C6-39F8991A7A81}.Release|x64.ActiveCfg = Release|x64
+		{0F7FC5C3-FB17-456B-87C6-39F8991A7A81}.Release|x64.Build.0 = Release|x64
+		{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}.Debug|x64.ActiveCfg = Debug|x64
+		{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}.Debug|x64.Build.0 = Debug|x64
+		{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}.Release|x64.ActiveCfg = Release|x64
+		{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}.Release|x64.Build.0 = Release|x64
+		{3DC28325-B59F-48DD-B4DC-8C7FC7D8E79D}.Debug|x64.ActiveCfg = Debug|x64
+		{3DC28325-B59F-48DD-B4DC-8C7FC7D8E79D}.Debug|x64.Build.0 = Debug|x64
+		{3DC28325-B59F-48DD-B4DC-8C7FC7D8E79D}.Release|x64.ActiveCfg = Release|x64
+		{3DC28325-B59F-48DD-B4DC-8C7FC7D8E79D}.Release|x64.Build.0 = Release|x64
+		{0E712D7D-7911-4DB1-B035-B2E1A57C6C32}.Debug|x64.ActiveCfg = Debug|x64
+		{0E712D7D-7911-4DB1-B035-B2E1A57C6C32}.Debug|x64.Build.0 = Debug|x64
+		{0E712D7D-7911-4DB1-B035-B2E1A57C6C32}.Release|x64.ActiveCfg = Release|x64
+		{0E712D7D-7911-4DB1-B035-B2E1A57C6C32}.Release|x64.Build.0 = Release|x64
+		{2173902F-9B89-45B0-B81A-664B6D285908}.Debug|x64.ActiveCfg = Debug|x64
+		{2173902F-9B89-45B0-B81A-664B6D285908}.Debug|x64.Build.0 = Debug|x64
+		{2173902F-9B89-45B0-B81A-664B6D285908}.Release|x64.ActiveCfg = Release|x64
+		{2173902F-9B89-45B0-B81A-664B6D285908}.Release|x64.Build.0 = Release|x64
+		{48F95A69-B79F-4FE3-8599-CD69FA6103DD}.Debug|x64.ActiveCfg = Debug|x64
+		{48F95A69-B79F-4FE3-8599-CD69FA6103DD}.Debug|x64.Build.0 = Debug|x64
+		{48F95A69-B79F-4FE3-8599-CD69FA6103DD}.Release|x64.ActiveCfg = Release|x64
+		{48F95A69-B79F-4FE3-8599-CD69FA6103DD}.Release|x64.Build.0 = Release|x64
+		{E094483E-8B78-4734-AE21-161FC707EC0D}.Debug|x64.ActiveCfg = Debug|x64
+		{E094483E-8B78-4734-AE21-161FC707EC0D}.Debug|x64.Build.0 = Debug|x64
+		{E094483E-8B78-4734-AE21-161FC707EC0D}.Release|x64.ActiveCfg = Release|x64
+		{E094483E-8B78-4734-AE21-161FC707EC0D}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

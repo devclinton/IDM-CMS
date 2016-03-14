@@ -1,0 +1,37 @@
+; intrahost model
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "intrahost.emodl")
+
+(species x 50000)
+(species y 1)
+(species v 1)
+(species z 1)
+
+(observe x x)
+(observe y y)
+(observe v v)
+(observe z z)
+
+(param beta 0.0000005)
+(param d 0.1)
+(param a 0.5)
+(param k 100)
+(param u 5)
+(param c 1000)
+(param b 0.027)
+(param lambda 100000)
+(param p 0)
+
+(reaction infection (x v) (y) (* beta x v))
+(reaction birthx () (x) (lambda))
+(reaction deathx (x) () (* d x))
+(reaction deathy (y) () (* a y))
+(reaction deathv (v) () (* u v))
+(reaction birthv () (v) (* k y))
+(reaction birthz () (z) (c))
+(reaction infection (y) () (* p y z)) 
+(reaction deathz (z) () (* b z)) 
+
+(end-model)

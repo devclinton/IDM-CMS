@@ -1,0 +1,20 @@
+{
+    "duration" : 5,
+    "runs" :10,
+    "samples" : 1000,
+    "solver" : "R",
+    "output" : {
+        "headers" : true,
+        "prefix" : "RLeaping",
+        "versioninfo" : false
+    },
+    "tau-leaping" : {
+        "epsilon" : 0.01
+    },
+    "r-leaping":
+   {
+       "epsilon":0.1,
+       "sorting interval":5.0,
+       "verbose":true
+   }
+}

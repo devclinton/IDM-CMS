@@ -1,0 +1,18 @@
+{ 
+
+	"solver":  "B", 
+
+	"runs":  75, 
+	"b-leaping" : 
+{
+		"Tau" : .01
+	},
+	"duration":  5, 
+	"prng_seed": 0,
+
+	"samples":  50,
+	"output" : {
+		"prefix" : "BLeapTest"
+	}
+
+} 

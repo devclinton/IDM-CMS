@@ -1,0 +1,21 @@
+{ 
+    "solver":  "TAU", 
+
+    "runs":  75, 
+    "duration":  5, 
+    "samples":  50,
+    "prng_seed": 0,
+    "output" : {
+        "prefix" : "TauLeapingTest",
+        "writecsv" : true,
+        "compress" : false,
+        "writerealizationindex" : true,
+        "writejson" : true,
+        "channeltitles" : false,
+        "writematfile" : true,
+        "newmatformat" : true,
+        "_writeVersionInfo" : false,
+        "_writeSampleTimes" : false,
+        "_writeObservableInfo" : false
+    }
+} 

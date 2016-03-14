@@ -1,0 +1,16 @@
+; simplemodel2
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "poly.emodl")
+
+(species X 100)
+
+(observe xt X)
+
+(param c 1)
+
+(reaction death1 (X) () (* c X))
+
+
+(end-model)

@@ -1,0 +1,15 @@
+
+Cross Entropy iteration 1:
+   Intermediate rare event: 23
+   Intermediate gamma 1: 1.16724265138459
+   Intermediate gamma 2: 0.835423472780227
+
+Cross Entropy iteration 2:
+   Intermediate rare event: 28
+   Intermediate gamma 1: 1.24982893598845
+   Intermediate gamma 2: 0.775994558346587
+
+Cross Entropy iteration 3:
+   Intermediate rare event: 30
+
+Reached the rare event. Exiting multilevel cross entropy simulation...

@@ -1,0 +1,30 @@
+; migration model
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "migration")
+
+(locale site-a)
+(set-locale site-a)
+
+(species A::S 10000)
+(species A::I 10)
+(species A::R)
+
+(observe susceptibleA A::S)
+(observe infectiousA  A::I)
+(observe recoveredA   A::R)
+;(observe populationA  (sum A::S A::I A::R))
+;(observe prevalenceA (/ A::I (sum A::S A::R)))
+
+(param Ki 0.0005)
+(param Kl 0.2)
+(param Kr (/ 1 7))
+(param Kw (/ 1 135))
+
+(reaction exposureA   (A::S) (A::I) (* Ki A::S A::I))
+(reaction recoveryA   (A::I) (A::R) (* Kr A::I))
+(reaction waningA     (A::R) (A::S) (* Kw A::R))
+
+
+(end-model)

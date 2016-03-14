@@ -1,0 +1,14 @@
+{ 
+
+	"solver":  "First", 
+
+	"runs":  75, 
+	"duration":  5, 
+
+	"prng_seed": 0,
+	"samples":  50,
+	"output" : {
+		"prefix" : "FirstReactionTest"
+	}
+
+} 

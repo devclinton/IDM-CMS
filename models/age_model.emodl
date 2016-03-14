@@ -1,0 +1,44 @@
+(import (rnrs) (emodl cmslib))
+
+(start-model "age_model.emodl")
+
+; heterogeneous mixing model for two agen groups
+; rare event expression (reExpression) involves multiple species 
+; rare event threshold (reVal) is less than the initial value of the rare event expression
+
+(species Sc 500)
+(species Sa 2500)
+(species Ic 50)
+(species Ia 50)
+
+; all rates are MID (page 81) rates divided by 20 
+
+(param N 6200)                   ; total population at time 0 
+(param gamma 10)                 ; recovery rate for both adult and children
+
+(func  betaCC  (/ 5 N))         ; intra infection among children  100/N/20
+(func  betaCA  (/ 0.5 N))       ; inter infection from adult to children
+(func  betaAA  (/ 1 N))         ; intra infection among adult
+(func  betaAC  (/ 0.5 N))       ; inter infection from children to adult
+(func  lC      (/ 1 15))        ; maturation rate
+(func  muA     (/ 1 60))        ; adult death rate
+(func  nC      (/ muA (+ lC muA)))                ; proportion of children
+(func  nu      (/ (* (* (+ lC muA) nC) N) 20))    ; birth rate
+
+; rare event related expressions
+(func reExpression (+ Ic Ia))   ; population of infected (both adults and children) is the rare event expression
+(param reVal 0)                 ; rare event criteria is Ic + Ia == 0
+
+(reaction birth                ()       (Sc)     nu)               ; birth
+(reaction infectionCC          (Sc)     (Ic)    (* (* betaCC Sc) Ic))          ; 1 children intra infection
+(reaction infectionCA          (Sc)     (Ic)    (* (* betaCA Sc) Ia))          ; 2 children inter infection
+(reaction recoveryIc           (Ic)     ()      (/ (* gamma Ic) 20))           ; 3 children recovery
+(reaction maturationSc         (Sc)     (Sa)    (/ (* lC Sc) 20))              ; 4 susceptible children maturation
+(reaction maturationIc         (Ic)     (Ia)    (/ (* lC Ic) 20))              ; 5 infected children maturation
+(reaction infectionAA          (Sa)     (Ia)    (* (* betaAA Sa) Ia))          ; 6 adult intra infection
+(reaction infectionAC          (Sa)     (Ia)    (* (* betaAC Sa) Ic))          ; 7 adult inter infection
+(reaction recoveryIa           (Ia)     ()      (/ (* gamma Ia) 20))           ; 8 adult recovery
+(reaction deathSa              (Sa)     ()      (/ (* muA Sa) 20))             ; 9 adult susceptible death
+(reaction deathIa              (Ia)     ()      (/ (* muA Ia) 20))             ; 10 adult infected death
+
+(end-model)

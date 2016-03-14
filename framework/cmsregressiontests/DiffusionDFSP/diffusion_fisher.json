@@ -1,0 +1,26 @@
+{
+    "duration" : 3,
+    "runs" : 1,
+    "samples" : 100,
+    "solver" : "DFSP",
+    "output" : {
+        "headers" : true,
+        "prefix" : "DiffusionDFSP",
+        "versioninfo" : false
+    },
+    "tau-leaping" : {
+        "epsilon" : 0.01
+    },
+    "r-leaping" : {
+        "epsilon" : 0.01
+    },
+    "tssa" : {
+    	"verbose" : true
+    },
+    "dfsp" : {
+    	"verbose" : true
+    },
+    "otssa" : {
+    	"verbose" : true
+    }
+}

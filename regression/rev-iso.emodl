@@ -1,0 +1,24 @@
+; reversible isomerization
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "reversible-isomerization")
+
+(param k1 0.033)
+(param k2 0.05)
+
+(locale one)
+(set-locale one)
+(species A 100)
+
+(locale two)
+(set-locale two)
+(species B)
+
+(observe SpeciesA A)
+(observe SpeciesB B)
+
+(reaction fwd (A) (B) (* k1 A))
+(reaction bak (B) (A) (* k2 B))
+
+(end-model)

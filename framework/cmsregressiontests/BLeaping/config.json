@@ -1,0 +1,28 @@
+{ 
+    "solver" : "B",
+    "runs" : 75, 
+    "duration" : 5, 
+    "samples" : 50,
+
+    "prng_seed": 0,
+    "RNG" : {
+        "type" : "PSEUDODES"
+    },
+
+    "b-leaping" : {
+        "Tau" : .01
+    },
+    "output" : {
+        "prefix" : "BLeapTest",
+        "writecsv" : true,
+        "compress" : false,
+        "writerealizationindex" : true,
+        "writejson" : true,
+        "channeltitles" : false,
+        "writematfile" : true,
+        "newmatformat" : true,
+        "_writeVersionInfo" : false,
+        "_writeSampleTimes" : false,
+        "_writeObservableInfo" : false
+    }
+}

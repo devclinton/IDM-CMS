@@ -1,0 +1,86 @@
+size 15.4 4.08
+set texlabels 1
+amove .5 .3
+begin graph
+	size 5 4.0
+
+	begin layer 300
+		data SSAEndemic.dat d1=c1,c6 d2=c1,c16
+		let d3 = d1+d2
+		let d4 = d1-d2
+		fill d3,d4 color rgba255(0,0,255,80)
+		d3 line color blue
+		d4 line color blue
+		d1 line color blue
+	end layer 300
+	
+	begin layer 301
+		data CovarianceMeanStdEndemic.dat d5=c1,c6 d6=c1,c16
+		let d7 = d5+d6
+		let d8 = d5-d6
+		fill d7,d8 color rgba255(255,0,0,80)
+		d7 line color red lstyle 3
+		d8 line color red lstyle 3
+		d5 line color red lstyle 3
+	end layer 301
+	
+	xaxis min 0 max 10 dticks 2
+	xtitle "Time [years]"
+	ytitle "$W_{21}$"
+	
+end graph
+
+amove 5.5 .3
+begin graph
+	size 5 4.0
+
+	begin layer 300
+		data SSAEradicate.dat d1=c1,c6 d2=c1,c16
+		let d3 = d1+d2
+		let d4 = d1-d2
+		fill d3,d4 color rgba255(0,0,255,80)
+		d3 line color blue
+		d4 line color blue
+		d1 line color blue
+	end layer 300
+	
+	begin layer 301
+		data CovarianceMeanStd.dat d5=c1,c6 d6=c1,c16
+		let d7 = d5+d6
+		let d8 = d5-d6
+		fill d7,d8 color rgba255(255,0,0,80)
+		d7 line color red lstyle 3
+		d8 line color red lstyle 3
+		d5 line color red lstyle 3
+	end layer 301
+	
+	xaxis min 0 max 10 dticks 2
+	xtitle "Time [years]"
+	ytitle "$W_{21}$"
+	
+end graph
+
+
+amove 10.5 .3
+begin graph
+	size 5 4.0
+
+	begin layer 300
+		data SSAEradicate.dat d1=c1,c22
+		d1 line color blue
+		
+	end layer 300
+	
+	begin layer 301
+		data CovarianceMeanStd.dat d2=c1,c22
+		d2 line color red lstyle 3
+	end layer 301
+	xaxis min 0 max 10 dticks 2
+	yaxis min 0 max 1 dticks .2
+	xtitle "Time [years]"
+	ytitle "P(Eradication)"
+	
+end graph
+
+
+

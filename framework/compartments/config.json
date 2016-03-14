@@ -1,0 +1,9 @@
+﻿{
+    "solver"   : "tauleaping",
+    "runs"     : 1,
+    "duration" : 100,
+    "samples"  : 100,
+    "tau-leaping" : {
+        "epsilon" : 0.01
+    }
+}

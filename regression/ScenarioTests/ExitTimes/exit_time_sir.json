@@ -1,0 +1,30 @@
+{
+    "duration" : 30,
+    "runs" : 20000,
+    "samples" : 200,
+    "solver" : "et",
+    "output" : {
+        "headers" : true
+    },
+    "tau-leaping" : {
+        "epsilon" : 0.15
+    },
+    "r-leaping" : {
+        "epsilon" : 0.15
+    },
+    "tssa" : {
+    	"verbose" : true
+    },
+    "dfsp" : {
+    	"verbose" : true
+    },
+    "otssa" : {
+    	"verbose" : true
+    },
+    "et" : {
+	"verbose" : false,
+	"testing" : false,
+	"convergence" : false, 
+	"epsilon" : 0.5
+    }
+}

@@ -1,0 +1,23 @@
+size 6.0 6.0
+set font texcmr
+
+begin graph
+	scale auto
+	xaxis min 0 max 10
+	yaxis min 0 max 10
+	draw scatterdata "outdata.dat"
+end graph
+
+sub scatterdata file$
+
+	fopen file$ inchan read
+	
+	until feof(inchan)
+		fread inchan x y r g b
+		amove xg(x) yg(y)
+		set color rgb(r,g,b)
+		marker fcircle  
+	next
+	fclose inchan
+	
+end sub

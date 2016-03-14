@@ -1,0 +1,14 @@
+{ 
+
+	"solver":  "TAU", 
+
+	"runs":  75, 
+	"duration":  5, 
+
+	"samples":  50,
+	"prng_seed": 0,
+	"output" : {
+		"prefix" : "TauLeapingTest"
+	}
+
+} 

@@ -1,0 +1,17 @@
+{
+    "solver" : "FD",
+    "runs" : 1,
+    "duration" : 10,
+    "samples" : 200,
+    "fd" : {
+        "alpha" : 0.6,
+        "constant" : 0.025,
+        "Dalpha": 1.0,
+        "verbose" : true
+    },
+    "output" : {
+        "headers" : true,
+        "prefix" : "FractionalDiffusion",
+        "versioninfo" : false
+    }
+}

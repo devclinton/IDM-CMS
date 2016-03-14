@@ -1,0 +1,140 @@
+{
+    "models": [
+        {
+            "model": "garki-delay.emodl",
+            "config": "garki-delay.cfg",
+            "solvers": [
+                "SSA",
+                "FIRST",
+                "TAU",
+                "R",
+                "RFAST",
+                "NEXT",
+                "BLEAP",
+                "HYBRID"
+            ]
+        },
+        {
+            "model": "garki-cmdl.cmdl",
+            "config": "garki.cfg",
+            "solvers": [
+                "SSA",
+                "FIRST",
+                "TAU",
+                "R",
+                "RFAST",
+                "NEXT",
+                "BLEAP",
+                "HYBRID"
+            ]
+        },
+        {
+            "model": "garki-emodl.emodl",
+            "config": "garki.cfg",
+            "solvers": [
+                "SSA",
+                "FIRST",
+                "TAU",
+                "R",
+                "RFAST",
+                "NEXT",
+                "BLEAP",
+                "HYBRID"
+            ]
+        },
+        {
+            "model": "migration.emodl",
+            "config": "migration.cfg",
+            "solvers": [
+                "SSA",
+                "FIRST",
+                "TAU",
+                "R",
+                "RFAST",
+                "TSSA",
+                "DFSP",
+                "OTSSA",
+                "NEXT",
+                "BLEAP",
+                "HYBRID"
+            ]
+        },
+        {
+            "model": "rever_isom-cmdl.cmdl",
+            "config": "rever_isom.cfg",
+            "solvers": [
+                "DWSSA"
+            ]
+        },
+        {
+            "model": "sir_exit_time.emodl",
+            "config": "sir_exit_time.cfg",
+            "solvers": [
+                "ET"
+            ]
+        },
+        {
+            "model": "rever_isom-emodl.emodl",
+            "config": "rever_isom.cfg",
+            "solvers": [
+                "DWSSA"
+            ]
+        },
+        {
+            "model": "simple-sir.cmdl",
+            "config": "simple-sir.cfg",
+            "solvers": [
+                "SSA",
+                "FIRST",
+                "TAU",
+                "R",
+                "RFAST",
+                "NEXT",
+                "BLEAP",
+                "HYBRID"
+            ]
+        },
+        {
+            "model": "simplemodel.emodl",
+            "config": "simplemodel.cfg",
+            "solvers": [
+                "SSA",
+                "FIRST",
+                "TAU",
+                "R",
+                "RFAST",
+                "NEXT",
+                "BLEAP",
+                "HYBRID"
+            ]
+        },
+        {
+            "model" : "seirv-sia.emodl",
+            "config" : "seirv-sia.cfg",
+            "solvers" : [
+                "SSA",
+                "FIRST",
+                "TAU",
+                "R",
+                "RFAST",
+                "NEXT",
+                "BLEAP",
+                "HYBRID"
+            ]
+        },
+        {
+            "model" : "seirv-whack.emodl",
+            "config" : "seirv-whack.cfg",
+            "solvers" : [
+                "SSA",
+                "FIRST",
+                "TAU",
+                "R",
+                "RFAST",
+                "NEXT",
+                "BLEAP",
+                "HYBRID"
+            ]
+        }
+    ]
+}

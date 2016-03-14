@@ -1,0 +1,51 @@
+size 12.0 2.0
+
+begin graph
+	amove .5 0.1
+	size 6.0 2.0
+	data "microMacro.dat" d1=c1,c2 d2=c1,c4 d3=c1,c5 d4=c1,c6 d5=c1,c7 d6=c1,c8 d7=c1,c9 d8=c1,c10
+	d2 line color gray 
+	d3 line color gray20
+	d4 line color gray40
+	d5 line color gray60
+	d6 line color gray10
+	d7 line color green lwidth 0.03
+	d8 line color blue lwidth 0.03
+
+	!d1 line color red lwidth 0.05
+	!xtitle "Time"
+	!ytitle "Microscale"
+	xaxis min 0 max 1 dticks .2
+	yaxis min 0.2 max 1.2 dticks .3
+end graph
+
+begin graph
+	amove 6.5 0.1
+	size 6.0 2.0
+	data "microMacro.dat" d1=c1,c2 d2=c1,c4 d3=c1,c5 d4=c1,c6 d5=c1,c7 d6=c1,c8 d7=c1,c9 d8=c1,c10 d9=c1,c3
+	begin layer 300
+		d2 line color gray 
+		d3 line color gray20
+		d4 line color gray40
+		d5 line color gray60
+		d6 line color gray10
+		d7 line color gray30
+		d8 line color gray50
+	end layer 300
+	
+	begin layer 301
+		let d11 = d1+2*d9
+		let d12 = d1-2*d9
+		fill d11,d12 color rgba255(255,0,0,50)
+		d1 line lwidth 0.05 color red
+		d11 line color red lstyle 3
+		d12 line color red lstyle 3
+	end layer 301
+	
+	!d1 line color red lwidth 0.05
+	!xtitle "Time"
+	!ytitle "Macroscale"
+	xaxis min 0 max 1 dticks .2
+	yaxis min 0.2 max 1.2 dticks .3
+
+end graph

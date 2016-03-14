@@ -1,0 +1,22 @@
+{ 
+    "solver":  "First", 
+
+    "runs":  75, 
+    "duration":  5, 
+
+    "prng_seed": 0,
+    "samples":  50,
+    "output" : {
+        "prefix" : "FirstReactionTest",
+        "writecsv" : true,
+        "compress" : false,
+        "writerealizationindex" : true,
+        "writejson" : true,
+        "channeltitles" : false,
+        "writematfile" : true,
+        "newmatformat" : true,
+        "_writeVersionInfo" : false,
+        "_writeSampleTimes" : false,
+        "_writeObservableInfo" : false
+    }
+} 

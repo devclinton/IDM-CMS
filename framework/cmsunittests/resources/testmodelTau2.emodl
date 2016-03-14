@@ -1,0 +1,19 @@
+;test TauLeaping2 model
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "testTau2")
+
+(species S1 5)
+(species S2 2)
+
+(observe S1 S1)
+(observe S2 S2)
+
+(param rate1 2)
+(param rate2 1)
+
+(reaction growthS1 (S2) (S1) (* S1 S2 rate1))
+(reaction growthS2 (S1) (S2) (* S2 S1 rate2))
+
+(end-model)

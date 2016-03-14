@@ -1,0 +1,9 @@
+{ 
+"solver":  "ssa", 
+"runs":  10000, 
+"duration":  10, 
+"samples":  200, 
+"tau-leaping": {
+    "epsilon": 1.667
+}
+} 

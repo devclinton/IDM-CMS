@@ -1,0 +1,19 @@
+﻿; rever_isom
+
+(import (emodl cmslib))
+
+(start-model "rever_isom")
+
+(species A 100)
+(species B 0)
+
+(param k1 0.12)
+(param k2 1)
+
+(reaction interconvert1  (A)   (B) (* k1 A))
+(reaction interconvert2  (B)   (A) (* k2 B))
+
+(func reExpression B)
+(param reVal 30) 
+
+(end-model)
