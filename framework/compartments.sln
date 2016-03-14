@@ -22,33 +22,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "matfilelib", "matfilelib\matfilelib.csproj", "{E094483E-8B78-4734-AE21-161FC707EC0D}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://tfs/tfs/ivlabs_cms
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = compartments\\compartments.csproj
-		SccProjectName1 = compartments
-		SccLocalPath1 = compartments
-		SccProjectUniqueName2 = cmdlParser\\cmdlParser.csproj
-		SccProjectName2 = cmdlParser
-		SccLocalPath2 = cmdlParser
-		SccProjectUniqueName3 = cmsunittests\\cmsunittests.csproj
-		SccProjectName3 = cmsunittests
-		SccLocalPath3 = cmsunittests
-		SccProjectUniqueName4 = AesCounterPrng\\AesCounterPrng.vcxproj
-		SccProjectName4 = AesCounterPrng
-		SccLocalPath4 = AesCounterPrng
-		SccProjectUniqueName5 = cmsregressiontests\\cmsregressiontests.csproj
-		SccProjectName5 = cmsregressiontests
-		SccLocalPath5 = cmsregressiontests
-		SccProjectUniqueName6 = distlib\\distlib.csproj
-		SccProjectName6 = distlib
-		SccLocalPath6 = distlib
-		SccProjectUniqueName7 = matfilelib\\matfilelib.csproj
-		SccProjectName7 = matfilelib
-		SccLocalPath7 = matfilelib
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Release|x64 = Release|x64

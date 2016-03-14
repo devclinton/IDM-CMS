@@ -25,14 +25,4 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 1
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://tfs12:8080/tfs/ivlabs_cms
-		SccProjectUniqueName0 = VersionTool.csproj
-		SccProjectName0 = .
-		SccAuxPath0 = http://tfs12:8080/tfs/ivlabs_cms
-		SccLocalPath0 = .
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-	EndGlobalSection
 EndGlobal
