@@ -550,7 +550,15 @@ namespace cmsunittests
             method.Invoke(solver, null);
 
             var gammas = GetHiddenField<double[]>("_gamma", solver);
-            Assert.That(new[] { 1.3024005829071461d, 0.7871633385546174d }, Is.EquivalentTo(gammas));
+            // Assert.That(new[] { 1.3024005829071461d, 0.7871633385546174d }, Is.EquivalentTo(gammas));
+            var save = GlobalSettings.DefaultFloatingPointTolerance;
+            // C# Double.Epsilon is much too small - the smallest number distinguishable from 0 rather than the smallest detectable delta.
+            // C++ DBL_EPSILON, 2.2204460492503131e-16, is still a bit too small.
+            // Let's use C++ FLT_EPSILON,
+            GlobalSettings.DefaultFloatingPointTolerance = 1.19209290E-07;
+            Assert.AreEqual(1.3024005829071461d, gammas[0]);
+            Assert.AreEqual(0.7871633385546174d, gammas[1]);
+            GlobalSettings.DefaultFloatingPointTolerance = save;
         }
 
         private static dwSSA SetupCrossEntropy()
