@@ -36,7 +36,7 @@ sdwSSA employees state-dependent importance sampling using a set of parameters f
 ``crossEntropyMinDataSize``
 	takes an integer greater or equal to 100 as an input and defines the minimum number of successful trajectories required to compute an intermediate rare event. If :code:`crossEntropyMinDataSize` is missing in the .json file, default value of 200 is used. If :code:`crossEntropyRuns  x  crossEntropyThreshold`  is less than :code:`crossEntropyMinDataSize`, the multilevel CE method dynamically adjusts the value of :code:`crossEntropyRuns` such that :code:`crossEntropyRuns` is set to the smallest integer greater than :code:`crossEntropyMinDataSize` divided by :code:`crossEntropyThreshold`.
 ``outputFileName``
-	takes a string as an input. If :code:`outputFileNate` is missing in the .json file, then a default name is used in the form of :emphasis:`modelName`\_dwSSA\_1e :literal:`log` (:code:`runs`), where the base of :literal:`log` is 10 and *modelName* is the name of the .emodl file. 
+	takes a string as an input. If :code:`outputFileNate` is missing in the .json file, then a default name is used in the form of :emphasis:`modelName`\_sdwSSA\_1e :literal:`log` (:code:`runs`), where the base of :literal:`log` is 10 and *modelName* is the name of the .emodl file. 
 
 	Recorded information includes :code:`runs`, estimate for the rare event probability, 68\% uncertainty, and sample variance. 
 

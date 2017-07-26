@@ -5,18 +5,13 @@
     "solver": "sdwSSA",
     "sdwSSA": {
         "reExpressionName": "reExpression",
-        "reValName": "reVal",
-        "gamma": [1.53, 0.45],
+        "reValName": "SIR-RE-val",
         "crossEntropyThreshold"  : 0.01,
-  
-        "crossEntropyMinDataSize": 300
-        
-        
-        "crossEntropyRuns": 100000,        
-        "crossEntropyThreshold": 0.01,
-        "crossEntropyMinDataSize": 200
-
-        
-        "gammaSize":
+        "crossEntropyMinDataSize": 300,        
+        "crossEntropyRuns": 100000,    
+        "gammaSize": 20,
+        "binCount": 15,
+        "biasingParametersFileNate": "SIRS_biasingParameters_custom.json",
+        "outputFileNate": "SIR_sdwSSA_1e5.txt"
     }
 } 
