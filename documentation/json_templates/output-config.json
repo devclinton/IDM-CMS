@@ -1,0 +1,12 @@
+{
+    "output": {
+        "prefix": "trajectories",
+        "writecsv": true,
+        "writerealizationindex": true,
+        "compress": false,
+        "writejson": false,
+        "channeltitles": false,
+        "writematfile": true,
+        "newmatformat": false
+    }
+}
