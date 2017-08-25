@@ -85,7 +85,7 @@ namespace cmsunittests
             File.Delete("testmodel.csv");
             File.Delete("testmodel.json");
             Configuration.CurrentConfiguration =
-                Configuration.ConfigurationFromString("{\"output\":{\"prefix\":\"testmodel\"}}");
+                Configuration.ConfigurationFromString("{\"output\":{\"prefix\":\"testmodel\",\"writematfile\":true}}");
             ModelInfo modelInfo = compartments.Program.LoadModel("resources\\testmodel.cmdl");
             compartments.Program.RunModel(modelInfo, "SSA", 1825.0f, 10, 250);
             Assert.IsTrue(File.Exists("testmodel.csv"));

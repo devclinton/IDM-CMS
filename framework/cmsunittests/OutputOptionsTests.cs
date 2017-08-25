@@ -63,7 +63,7 @@ namespace cmsunittests
             Assert.IsNotNull(matlabOptions);
             Assert.AreEqual("matfile.mat", matlabOptions.Filename);
             Assert.IsTrue(matlabOptions.CompressOutput);
-            Assert.IsTrue(matlabOptions.WriteMatFile);
+            Assert.IsFalse(matlabOptions.WriteMatFile);
             Assert.IsFalse(matlabOptions.UseNewFormat);
         }
 

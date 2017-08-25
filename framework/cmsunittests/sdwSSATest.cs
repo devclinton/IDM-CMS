@@ -474,7 +474,7 @@ namespace cmsunittests
             }
             catch (TargetInvocationException ex)
             {
-                Assert.That(ex.GetBaseException().ToString(), Is.StringContaining("binCount must be a positive integer greater than 1 to use sdwSSA"));
+                Assert.That(ex.GetBaseException().ToString(), Is.StringContaining("binCount must be an integer >= 10"));
             }
         }
 
