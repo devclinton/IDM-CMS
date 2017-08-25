@@ -6,7 +6,7 @@
         "compress": false,
         "writejson": false,
         "channeltitles": false,
-        "writematfile": true,
+        "writematfile": false,
         "newmatformat": false
     }
 }

@@ -10,7 +10,7 @@ namespace compartments.solvers.solverbase
     {
         public static MatlabOutputOptions GetMatlabOutputOptions(string prefix)
         {
-            bool writeMatFile = Configuration.CurrentConfiguration.GetParameterWithDefault("output.writematfile", true);
+            bool writeMatFile = Configuration.CurrentConfiguration.GetParameterWithDefault("output.writematfile", false);
             bool compressOutput = Configuration.CurrentConfiguration.GetParameterWithDefault("output.compress", true);
             bool useNewFormat = Configuration.CurrentConfiguration.GetParameterWithDefault("output.newmatformat", false);
 

@@ -42,7 +42,7 @@ Additional options for the configuration file include control of the output, con
     Specifies whether or not to populate the :code:`ChannelTitles` array in JSON output files. If set to ``true`` the entries of the :code:`ChannelTitles` pair with the channel data in the :code:`ChannelData` array. Each entry in :code:`ChannelTitles` consists of an observable name followed by the realization number in curly braces, e.g. ``"susceptible{0}"``. The default is ``false``.
 
 ``writematfile``
-    Specifies whether or not to write realization data in MATLAB .mat format. The default is ``true``.
+    Specifies whether or not to write realization data in MATLAB .mat format. The default is ``false``.
 
 ``newmatformat``
     Specifies whether to use the original MATLAB schema or the "new" MATLAB schema.

@@ -13,6 +13,7 @@
 (observe exposed     E)
 (observe infectious  I)
 (observe recovered   R)
+
 ;(observe population  (sum S E I R))
 ;(observe clock       time)
 ;(observe moonphase   (* 500 (+ 1 (sin (* (/ time 29.5) 2 pi)))))
