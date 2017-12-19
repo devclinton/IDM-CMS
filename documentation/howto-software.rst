@@ -9,7 +9,6 @@ How to use the software TBD.
    :maxdepth: 3
    :titlesonly:
 
-   create-configuration-file
-   create-network-model
    custom-propensity-function
+   create-spatial-model
    run-simulations

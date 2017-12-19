@@ -26,6 +26,8 @@ Basic ``EMODL`` syntax:
 
 ``(variable-value pairs)`` is a list, (...), of pairs, (var val), of variables to set and the value to which to set them, e.g. ((V (* S 0.5)) (S (* S 0.5))) sets V = S/2 and then sets S = S/2 (i.e. transfer half the population of S to V).
 
+.. _function_list:
+
 Mathematical operators and functions:
 
 *Unary*

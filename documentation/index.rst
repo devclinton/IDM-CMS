@@ -13,6 +13,5 @@ Introduction text TBD.
    cms-installation
    introduction-software
    howto-software
-   glossary
 
 
