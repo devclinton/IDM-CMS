@@ -24,6 +24,8 @@ Basic ``EMODL`` syntax:
 :state-event: ``(state-event name predicate (variable-value pairs))`` defines an event to occur given a particular system state
 :json:        declares an external JSON formatted file which can be referenced in species definitions, param definitions, and functions
 
+``(variable-value pairs)`` is a list, (...), of pairs, (var val), of variables to set and the value to which to set them, e.g. ((V (* S 0.5)) (S (* S 0.5))) sets V = S/2 and then sets S = S/2 (i.e. transfer half the population of S to V).
+
 Mathematical operators and functions:
 
 *Unary*
@@ -47,10 +49,10 @@ Mathematical operators and functions:
 :multiply:       ``(* x y)``
 :divide:         ``(/ x y)``
 :power:          ``(^ x y)`` or ``(pow x y)``
-:minimum:        ``(min  x y)``
+:minimum:        ``(min x y)``
 :maximum:        ``(max x y)``
 :uniform:        ``(uniform min max)`` returns a value uniformly distributed between min and max based on a random number draw
-:normal:         ``(normal mean var)`` or (gaussian mean var) returns a value from a normal distribution with the given mean and variance
+:normal:         ``(normal mean var)`` or ``(gaussian mean var)`` returns a value from a normal distribution with the given mean and variance
 
 *N-ary*
 
