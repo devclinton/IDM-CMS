@@ -411,8 +411,30 @@ namespace compartments.solvers.solverbase
             foreach (Reaction r in reactions)
             {
                 float aj = r.Rate;
-                rates[index++] = aj;
+
+                if (float.IsNaN(aj))
+                {
+                    var message = $"Reaction propensity evaluated to NaN ('{r.Name}')";
+                    Console.Error.WriteLine(message);
+                    throw new ApplicationException(message);
+                }
+
+                if (aj < 0)
+                {
+                    var message = $"Reaction propensity evaluated to negative ('{r.Name}')";
+                    Console.Error.WriteLine(message);
+                    throw new ApplicationException(message);
+                }
+
+                if (float.IsInfinity(aj))
+                {
+                    var message = $"Reaction propensity evaluated to infinity ('{r.Name}')";
+                    Console.Error.WriteLine(message);
+                    throw new ApplicationException(message);
+                }
+
                 a0 += aj;
+                rates[index++] = aj;
             }
 
             return a0;

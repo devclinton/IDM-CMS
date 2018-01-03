@@ -77,7 +77,7 @@ namespace cmsunittests.emod.perf
         {
             var config = Configuration.ConfigurationFromString("{}");
             #pragma warning disable 168
-            var configParams = new PerformanceMeasurementConfigurationParameters(config, -2.0f);
+            var unused = new PerformanceMeasurementConfigurationParameters(config, -2.0f);
             #pragma warning restore 168
         }
 
@@ -88,7 +88,7 @@ namespace cmsunittests.emod.perf
             string configString = BuildPerformanceMeasurementConfigurationString(simulationDuration: -2.0f);
             var config = Configuration.ConfigurationFromString(configString);
             #pragma warning disable 168
-            var configParams = new PerformanceMeasurementConfigurationParameters(config, TestDuration);
+            var unused= new PerformanceMeasurementConfigurationParameters(config, TestDuration);
             #pragma warning restore 168
         }
 
@@ -99,7 +99,7 @@ namespace cmsunittests.emod.perf
             string configString = BuildPerformanceMeasurementConfigurationString(logCount: -10);
             var config = Configuration.ConfigurationFromString(configString);
             #pragma warning disable 168
-            var configParams = new PerformanceMeasurementConfigurationParameters(config, TestDuration);
+            var unused = new PerformanceMeasurementConfigurationParameters(config, TestDuration);
             #pragma warning restore 168
         }
 
@@ -109,9 +109,9 @@ namespace cmsunittests.emod.perf
         {
             string configString = BuildPerformanceMeasurementConfigurationString(histogramBins: -1);
             var config = Configuration.ConfigurationFromString(configString);
-#pragma warning disable 168
-            var configParams = new PerformanceMeasurementConfigurationParameters(config, TestDuration);
-#pragma warning restore 168
+            #pragma warning disable 168
+            var unused = new PerformanceMeasurementConfigurationParameters(config, TestDuration);
+            #pragma warning restore 168
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace cmsunittests.emod.perf
                 string configString = BuildPerformanceMeasurementConfigurationString(logFilenamePrefix: badPath);
                 var config = Configuration.ConfigurationFromString(configString);
                 #pragma warning disable 168
-                var configParams = new PerformanceMeasurementConfigurationParameters(config, TestDuration);
+                var unused = new PerformanceMeasurementConfigurationParameters(config, TestDuration);
                 #pragma warning restore 168
             }
             finally
@@ -141,7 +141,7 @@ namespace cmsunittests.emod.perf
         public void PerformanceMeasurementsCtor()
         {
             const int logCount = 16;
-            string configString = String.Format("{{\"perf\":{{\"LogCount\":{0}}}}}", logCount);
+            string configString = $"{{\"perf\":{{\"LogCount\":{logCount}}}}}";
             var config = Configuration.ConfigurationFromString(configString);
             const float duration = 48.0f;
             var perfConfig = new PerformanceMeasurementConfigurationParameters(config, duration);

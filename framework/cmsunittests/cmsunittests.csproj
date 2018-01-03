@@ -81,6 +81,7 @@
     <Compile Include="matfile\UintBufferTests.cs" />
     <Compile Include="matfile\UshortBufferTests.cs" />
     <Compile Include="ReflectionUtility.cs" />
+    <Compile Include="RegressionTests.cs" />
     <Compile Include="sdwSSATest.cs" />
     <Compile Include="CommandLineTest.cs" />
     <Compile Include="ConfigJsonTest.cs" />
@@ -101,7 +102,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolverBaseTests.cs" />
     <Compile Include="solvers\MidPointTests.cs" />
-    <Compile Include="solvers\MPModelBuilderTests.cs" />
+    <Compile Include="solvers\MpModelBuilderTests.cs" />
     <Compile Include="solvers\SpeciesMPTests.cs" />
     <Compile Include="solvers\TauLeapingTests.cs" />
     <Compile Include="UtilsTests.cs" />
@@ -125,6 +126,15 @@
       <Link>PrngLib.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="resources\infinitepropensity.emodl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resources\nanpropensity.emodl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resources\negativepropensity.emodl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="resources\rever_isom.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

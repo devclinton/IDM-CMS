@@ -11,12 +11,12 @@ namespace compartments.solvers
     {
 
 #pragma warning disable 169
-        IModelBuilder _modelbuilder = new MPModelBuilder();
+        IModelBuilder _modelbuilder = new MpModelBuilder();
 #pragma warning restore 169
         private DistributionSampler _distributionSampler;
 
         public MidPoint(ModelInfo modelInfo, float duration, int repeats, int samples)
-            : base(modelInfo, duration, repeats, samples,new MPModelBuilder())
+            : base(modelInfo, duration, repeats, samples,new MpModelBuilder())
         {
             Configuration config = Configuration.CurrentConfiguration;
             _distributionSampler = RandLibSampler.CreateRandLibSampler(rng);
@@ -51,12 +51,9 @@ namespace compartments.solvers
 
         protected override void FireNonCriticalReactions(float tauMin, List<Reaction> subreactions, float[] noncritrates)
         {
-            int[] recordIntermediateReactions;
-            float intermediateNumOfReactions;
+            int[] recordIntermediateReactions = new int[subreactions.Count];
 
             //Compute Intermediate rates and "remember" how many reactions for the half step
-
-            recordIntermediateReactions = new int[subreactions.Count]; 
 
             for (int jReaction = 0; jReaction < subreactions.Count; jReaction++)
             {
@@ -65,7 +62,7 @@ namespace compartments.solvers
 
                 recordIntermediateReactions[jReaction] = howManyReactions;
 
-                intermediateNumOfReactions = howManyReactions / 2.0f;
+                float intermediateNumOfReactions = howManyReactions / 2.0f;
 
                 FireReaction(subreactions[jReaction], intermediateNumOfReactions);
             }
@@ -79,14 +76,12 @@ namespace compartments.solvers
 
             //Compute actual change in species 
 
-            float delta;
-
             for (int jReaction = 0; jReaction < subreactions.Count; jReaction++)
             {
                 float change = noncritrates[jReaction] * tauMin;
                 int howManyReactions = _distributionSampler.GeneratePoisson(change);
 
-                delta = howManyReactions - recordIntermediateReactions[jReaction] / 2.0f; 
+                float delta = howManyReactions - recordIntermediateReactions[jReaction] / 2.0f; 
 
                 FireReaction(subreactions[jReaction], delta);
             }

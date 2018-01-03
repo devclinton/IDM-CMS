@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using compartments.emod;
-using compartments.emod.interfaces;
 
 namespace compartments.solvers.solverbase
 {
-    public class MPModelBuilder : ModelBuilder
+    public class MpModelBuilder : ModelBuilder
     {
         protected override void ProcessSpecies(Model model, ModelInfo modelInfo)
         {

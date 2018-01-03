@@ -37,7 +37,7 @@ namespace cmsunittests.emod.utils
         public void DynamicHistogramCtorBadBinCount()
         {
             #pragma warning disable 168 // unused local variable
-            var histogram = new DynamicHistogram(-5);
+            var unused = new DynamicHistogram(-5);
             #pragma warning restore 168
         }
 
@@ -46,7 +46,7 @@ namespace cmsunittests.emod.utils
         public void DynamicHistogramCtorNullVector()
         {
             #pragma warning disable 168 // unused local variable
-            var histogram = new DynamicHistogram(null);
+            var unused = new DynamicHistogram(null);
             #pragma warning restore 168
         }
 

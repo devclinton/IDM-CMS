@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
 using compartments.emod;
@@ -9,35 +8,25 @@ using compartments.solvers.solverbase;
 namespace cmsunittests.solvers
 {
     [TestFixture, Description("MP Model Builder Tests")]
-    class MPModelBuilderTests : AssertionHelper
+    class MpModelBuilderTests : AssertionHelper
     {
         [Test]
         public void ProcessSpeciesTestOneSpecies()
         {
-            ModelInfo modelInfo;
-            ModelInfo.ModelBuilder modelInfoEx;
-            MPModelBuilder modelbuilder;
-            MethodInfo processSpeciesMethod;
-            Model model;
-            IDictionary<SpeciesDescription, Species> speciesMap;
+            ModelInfo.ModelBuilder modelInfoEx = new ModelInfo.ModelBuilder("model");
+            var species = new SpeciesDescription("testSpecies", 10);
+            modelInfoEx.AddSpecies(species);
+            ModelInfo modelInfo = modelInfoEx.Model;
+            Model model = new Model(modelInfo);
+            MpModelBuilder modelbuilder = new MpModelBuilder();
+            MethodInfo processSpeciesMethod = ReflectionUtility.GetHiddenMethod("ProcessSpecies", modelbuilder);
             IDictionary<string, IValue> nmap;
             IDictionary<string, IBoolean> bmap;
             IDictionary<string, IUpdateable> umap;
+            IDictionary<SpeciesDescription, Species> speciesMap = InitializeMaps(out nmap, out bmap, out umap);
 
-            // Need a Model Info, Species Info, modelbuilder
-            modelInfoEx = new ModelInfo.ModelBuilder("model");
-            var species = new SpeciesDescription("testSpecies", 10); 
-            modelbuilder = new MPModelBuilder();
-
-            speciesMap = InitializeMaps(out nmap, out bmap, out umap);
             var newSpecies = new SpeciesMP(species, nmap);
 
-            modelInfoEx.AddSpecies(species);
-            modelInfo = modelInfoEx.Model;
-            model = new Model(modelInfo);
-
-            processSpeciesMethod = ReflectionUtility.GetHiddenMethod("ProcessSpecies", modelbuilder);
-            
             //Inputs to invoke hidden method ProcessSpecies (needs to be an array of objects)
             var inputArray1 = new object[2];
             inputArray1[0] = model;
@@ -84,37 +73,26 @@ namespace cmsunittests.solvers
         [Test]
         public void ProcessSpeciesTestNSpecies()
         {
-            ModelInfo modelInfo;
-            ModelInfo.ModelBuilder modelInfoEx;
-            MPModelBuilder modelbuilder;
-            MethodInfo processSpeciesMethod;
-            Model model;
-            IDictionary<SpeciesDescription, Species> speciesMap;
+            ModelInfo.ModelBuilder modelInfoEx = new ModelInfo.ModelBuilder("model");
+            MpModelBuilder modelbuilder = new MpModelBuilder();
             IDictionary<string, IValue> nmap;
             IDictionary<string, IBoolean> bmap;
             IDictionary<string, IUpdateable> umap;
-            SpeciesDescription[] speciesDescArray;
-            SpeciesMP[] speciesArray;
-
-            // Need a Model Info, Species Info, modelbuilder, Species
-            modelInfoEx = new ModelInfo.ModelBuilder("model");
-            speciesDescArray = new SpeciesDescription[100];
-            speciesArray = new SpeciesMP[100];
-            modelbuilder = new MPModelBuilder();
-            speciesMap = InitializeMaps(out nmap, out bmap, out umap);
+            IDictionary<SpeciesDescription, Species> speciesMap = InitializeMaps(out nmap, out bmap, out umap);
+            SpeciesDescription[] speciesDescArray = new SpeciesDescription[100];
+            SpeciesMP[] speciesArray = new SpeciesMP[100];
 
             for (var i = 0; i < 100; i++)
             {
                 string nameStr = "testSpecies" + i;
                 speciesDescArray[i] = new SpeciesDescription(nameStr, i);
-                speciesArray[i] = new SpeciesMP(speciesDescArray[i],nmap);
+                speciesArray[i] = new SpeciesMP(speciesDescArray[i], nmap);
                 modelInfoEx.AddSpecies(speciesDescArray[i]);
             }
-            
-            modelInfo = modelInfoEx.Model;
-            model = new Model(modelInfo);
 
-            processSpeciesMethod = ReflectionUtility.GetHiddenMethod("ProcessSpecies", modelbuilder);
+            ModelInfo modelInfo = modelInfoEx.Model;
+            Model model = new Model(modelInfo);
+            MethodInfo processSpeciesMethod = ReflectionUtility.GetHiddenMethod("ProcessSpecies", modelbuilder);
 
             //Inputs to invoke hidden method ProcessSpecies (needs to be an array of objects)
             var inputArray1 = new object[2];
@@ -164,8 +142,7 @@ namespace cmsunittests.solvers
 
         private static IDictionary<SpeciesDescription, Species> InitializeMaps(out IDictionary<string, IValue> nmap, out IDictionary<string, IBoolean> bmap, out IDictionary<string, IUpdateable> umap)
         {
-            IDictionary<SpeciesDescription, Species> speciesMap;
-            speciesMap = new Dictionary<SpeciesDescription, Species>();
+            IDictionary<SpeciesDescription, Species> speciesMap = new Dictionary<SpeciesDescription, Species>();
             nmap = new Dictionary<string, IValue>();
             bmap = new Dictionary<string, IBoolean>();
             umap = new Dictionary<string, IUpdateable>();

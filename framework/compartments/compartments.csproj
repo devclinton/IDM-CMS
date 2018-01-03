@@ -157,7 +157,7 @@
     <Compile Include="solvers\solverbase\JsonSupport.cs" />
     <Compile Include="solvers\solverbase\MatlabOutputOptions.cs" />
     <Compile Include="solvers\solverbase\MatlabSupport.cs" />
-    <Compile Include="solvers\solverbase\MPModelBuilder.cs" />
+    <Compile Include="solvers\solverbase\MpModelBuilder.cs" />
     <Compile Include="solvers\solverbase\RealizationData.cs" />
     <Compile Include="solvers\solverbase\SolverBase.cs" />
     <Compile Include="solvers\solverbase\SpeciesMP.cs" />

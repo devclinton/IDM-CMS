@@ -71,7 +71,7 @@ namespace cmsunittests.solvers
 
             try
             {
-                var solver = new MidPoint(modelInfo, duration, repeats, samples);
+                var unused = new MidPoint(modelInfo, duration, repeats, samples);
                 Assert.Fail();
             }
             catch (ApplicationException ex)
@@ -84,7 +84,7 @@ namespace cmsunittests.solvers
 
             try
             {
-                var solver = new MidPoint(modelInfo, duration, repeats, samples);
+                var unused = new MidPoint(modelInfo, duration, repeats, samples);
                 Assert.Fail();
             }
             catch (ApplicationException ex)
@@ -97,7 +97,7 @@ namespace cmsunittests.solvers
 
             try
             {
-                var solver = new MidPoint(modelInfo, duration, repeats, samples);
+                var unused = new MidPoint(modelInfo, duration, repeats, samples);
                 Assert.Fail();
             }
             catch (ApplicationException ex)
@@ -110,7 +110,7 @@ namespace cmsunittests.solvers
 
             try
             {
-                var solver = new MidPoint(modelInfo, duration, repeats, samples);
+                var unused = new MidPoint(modelInfo, duration, repeats, samples);
                 Assert.Fail();
             }
             catch (ApplicationException ex)

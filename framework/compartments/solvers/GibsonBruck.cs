@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using compartments.emod;
 using compartments.solvers.solverbase;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace compartments.solvers
 {
@@ -11,7 +12,7 @@ namespace compartments.solvers
         private float _a0;
         private readonly Dictionary<Reaction, float> _currentRates;
         private readonly Dictionary<Reaction, float> _currentTaus;
-        private readonly Dictionary<Reaction, List<Reaction>> _dependencyGraph = new Dictionary<Reaction, List<Reaction>>();
+        private readonly Dictionary<Reaction, List<Reaction>> _dependencyGraph;
         private readonly PriorityQueue<Reaction> _pq;
         private Reaction _nextReaction;
 
@@ -55,6 +56,28 @@ namespace compartments.solvers
             foreach (Reaction r in reactions)
             {
                 float aj = r.Rate;
+
+                if (float.IsNaN(aj))
+                {
+                    var message = $"Reaction propensity evaluated to NaN ('{r.Name}')";
+                    Console.Error.WriteLine(message);
+                    throw new ApplicationException(message);
+                }
+
+                if (aj < 0)
+                {
+                    var message = $"Reaction propensity evaluated to negative ('{r.Name}')";
+                    Console.Error.WriteLine(message);
+                    throw new ApplicationException(message);
+                }
+
+                if (float.IsInfinity(aj))
+                {
+                    var message = $"Reaction propensity evaluated to infinity ('{r.Name}')";
+                    Console.Error.WriteLine(message);
+                    throw new ApplicationException(message);
+                }
+
                 a0 += aj;
                 reactionRates[r] = aj;
 
