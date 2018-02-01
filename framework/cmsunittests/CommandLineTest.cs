@@ -14,11 +14,11 @@ namespace cmsunittests
 
         public CommandLineTest()
         {
-            _typeStrings = new[] { "-boolean", "-string", "astring", "-numeric", "1984" };
+            _typeStrings = new[] { "--boolean", "--string", "astring", "--numeric", "1984" };
             _typeOptions = new List<CommandLineParameters.OptionInfo>(new[] {
-                new CommandLineParameters.OptionInfo("boolean", "Boolean switch.", typeof(bool)),
-                new CommandLineParameters.OptionInfo("string", "String parameter", typeof(string)),
-                new CommandLineParameters.OptionInfo("numeric", "Numeric parameter", typeof(int))
+                new CommandLineParameters.OptionInfo("boolean|b", "Boolean switch.", typeof(bool)),
+                new CommandLineParameters.OptionInfo("string|s", "String parameter", typeof(string)),
+                new CommandLineParameters.OptionInfo("numeric|n", "Numeric parameter", typeof(int))
             });
         }
 
@@ -140,9 +140,9 @@ namespace cmsunittests
         [Test]
         public void DefaultParameterTest()
         {
-            var strings = new[] { "-model", "simplesir.cmdl" };
+            var strings = new[] { "--model", "simplesir.cmdl" };
             var options = new List<CommandLineParameters.OptionInfo>(new[] {
-                new CommandLineParameters.OptionInfo("model", "Model description file (CMDL/EMODL/SBML)", typeof(string)),
+                new CommandLineParameters.OptionInfo("model|m", "Model description file (CMDL/EMODL/SBML)", typeof(string)),
                 new CommandLineParameters.OptionInfo("solver", "Solver algorithm", "SSA"),
                 new CommandLineParameters.OptionInfo("directory", "Working directory", "."),
                 new CommandLineParameters.OptionInfo("duration", "Simulation duration", 100),
@@ -155,9 +155,9 @@ namespace cmsunittests
         [Test]
         public void GoodParameterTest()
         {
-            var strings = new[] { "-model", "simplesir.cmdl", "-solver", "ssa", "-directory", "c:\\temp", "-duration", "314", "-runs", "159", "-samples", "1024" };
+            var strings = new[] { "--model", "simplesir.cmdl", "-solver", "ssa", "-directory", "c:\\temp", "-duration", "314", "-runs", "159", "-samples", "1024" };
             var options = new List<CommandLineParameters.OptionInfo>(new[] {
-                new CommandLineParameters.OptionInfo("model", "Model description file (CMDL/EMODL/SBML)", typeof(string)),
+                new CommandLineParameters.OptionInfo("model|m", "Model description file (CMDL/EMODL/SBML)", typeof(string)),
                 new CommandLineParameters.OptionInfo("solver", "Solver algorithm", "SSA"),
                 new CommandLineParameters.OptionInfo("directory", "Working directory", "."),
                 new CommandLineParameters.OptionInfo("duration", "Simulation duration", 100),
@@ -190,9 +190,9 @@ namespace cmsunittests
             var options = new List<CommandLineParameters.OptionInfo>(new[] {
                 new CommandLineParameters.OptionInfo("config|cfg|c", "config filename", typeof(string))
             });
-            ReportResult(options, new CommandLineParameters(new[] { "-config", "config.json" }, options), true, "\"-config\" test", false);
-            ReportResult(options, new CommandLineParameters(new[] { "-cfg", "config.json" },    options), true, "\"-cfg\" test",    false);
-            ReportResult(options, new CommandLineParameters(new[] { "-c", "config.json" },      options), true, "\"-c\" test",      false);
+            ReportResult(options, new CommandLineParameters(new[] { "--config", "config.json" }, options), true, "\"-config\" test", false);
+            ReportResult(options, new CommandLineParameters(new[] { "--cfg", "config.json" },    options), true, "\"-cfg\" test",    false);
+            ReportResult(options, new CommandLineParameters(new[] { "-c", "config.json" },       options), true, "\"-c\" test",      false);
         }
 
         public void ReportResult(List<CommandLineParameters.OptionInfo> options, CommandLineParameters parameters, bool expectedValidity, string message, bool showParameters)
@@ -216,7 +216,7 @@ namespace cmsunittests
         [Test]
         public void TestCommandlineParametersArguments()
         {
-            var argv = new[] {"-boolean", "-string", "astring", "-numeric", "1984", "42", "foo"};
+            var argv = new[] {"--boolean", "--string", "astring", "--numeric", "1984", "42", "foo"};
             var parameters = new CommandLineParameters(argv, _typeOptions);
             Assert.AreEqual(2, parameters.Arguments.Count);
             Assert.Contains("42", parameters.Arguments);
@@ -226,7 +226,7 @@ namespace cmsunittests
         [Test]
         public void TestBadNumericArgument()
         {
-            var argv = new[] { "-boolean", "-string", "astring", "-numeric", "nineteen eighty-four"};
+            var argv = new[] { "--boolean", "--string", "astring", "--numeric", "nineteen eighty-four"};
             var parameters = new CommandLineParameters(argv, _typeOptions);
             Assert.IsFalse(parameters.IsValid);
         }

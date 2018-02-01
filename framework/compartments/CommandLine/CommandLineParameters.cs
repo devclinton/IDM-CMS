@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace compartments.CommandLine
@@ -23,12 +24,13 @@ namespace compartments.CommandLine
                 if (type == null)
                     throw new ArgumentException("Required parameters must have a type supplied.");
 
-                Names       = name.Split('|');
-                Name        = Names[0];
+                Names        = name.ToLower().Split('|').Where(s => s.Length > 1).ToArray();
+                Name         = Names[0];
+                ShortNames   = name.Split('|').Where(s => s.Length == 1).ToArray();
                 _description = description;
-                IsRequired    = true;
-                IsPresent     = false;
-                Type        = type;
+                IsRequired   = true;
+                IsPresent    = false;
+                Type         = type;
                 _value       = null;
             }
 
@@ -44,19 +46,21 @@ namespace compartments.CommandLine
                 if (defaultValue == null)
                     throw new ArgumentException("Optional parameters must have a default supplied.");
 
-                Names = name.Split('|');
-                Name        = Names[0];
+                Names        = name.ToLower().Split('|').Where(s => s.Length > 1).ToArray();
+                Name         = Names[0];
+                ShortNames   = name.Split('|').Where(s => s.Length == 1).ToArray();
                 _description = description;
-                IsRequired    = false;
-                IsPresent     = true;
+                IsRequired   = false;
+                IsPresent    = true;
 
                 Type     = defaultValue.GetType();
                 Fallback = defaultValue;
-                _value    = defaultValue;
+                _value   = defaultValue;
             }
 
             public string Name { get; }
             public string[] Names { get; }
+            public string[] ShortNames { get; }
             public string Description => _description ?? string.Empty;
             public Type Type { get; }
             public bool IsRequired { get; }
@@ -132,8 +136,12 @@ namespace compartments.CommandLine
             _options = opts;
             _settings = new Dictionary<string, OptionInfo>();
             foreach (OptionInfo option in opts)
+            {
                 foreach (String name in option.Names)
-                    _settings.Add(name.ToUpper(), option);
+                    _settings.Add(name.ToLower(), option);
+                foreach (String name in option.ShortNames)
+                    _settings.Add(name.ToLower(), option);
+            }
 
             // ReSharper restore PossibleMultipleEnumeration
 
@@ -155,51 +163,57 @@ namespace compartments.CommandLine
                 switch (parameter[0])
                 {
                     case '-':
+                        switch (parameter[1])
+                        {
+                            // "--param"
+                            case '-':
+                                parameter = parameter.Substring(2).ToLower();
+                                switch (parameter)
+                                {
+                                    case "help":
+                                        ShowHelp();
+                                        IsValid = false;
+                                        return;
+
+                                    default:
+                                        i = ProcessParameter(parameter, i, ref encounteredProblem);
+                                        break;
+                                }
+                                break;
+
+                            // "-flag"
+                            default:
+                                parameter = parameter.Substring(1, 1).ToLower();
+                                switch (parameter)
+                                {
+                                    case "h":
+                                    case "?":
+                                        ShowHelp();
+                                        IsValid = false;
+                                        return;
+
+                                    default:
+                                        i = ProcessParameter(parameter, i, ref encounteredProblem);
+                                        break;
+                                }
+                                break;
+                        }
+                        break;
+
                     case '/':
-                        parameter = parameter.Substring(1);
-                        if (parameter.ToUpper() == "HELP")
+                        parameter = parameter.Substring(1).ToLower();
+                        switch (parameter)
                         {
-                            ShowHelp();
-                            IsValid = false;
-                            return;
-                        }
+                            case "h":
+                            case "?":
+                            case "help":
+                                ShowHelp();
+                                IsValid = false;
+                                return;
 
-                        if (_settings.ContainsKey(parameter.ToUpper()))
-                        {
-                            OptionInfo option = _settings[parameter.ToUpper()];
-                            if (option.Type == typeof(bool))
-                                option.BooleanValue = true;
-                            else if (option.Type == typeof(string) || option.Type == typeof(int))
-                            {
-                                if (++i < _parameters.Length)
-                                {
-                                    if (option.Type == typeof(string))
-                                        option.StringValue = _parameters[i];
-                                    else
-                                    {
-                                        int value;
-                                        if (Int32.TryParse(_parameters[i], out value))
-                                            option.IntegerValue = value;
-                                        else
-                                        {
-                                            Console.Error.WriteLine("Bad numeric argument '{0}'.", _parameters[i]);
-                                            encounteredProblem = true;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    Console.Error.WriteLine("Missing argument for option '{0}'.", parameter);
-                                    encounteredProblem = true;
-                                }
-                            }
-                        }
-
-                        if (parameter == "?")
-                        {
-                            ShowHelp();
-                            IsValid = false;
-                            return;
+                            default:
+                                i = ProcessParameter(parameter, i, ref encounteredProblem);
+                                break;
                         }
 
                         break;
@@ -228,6 +242,43 @@ namespace compartments.CommandLine
             }
         }
 
+        private int ProcessParameter(string parameter, int i, ref bool encounteredProblem)
+        {
+            parameter = parameter.ToLower();
+
+            if (_settings.ContainsKey(parameter))
+            {
+                OptionInfo option = _settings[parameter];
+                if (option.Type == typeof(bool))
+                    option.BooleanValue = true;
+                else if (option.Type == typeof(string) || option.Type == typeof(int))
+                {
+                    if (++i < _parameters.Length)
+                    {
+                        if (option.Type == typeof(string))
+                            option.StringValue = _parameters[i];
+                        else
+                        {
+                            int value;
+                            if (Int32.TryParse(_parameters[i], out value))
+                                option.IntegerValue = value;
+                            else
+                            {
+                                Console.Error.WriteLine("Bad numeric argument '{0}'.", _parameters[i]);
+                                encounteredProblem = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.Error.WriteLine("Missing argument for option '{0}'.", parameter);
+                        encounteredProblem = true;
+                    }
+                }
+            }
+            return i;
+        }
+
         protected void ShowHelp()
         {
             Console.Error.WriteLine("Usage: {0}", System.IO.Path.GetFileName(Assembly.GetExecutingAssembly().Location));
@@ -247,6 +298,6 @@ namespace compartments.CommandLine
 
         public bool IsValid { get; private set; }
 
-        public OptionInfo this[string option] => _settings[option.ToUpper()];
+        public OptionInfo this[string option] => _settings[option.ToLower()];
     }
 }
