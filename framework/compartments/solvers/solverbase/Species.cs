@@ -40,8 +40,21 @@ namespace compartments.solvers.solverbase
 
         public virtual int Increment() { return ++Count; }
         public virtual int Increment(int delta) { return Count += delta; }
-        public virtual int Decrement() { return --Count; }
-        public virtual int Decrement(int delta) { return Count -= delta; }
+        public virtual int Decrement()
+        {
+            --Count;
+            if (Count < 0)
+                throw new ApplicationException($"Count is less than 0 ({Name}:{Count})");
+            return Count;
+        }
+
+        public virtual int Decrement(int delta)
+        {
+            Count -= delta;
+            if (Count < 0)
+                throw new ApplicationException($"Count is less than 0 ({Name}:{Count})");
+            return Count;
+        }
 
         public override string ToString()
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using compartments.emod.interfaces;
 
 namespace compartments.emod.expressions
@@ -16,7 +17,16 @@ namespace compartments.emod.expressions
 
         public IValue ResolveReferences(IDictionary<string, IValue> map)
         {
-            return _value ?? (_value = map[_name]);
+            try
+            {
+                return _value ?? (_value = map[_name]);
+            }
+            catch (KeyNotFoundException e)
+            {
+                Console.Error.Write(e);
+                Console.Error.WriteLine($":\n\t'{_name}'");
+                throw;
+            }
         }
 
         public override string ToString()

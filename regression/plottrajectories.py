@@ -71,7 +71,7 @@ def PlotFile(fileName, overlays, plotAllTrajectories):
         a = numpy.array(observables[observable])
         m = numpy.mean(a, axis=0)
         s = numpy.std(a, axis=0)
-        pyplot.plot(m, color=colors[obsIndex], linewidth=2.0)
+        pyplot.plot(m, color=colors[obsIndex], linewidth=2.0, label=observable)
         pyplot.plot(m+s, ':', color=colors[obsIndex])
         pyplot.plot(m-s, ':', color=colors[obsIndex])
         obsIndex = obsIndex + 1
@@ -83,6 +83,7 @@ def PlotFile(fileName, overlays, plotAllTrajectories):
             pyplot.plot(m, 'b--')
 
     pyplot.title(fileName)
+    pyplot.legend()
 
 def LoadFile(fileName):
     csvReader = csv.reader(open(fileName, 'rb'))
