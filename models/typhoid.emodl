@@ -1,0 +1,79 @@
+(import (rnrs) (emodl cmslib))
+
+(start-model "typhoid.emodl")
+
+(species S1 9990)   ; fully susceptible (naive)
+(species S2)        ; partially susceptible
+(species I1 10)     ; primary infection
+(species I2)        ; subsequent infection
+(species C)         ; chronic carriers
+(species R)         ; recovered/waning immunity
+(species W)         ; water supply
+
+(species T)         ; total primary infections
+
+(param B (/ 0.015 365))     ; birth rate
+(param mu (/ 0.008 365))    ; death rate
+(param delta (/ 1 28))      ; 1/(infectious duration)
+(param alpha 0.001)         ; disease induced mortality
+(param theta 0.003)         ; fraction infected who become chronic carriers, need to break down by age
+(param omega (/ 1 728))     ; duration of temporary full immunity to infection
+(param xi 0.058)            ; rate of decay of infectious particles from water supply (1/3 per week - check this number!!!)
+(param gamma 0.001)         ; rate of shedding into water supply (1 infectious unit / week)
+
+(param r 0.01)                  ; rate of infectiousness of chronic and short-term carriers
+(param f 0.0052)                ; reporting fraction
+(param epsilon 0.0000000000268) ; rate of waning immunity to clinical disease
+
+(param q 0.69)              ; amplitude of seasonal forcing
+(param phi 127.4)           ; seasonal offset parameter 18.2w
+
+(param R0p 2.49)            ; R0 short cycle
+(param R0w 0.28)
+
+(func totalpop (sum S1 S2 I1 I2 C R W))
+(func casereported (* I1 delta f))
+
+(func beta_p (/ (* R0p (+ mu delta)) (+ 1 (/ (* delta theta r) mu))) )
+(func beta_w (/ (* R0w xi (+ mu delta)) (* gamma (+ 1 (/ (* delta theta r) mu)))))
+
+(func lambda_p (/ (* beta_p (+ I1 (* r I2) (* r C))) totalpop))     ; short-cycle
+;(func lambda_w (* beta_w (/ W totalpop)))                           ; long-cycle
+(func lambda_w (* beta_w W (+ 1 (* q (cos (* 2 pi (- time phi) ))))))
+
+(observe susceptible_full S1)
+(observe susceptible_partial S2)
+(observe infection_primary I1)
+(observe infection_subclinical I2)
+(observe carrier  C)
+(observe immune   R)
+(observe water    W)
+(observe totalpopulation totalpop)
+(observe casesreported casereported)
+;(observe beta_p beta_p)
+;(observe beta_w beta_w)
+;(observe lambda_p lambda_p)
+;(observe lambda_w lambda_w)
+(observe totalcases T)
+
+(reaction birth       ()   (S1) (* B totalpop))
+(reaction infectS1    (S1) (I1 T) (* (+ lambda_p lambda_w) S1))
+(reaction recoverI1   (I1) (R)  (* delta (- 1 (+ alpha theta)) I1))
+(reaction carrierI1   (I1) (C)  (* delta theta I1))
+(reaction waning      (R)  (S2) (* omega R))
+(reaction totalwaning (S2) (S1) (* epsilon S2))
+(reaction infectS2    (S2) (I2) (* (+ lambda_p lambda_w) S2))
+(reaction recoverI2   (I2) (R)  (* delta (- 1 theta) I2))
+(reaction carrierI2   (I2) (C)  (* delta theta I2))
+
+(reaction water      ()  (W) (+ (* gamma I1) (* gamma r I2) (* gamma r C)))
+(reaction waterdecay (W) ()  (* xi W))
+
+(reaction deathS1 (S1) () (* mu S1))
+(reaction deathS2 (S2) () (* mu S2))
+(reaction deathI1 (I1) () (* (+ (* delta alpha) mu) I1))
+(reaction deathI2 (I2) () (* mu I2))
+(reaction deathC  (C)  () (* mu C))
+(reaction deathR  (R)  () (* mu R))
+
+(end-model)

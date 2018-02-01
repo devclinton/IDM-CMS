@@ -1,0 +1,222 @@
+(import (rnrs) (emodl cmslib))
+
+(start-model "rotavirus.emodl")
+
+; infants
+(species M)         ; infants with maternal antibodies
+(species S0_0 8702) ; 87016)    ; initial susceptibles (44493 + 42523)
+(species I1_0)    ; initial infected
+(species R1_0)    ; initial recovered
+(species S1_0)    ; subsequent susceptible
+(species I2_0)    ; subsequent infected
+(species R2_0)    ; subsequent recovered
+(species S2_0)    ; partially-immune
+(species IA_0)    ; infected asymptomatic
+(species RA_0)    ; asymptomatic recovered
+
+; 1 year olds
+(species S0_1 8761); 87607)    ; initial susceptibles (44594 + 43013)
+(species I1_1)    ; initial infected
+(species R1_1)    ; initial recovered
+(species S1_1)    ; subsequent susceptible
+(species I2_1)    ; subsequent infected
+(species R2_1)    ; subsequent recovered
+(species S2_1)    ; partially-immune
+(species IA_1)    ; infected asymptomatic
+(species RA_1)    ; asymptomatic recovered
+
+; 2 year olds
+(species S0_2 8940); 89399)    ; initial susceptibles (45846 + 43553)
+(species I1_2)    ; initial infected
+(species R1_2)    ; initial recovered
+(species S1_2)    ; subsequent susceptible
+(species I2_2)    ; subsequent infected
+(species R2_2)    ; subsequent recovered
+(species S2_2)    ; partially-immune
+(species IA_2)    ; infected asymptomatic
+(species RA_2)    ; asymptomatic recovered
+
+; 3 year olds
+(species S0_3 8910); 89097)    ; initial susceptibles (45742 + 43355)
+(species I1_3)    ; initial infected
+(species R1_3)    ; initial recovered
+(species S1_3)    ; subsequent susceptible
+(species I2_3)    ; subsequent infected
+(species R2_3)    ; subsequent recovered
+(species S2_3)    ; partially-immune
+(species IA_3)    ; infected asymptomatic
+(species RA_3)    ; asymptomatic recovered
+
+; 4+ year olds
+(species S0_4 636142); 6371421)    ; initial susceptibles (3169032 + 3202389)
+(species I1_4 1000)    ; initial infected
+(species R1_4)    ; initial recovered
+(species S1_4)    ; subsequent susceptible
+(species I2_4)    ; subsequent infected
+(species R2_4)    ; subsequent recovered
+(species S2_4)    ; partially-immune
+(species IA_4)    ; infected asymptomatic
+(species RA_4)    ; asymptomatic recovered
+
+(param birth 0.000034)  ; WA 2015 12.4/1000 population annually as daily rate
+(param omega0 0.0111) ; maternal antibody waning 0.333/month
+(param beta0 2.46); 24.6)
+(param a 0.055)
+(param phi 0.68)
+(func  beta (* beta0 (+ 1 (* a (cos (* 2 pi (- (/ time 365) phi)))))))
+(func  infected-1 (+ I1_0 I1_1 I1_2 I1_3 I1_4))
+(func  infected-2 (+ I2_0 I2_1 I2_2 I2_3 I2_4))
+(func  infected-a (+ IA_0 IA_1 IA_2 IA_3 IA_4))
+(func  lambda (* beta (+ infected-1 (* rho2 infected-2) (* rho-a infected-a)))) ; primary infection
+(param gamma1 0.14333)      ; primary recovery 4.3/month
+(param omega1 0.0037)       ; primary waning 0.111/month
+(param sigma1 0.62)         ; attenuation of infection 0.62
+(param rho2 0.5)            ; 0.5
+(param gamma2 0.28667)      ; 8.6/month
+(param sigma2 0.35)         ; attenuation of repeated infection 0.35
+(param rho-a 0.1)           ; 0.1
+(param omega2 0.0027667)    ; 0.083/month
+(param d1 0.11)             ; 0.11
+(param d2 0.029)            ; 0.029
+
+(func age-0 (+ M S0_0 I1_0 R1_0 S1_0 I2_0 R2_0 S2_0 IA_0 RA_0))
+(func age-1 (+   S0_1 I1_1 R1_1 S1_1 I2_1 R2_1 S2_1 IA_1 RA_1))
+(func age-2 (+   S0_2 I1_2 R1_2 S1_2 I2_2 R2_2 S2_2 IA_2 RA_2))
+(func age-3 (+   S0_3 I1_3 R1_3 S1_3 I2_3 R2_3 S2_3 IA_3 RA_3))
+(func age-4 (+   S0_4 I1_4 R1_4 S1_4 I2_4 R2_4 S2_4 IA_4 RA_4))
+
+(func age-0-infected (+ I1_0 I2_0 IA_0))
+(func age-1-infected (+ I1_1 I2_1 IA_1))
+(func age-2-infected (+ I1_2 I2_2 IA_2))
+(func age-3-infected (+ I1_3 I2_3 IA_3))
+(func age-4-infected (+ I1_4 I2_4 IA_4))
+
+(func total_pop (+ age-0 age-1 age-2 age-3 age-4))
+
+(reaction birth () (M) (* birth total_pop))
+(reaction maternalwaning (M) (S0_0) (* omega0 M))
+
+; 0-1 year olds
+(reaction s0-i1-0 (S0_0) (I1_0) (* lambda S0_0))
+(reaction i1-r1-0 (I1_0) (R1_0) (* gamma1 I1_0))
+(reaction r1-s1-0 (R1_0) (S1_0) (* omega1 R1_0))
+(reaction s1-i2-0 (S1_0) (I2_0) (* sigma1 lambda S1_0))
+(reaction i2-r2-0 (I2_0) (R2_0) (* gamma2 I2_0))
+(reaction r2-s2-0 (R2_0) (S2_0) (* omega1 R2_0))
+(reaction s2-ia-0 (S2_0) (IA_0) (* sigma2 lambda S2_0))
+(reaction ia-ra-0 (IA_0) (RA_0) (* gamma2 IA_0))
+(reaction ra-s2-0 (RA_0) (S2_0) (* omega2 RA_0))
+
+; 1-2 year olds
+(reaction s0-i1-1 (S0_1) (I1_1) (* lambda S0_1))
+(reaction i1-r1-1 (I1_1) (R1_1) (* gamma1 I1_1))
+(reaction r1-s1-1 (R1_1) (S1_1) (* omega1 R1_1))
+(reaction s1-i2-1 (S1_1) (I2_1) (* sigma1 lambda S1_1))
+(reaction i2-r2-1 (I2_1) (R2_1) (* gamma2 I2_1))
+(reaction r2-s2-1 (R2_1) (S2_1) (* omega1 R2_1))
+(reaction s2-ia-1 (S2_1) (IA_1) (* sigma2 lambda S2_1))
+(reaction ia-ra-1 (IA_1) (RA_1) (* gamma2 IA_1))
+(reaction ra-s2-1 (RA_1) (S2_1) (* omega2 RA_1))
+
+; 2-3 year olds
+(reaction s0-i1-2 (S0_2) (I1_2) (* lambda S0_2))
+(reaction i1-r1-2 (I1_2) (R1_2) (* gamma1 I1_2))
+(reaction r1-s1-2 (R1_2) (S1_2) (* omega1 R1_2))
+(reaction s1-i2-2 (S1_2) (I2_2) (* sigma1 lambda S1_2))
+(reaction i2-r2-2 (I2_2) (R2_2) (* gamma2 I2_2))
+(reaction r2-s2-2 (R2_2) (S2_2) (* omega1 R2_2))
+(reaction s2-ia-2 (S2_2) (IA_2) (* sigma2 lambda S2_2))
+(reaction ia-ra-2 (IA_2) (RA_2) (* gamma2 IA_2))
+(reaction ra-s2-2 (RA_2) (S2_2) (* omega2 RA_2))
+
+; 3-4 year olds
+(reaction s0-i1-3 (S0_3) (I1_3) (* lambda S0_3))
+(reaction i1-r1-3 (I1_3) (R1_3) (* gamma1 I1_3))
+(reaction r1-s1-3 (R1_3) (S1_3) (* omega1 R1_3))
+(reaction s1-i2-3 (S1_3) (I2_3) (* sigma1 lambda S1_3))
+(reaction i2-r2-3 (I2_3) (R2_3) (* gamma2 I2_3))
+(reaction r2-s2-3 (R2_3) (S2_3) (* omega1 R2_3))
+(reaction s2-ia-3 (S2_3) (IA_3) (* sigma2 lambda S2_3))
+(reaction ia-ra-3 (IA_3) (RA_3) (* gamma2 IA_3))
+(reaction ra-s2-3 (RA_3) (S2_3) (* omega2 RA_3))
+
+; 4+ year olds
+(reaction s0-i1-4 (S0_4) (I1_4) (* lambda S0_4))
+(reaction i1-r1-4 (I1_4) (R1_4) (* gamma1 I1_4))
+(reaction r1-s1-4 (R1_4) (S1_4) (* omega1 R1_4))
+(reaction s1-i2-4 (S1_4) (I2_4) (* sigma1 lambda S1_4))
+(reaction i2-r2-4 (I2_4) (R2_4) (* gamma2 I2_4))
+(reaction r2-s2-4 (R2_4) (S2_4) (* omega1 R2_4))
+(reaction s2-ia-4 (S2_4) (IA_4) (* sigma2 lambda S2_4))
+(reaction ia-ra-4 (IA_4) (RA_4) (* gamma2 IA_4))
+(reaction ra-s2-4 (RA_4) (S2_4) (* omega2 RA_4))
+
+(param threesixtyfifth 0.00274)
+
+(reaction aging-M-S0  (M)    (S0_1) (* M    threesixtyfifth))   ; 1/365
+
+(reaction aging-s0-01 (S0_0) (S0_1) (* S0_0 threesixtyfifth))
+(reaction aging-i1-01 (I1_0) (I1_1) (* I1_0 threesixtyfifth))
+(reaction aging-r1-01 (R1_0) (R1_1) (* R1_0 threesixtyfifth))
+(reaction aging-s1-01 (S1_0) (S1_1) (* S1_0 threesixtyfifth))
+(reaction aging-i2-01 (I2_0) (I2_1) (* I2_0 threesixtyfifth))
+(reaction aging-r2-01 (R2_0) (R2_1) (* R2_0 threesixtyfifth))
+(reaction aging-s2-01 (S2_0) (S2_1) (* S2_0 threesixtyfifth))
+(reaction aging-ia-01 (IA_0) (IA_1) (* IA_0 threesixtyfifth))
+(reaction aging-ra-01 (RA_0) (RA_1) (* RA_0 threesixtyfifth))
+
+(reaction aging-s0-12 (S0_1) (S0_2) (* S0_1 threesixtyfifth))
+(reaction aging-i1-12 (I1_1) (I1_2) (* I1_1 threesixtyfifth))
+(reaction aging-r1-12 (R1_1) (R1_2) (* R1_1 threesixtyfifth))
+(reaction aging-s1-12 (S1_1) (S1_2) (* S1_1 threesixtyfifth))
+(reaction aging-i2-12 (I2_1) (I2_2) (* I2_1 threesixtyfifth))
+(reaction aging-r2-12 (R2_1) (R2_2) (* R2_1 threesixtyfifth))
+(reaction aging-s2-12 (S2_1) (S2_2) (* S2_1 threesixtyfifth))
+(reaction aging-ia-12 (IA_1) (IA_2) (* IA_1 threesixtyfifth))
+(reaction aging-ra-12 (RA_1) (RA_2) (* RA_1 threesixtyfifth))
+
+(reaction aging-s0-23 (S0_2) (S0_3) (* S0_2 threesixtyfifth))
+(reaction aging-i1-23 (I1_2) (I1_3) (* I1_2 threesixtyfifth))
+(reaction aging-r1-23 (R1_2) (R1_3) (* R1_2 threesixtyfifth))
+(reaction aging-s1-23 (S1_2) (S1_3) (* S1_2 threesixtyfifth))
+(reaction aging-i2-23 (I2_2) (I2_3) (* I2_2 threesixtyfifth))
+(reaction aging-r2-23 (R2_2) (R2_3) (* R2_2 threesixtyfifth))
+(reaction aging-s2-23 (S2_2) (S2_3) (* S2_2 threesixtyfifth))
+(reaction aging-ia-23 (IA_2) (IA_3) (* IA_2 threesixtyfifth))
+(reaction aging-ra-23 (RA_2) (RA_3) (* RA_2 threesixtyfifth))
+
+(reaction aging-s0-34 (S0_3) (S0_4) (* S0_3 threesixtyfifth))
+(reaction aging-i1-34 (I1_3) (I1_4) (* I1_3 threesixtyfifth))
+(reaction aging-r1-34 (R1_3) (R1_4) (* R1_3 threesixtyfifth))
+(reaction aging-s1-34 (S1_3) (S1_4) (* S1_3 threesixtyfifth))
+(reaction aging-i2-34 (I2_3) (I2_4) (* I2_3 threesixtyfifth))
+(reaction aging-r2-34 (R2_3) (R2_4) (* R2_3 threesixtyfifth))
+(reaction aging-s2-34 (S2_3) (S2_4) (* S2_3 threesixtyfifth))
+(reaction aging-ia-34 (IA_3) (IA_4) (* IA_3 threesixtyfifth))
+(reaction aging-ra-34 (RA_3) (RA_4) (* RA_3 threesixtyfifth))
+
+(reaction death-s0 (S0_4) () (* S0_4 0.00003605))  ; (1/365)/76 = 80 years
+(reaction death-i1 (I1_4) () (* I1_4 0.00003605))  ; (1/365)/76 = 80 years
+(reaction death-r1 (R1_4) () (* R1_4 0.00003605))  ; (1/365)/76 = 80 years
+(reaction death-s1 (S1_4) () (* S1_4 0.00003605))  ; (1/365)/76 = 80 years
+(reaction death-i2 (I2_4) () (* I2_4 0.00003605))  ; (1/365)/76 = 80 years
+(reaction death-r2 (R2_4) () (* R2_4 0.00003605))  ; (1/365)/76 = 80 years
+(reaction death-s2 (S2_4) () (* S2_4 0.00003605))  ; (1/365)/76 = 80 years
+(reaction death-ia (IA_4) () (* IA_4 0.00003605))  ; (1/365)/76 = 80 years
+(reaction death-ra (RA_4) () (* RA_4 0.00003605))  ; (1/365)/76 = 80 years
+
+(observe age-zero  age-0)
+(observe age-one   age-1)
+(observe age-two   age-2)
+(observe age-three age-3)
+(observe age-plus  age-4)
+
+(observe age-zero-infected  age-0-infected)
+(observe age-one-infected   age-1-infected)
+(observe age-two-infected   age-2-infected)
+(observe age-three-infected age-3-infected)
+(observe age-plus-infected  age-4-infected)
+
+(observe infected (+ infected-1 infected-2 infected-a))
+
+(end-model)
