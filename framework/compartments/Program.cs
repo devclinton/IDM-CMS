@@ -6,7 +6,6 @@ using System.Text;
 using compartments.CommandLine;
 using compartments.emod;
 using compartments.emod.utils;
-using compartments.cmdl;
 using compartments.emod.interfaces;
 using compartments.emodl;
 
@@ -107,8 +106,7 @@ namespace compartments
             switch (modelFileInfo.Extension.ToUpper().Substring(1))
             {
                 case "CMDL":
-                    model = CmdlLoader.LoadCMDLFile(modelFileName);
-                    break;
+                    throw new NotSupportedException("CMDL support not present.");
 
                 case "EMODL":
                     model = EmodlLoader.LoadEMODLFile(modelFileName);

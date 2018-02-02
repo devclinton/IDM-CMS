@@ -3,9 +3,9 @@ using System.IO;
 using System.Reflection;
 using NUnit.Framework;
 using compartments;
-using compartments.cmdl;
 using compartments.emod.utils;
 using distlib.randomvariates;
+using compartments.emodl;
 
 namespace cmsunittests
 {
@@ -21,7 +21,7 @@ namespace cmsunittests
         }
 
         [Test, Description("RNGFactory test - VANILLA")]
-        public void RNGFactoryVanilla()
+        public void RngFactoryVanilla()
         {
             const string prngText = "vanilla";
             var prng = GetRngFromFactory(prngText);
@@ -30,7 +30,7 @@ namespace cmsunittests
         }
 
         [Test, Description("RNGFactory test - RANDLIB")]
-        public void RNGFactoryRandLib()
+        public void RngFactoryRandLib()
         {
             const string prngText = "RandLib";
             var prng = GetRngFromFactory(prngText);
@@ -39,7 +39,7 @@ namespace cmsunittests
         }
 
         [Test, Description("RNGFactory test - pseudoDES")]
-        public void RNGFactoryPseudoDes()
+        public void RngFactoryPseudoDes()
         {
             const string prngText = "pseudoDES";
             var prng = GetRngFromFactory(prngText);
@@ -48,7 +48,7 @@ namespace cmsunittests
         }
 
         [Test, Description("RNGFactory test - AESCOUNTER")]
-        public void RNGFactoryAesCounter()
+        public void RngFactoryAesCounter()
         {
             if (!AesCounterVariateGenerator.IsSupported)
                 Assert.Ignore("CPU doesn't support AES instructions");
@@ -116,7 +116,7 @@ namespace cmsunittests
         private bool ExecuteSirModel(string prng)
         {
             SetCurrentPrng(prng);
-            var modelInfo = CmdlLoader.LoadCMDLFile("resources\\sir.cmdl");
+            var modelInfo = EmodlLoader.LoadEMODLFile("resources\\sir.emodl");
             const int repeats = 128;
             const int samples = 100;
             var solver = SolverFactory.CreateSolver("SSA", modelInfo, repeats, 548.0f, samples);
@@ -185,7 +185,7 @@ namespace cmsunittests
         }
 
         [Test]
-        public void RNGFactoryDefaultTest()
+        public void RngFactoryDefaultTest()
         {
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString("{}");
             _resetMethodinfo.Invoke(null, null);
@@ -206,7 +206,7 @@ namespace cmsunittests
 
         [Test]
         [ExpectedException(typeof(TypeInitializationException))]
-        public void RNGFactoryExceptionTest()
+        public void RngFactoryExceptionTest()
         {
             Console.WriteLine("Testing RNGFactory exception...");
 
@@ -215,7 +215,14 @@ namespace cmsunittests
             MethodInfo reset = typeof(RNGFactory).GetMethod("Reset", BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Static);
             try
             {
-                reset.Invoke(null, null);
+                if (reset != null)
+                {
+                    reset.Invoke(null, null);
+                }
+                else
+                {
+                    throw new NullReferenceException("Couldn't get 'Reset' method from RNGFactory.");
+                }
             }
             catch (Exception ex)
             {
@@ -226,7 +233,12 @@ namespace cmsunittests
                 }
 
                 Console.WriteLine("Caught exception: {0}", ex.Message);
-                throw ex.InnerException;
+                if (ex.InnerException != null)
+                {
+                    throw ex.InnerException;
+                }
+
+                throw;
             }
 
             Console.WriteLine("{0}() FAILED", MethodBase.GetCurrentMethod().Name);

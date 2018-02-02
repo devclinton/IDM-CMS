@@ -71,22 +71,13 @@ namespace cmsunittests
         }
 
         [Test]
-        public void TestLoadModelCmdl()
-        {
-            ModelInfo modelInfo = compartments.Program.LoadModel("resources\\testmodel.cmdl");
-            Assert.IsTrue(modelInfo.GetSpeciesByName("X4") != null);
-            Assert.IsTrue(modelInfo.GetParameterByName("alpha1") != null);
-            Assert.IsTrue(modelInfo.GetReactionByName("acquireimmunityY2") != null);
-        }
-
-        [Test]
         public void TestRunModel()
         {
             File.Delete("testmodel.csv");
             File.Delete("testmodel.json");
             Configuration.CurrentConfiguration =
                 Configuration.ConfigurationFromString("{\"output\":{\"prefix\":\"testmodel\",\"writematfile\":true}}");
-            ModelInfo modelInfo = compartments.Program.LoadModel("resources\\testmodel.cmdl");
+            ModelInfo modelInfo = compartments.Program.LoadModel("resources\\testmodel.emodl");
             compartments.Program.RunModel(modelInfo, "SSA", 1825.0f, 10, 250);
             Assert.IsTrue(File.Exists("testmodel.csv"));
             Assert.IsTrue(File.Exists("testmodel.mat"));

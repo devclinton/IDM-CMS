@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BiasingParametersTests.cs" />
-    <Compile Include="cmdl\CmdlLoaderTests.cs" />
     <Compile Include="InitialPopulationTests.cs" />
     <Compile Include="matfile\ByteBufferTests.cs" />
     <Compile Include="matfile\DotMatFileTests.cs" />
@@ -187,13 +186,10 @@
     <None Include="resources\sample.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="resources\sir.cmdl">
+    <None Include="resources\sir.emodl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="resources\testmodel.cfg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="resources\testmodel.cmdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="resources\testmodel.emodl">

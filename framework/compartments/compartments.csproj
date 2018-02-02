@@ -73,7 +73,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cmdl\CmdlLoader.cs" />
     <Compile Include="CommandLine\CommandLineParameters.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="emodl\EmodlLoader.cs">
@@ -414,10 +413,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cmdlParser\cmdlParser.csproj">
-      <Project>{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}</Project>
-      <Name>cmdlParser</Name>
-    </ProjectReference>
     <ProjectReference Include="..\distlib\distlib.csproj">
       <Project>{48F95A69-B79F-4FE3-8599-CD69FA6103DD}</Project>
       <Name>distlib</Name>

@@ -1,0 +1,21 @@
+(import (rnrs) (emodl cmslib))
+
+(start-model "sir")
+
+(species S 990)
+(species I  10)
+(species R   0)
+
+(param ksi 0.0005)
+(param kir 0.075)
+(param krs 0.005)
+
+(reaction infection (S) (I) (* ksi S I))
+(reaction recovery  (I) (R) (* kir I))
+(reaction waning    (R) (S) (* krs R))
+
+(observe susceptible S)
+(observe infected    I)
+(observe recovered   R)
+
+(end-model)

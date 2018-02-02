@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "compartments", "compartment
 		{0E712D7D-7911-4DB1-B035-B2E1A57C6C32} = {0E712D7D-7911-4DB1-B035-B2E1A57C6C32}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cmdlParser", "cmdlParser\cmdlParser.csproj", "{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cmsunittests", "cmsunittests\cmsunittests.csproj", "{3DC28325-B59F-48DD-B4DC-8C7FC7D8E79D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0E712D7D-7911-4DB1-B035-B2E1A57C6C32} = {0E712D7D-7911-4DB1-B035-B2E1A57C6C32}

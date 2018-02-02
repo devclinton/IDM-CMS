@@ -140,7 +140,7 @@ namespace cmsunittests
         [Test]
         public void DefaultParameterTest()
         {
-            var strings = new[] { "--model", "simplesir.cmdl" };
+            var strings = new[] { "--model", "simplesir.emodl" };
             var options = new List<CommandLineParameters.OptionInfo>(new[] {
                 new CommandLineParameters.OptionInfo("model|m", "Model description file (CMDL/EMODL/SBML)", typeof(string)),
                 new CommandLineParameters.OptionInfo("solver", "Solver algorithm", "SSA"),

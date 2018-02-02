@@ -15,20 +15,6 @@
             ]
         },
         {
-            "model": "garki-cmdl.cmdl",
-            "config": "garki.cfg",
-            "solvers": [
-                "SSA",
-                "FIRST",
-                "TAU",
-                "R",
-                "RFAST",
-                "NEXT",
-                "BLEAP",
-                "HYBRID"
-            ]
-        },
-        {
             "model": "garki-emodl.emodl",
             "config": "garki.cfg",
             "solvers": [
@@ -38,32 +24,11 @@
                 "R",
                 "RFAST",
                 "NEXT",
-                "BLEAP",
-                "HYBRID"
-            ]
-        },
-        {
-            "model": "migration.emodl",
-            "config": "migration.cfg",
-            "solvers": [
-                "SSA",
-                "FIRST",
-                "TAU",
-                "R",
-                "RFAST",
-                "TSSA",
                 "DFSP",
                 "OTSSA",
                 "NEXT",
                 "BLEAP",
                 "HYBRID"
-            ]
-        },
-        {
-            "model": "rever_isom-cmdl.cmdl",
-            "config": "rever_isom.cfg",
-            "solvers": [
-                "DWSSA"
             ]
         },
         {
@@ -78,20 +43,6 @@
             "config": "rever_isom.cfg",
             "solvers": [
                 "DWSSA"
-            ]
-        },
-        {
-            "model": "simple-sir.cmdl",
-            "config": "simple-sir.cfg",
-            "solvers": [
-                "SSA",
-                "FIRST",
-                "TAU",
-                "R",
-                "RFAST",
-                "NEXT",
-                "BLEAP",
-                "HYBRID"
             ]
         },
         {

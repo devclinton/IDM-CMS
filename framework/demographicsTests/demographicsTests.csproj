@@ -149,10 +149,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cmdlParser\cmdlParser.csproj">
-      <Project>{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}</Project>
-      <Name>cmdlParser</Name>
-    </ProjectReference>
     <ProjectReference Include="..\compartments\compartments.csproj">
       <Project>{0F7FC5C3-FB17-456B-87C6-39F8991A7A81}</Project>
       <Name>compartments</Name>
