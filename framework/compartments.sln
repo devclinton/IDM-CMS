@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2008
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "compartments", "compartments\compartments.csproj", "{0F7FC5C3-FB17-456B-87C6-39F8991A7A81}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0E712D7D-7911-4DB1-B035-B2E1A57C6C32} = {0E712D7D-7911-4DB1-B035-B2E1A57C6C32}
@@ -29,10 +31,6 @@ Global
 		{0F7FC5C3-FB17-456B-87C6-39F8991A7A81}.Debug|x64.Build.0 = Debug|x64
 		{0F7FC5C3-FB17-456B-87C6-39F8991A7A81}.Release|x64.ActiveCfg = Release|x64
 		{0F7FC5C3-FB17-456B-87C6-39F8991A7A81}.Release|x64.Build.0 = Release|x64
-		{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}.Debug|x64.ActiveCfg = Debug|x64
-		{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}.Debug|x64.Build.0 = Debug|x64
-		{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}.Release|x64.ActiveCfg = Release|x64
-		{8EA9EEB8-2C01-49F9-A276-F0BC9529D57C}.Release|x64.Build.0 = Release|x64
 		{3DC28325-B59F-48DD-B4DC-8C7FC7D8E79D}.Debug|x64.ActiveCfg = Debug|x64
 		{3DC28325-B59F-48DD-B4DC-8C7FC7D8E79D}.Debug|x64.Build.0 = Debug|x64
 		{3DC28325-B59F-48DD-B4DC-8C7FC7D8E79D}.Release|x64.ActiveCfg = Release|x64
@@ -56,5 +54,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {74DAFFBB-745D-4CCD-AC3A-C2DFB4ED6229}
 	EndGlobalSection
 EndGlobal
