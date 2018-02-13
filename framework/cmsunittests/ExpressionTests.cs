@@ -81,6 +81,8 @@ namespace cmsunittests
         private readonly INumericOperator _twenty        = new Constant(20.0f);
         private readonly INumericOperator _twentyTwo     = new Constant(22.0f);
         private readonly INumericOperator _negativeThree = new Constant(-3.0f);
+        private readonly INumericOperator _pi            = new Constant(3.14159265f);
+        private readonly INumericOperator _e             = new Constant(2.718281828459f);
 
         [Test, Description("AddOperator test")]
         public void AdderTest()
@@ -126,18 +128,48 @@ namespace cmsunittests
             Expect(divide.Value == 1.1f);
         }
 
-        [Test, Description("ModuloOperator test")]
-        [Ignore("Modulo not currently supported.")]
-        public void ModuloTest()
+        [Test, Description("ModuloOperator test 22 % 20 == 2")]
+        public void ModuloTest1()
         {
-/*
-            IValue modulo = new ModuloOperator(_twentyTwo, _twenty);
+            IValue modulo = (new ModuloOperator(_twentyTwo, _twenty)).ResolveReferences(null);
 
             Console.WriteLine("Testing ModuloOperator...");
             Console.WriteLine();
 
             Expect(modulo.Value == 2.0f);
-*/
+        }
+
+        [Test, Description("ModuloOperator test 22 % pi == 1")]
+        public void ModuloTest2()
+        {
+            IValue modulo = (new ModuloOperator(_twentyTwo, _pi)).ResolveReferences(null);
+
+            Console.WriteLine("Testing ModuloOperator...");
+            Console.WriteLine();
+
+            Expect(modulo.Value == 1.0f);
+        }
+
+        [Test, Description("ModuloOperator test e % 22 == 2")]
+        public void ModuloTest3()
+        {
+            IValue modulo = (new ModuloOperator(_e, _twentyTwo)).ResolveReferences(null);
+
+            Console.WriteLine("Testing ModuloOperator...");
+            Console.WriteLine();
+
+            Expect(modulo.Value == 2.0f);
+        }
+
+        [Test, Description("ModuloOperator test pi % e == 1")]
+        public void ModuloTest4()
+        {
+            IValue modulo = (new ModuloOperator(_pi, _e)).ResolveReferences(null);
+
+            Console.WriteLine("Testing ModuloOperator...");
+            Console.WriteLine();
+
+            Expect(modulo.Value == 1.0f);
         }
 
         [Test, Description("PowerOperator test")]
