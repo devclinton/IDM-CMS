@@ -1,3 +1,12 @@
+/***************************************************************************************************
+
+Copyright (c) 2018 Intellectual Ventures Property Holdings, LLC (IVPH) All rights reserved.
+
+EMOD is licensed under the Creative Commons Attribution-Noncommercial-ShareAlike 4.0 License.
+To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
+
+***************************************************************************************************/
+
 // The following ifdef block is the standard way of creating macros which make exporting 
 // from a DLL simpler. All files within this DLL are compiled with the AESCOUNTERPRNG_EXPORTS
 // symbol defined on the command line. This symbol should not be defined on any project
