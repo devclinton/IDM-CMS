@@ -1,0 +1,115 @@
+; Data source: Gametocytemia and fever in human malaria infections
+; http://www.bioone.org/doi/10.1645/GE-1052R.1?url_ver=Z39.88-2003&rfr_id=ori%3Arid%3Acrossref.org&rfr_dat=cr_pub%3Dpubmed&
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "malaria_transition_matrix.emodl")
+
+(species A)
+(species B)
+(species C)
+(species D)
+(species E 100)
+(species F)
+(species G)
+
+(func totalpop (sum A B C D E F G))
+
+(observe truezero A)
+(observe submicroscopic B)
+(observe hundred C)
+(observe thousand D)
+(observe tenthousand E)
+(observe hundredthousand F)
+(observe parasitetsunami G)
+(observe totalpopulation totalpop)
+
+(param k1 1)    		  ; truezero to truezero
+(param k2 0.322197802)            ; submicroscopic to truezero
+(param k3 0.465054945)            ; submicroscopic to submicroscopic
+(param k4 0.203076923)            ; submicroscopic to 10^2
+(param k5 0.00967033)             ; submicroscopic to 10^3 
+(param k6 0)           		  ; submicroscopic to 10^4
+(param k7 0)            	  ; submicroscopic to 10^5 
+(param k8 0)          		  ; submicroscopic to 10^6 
+(param k9 0.281275891)            ; 10^2 to truezero
+(param k10 0.332228666)           ; 10^2 to submicroscopic
+(param k11 0.355840928)           ; 10^2 to 10^2
+(param k12 0.030654515)           ; 10^2 to 10^3 
+(param k13 0)		          ; 10^2 to 10^4
+(param k14 0)           	  ; 10^2 to 10^5 
+(param k15 0)           	  ; 10^2 to 10^6 
+(param k16 0.134078212)           ; 10^3 to truezero
+(param k17 0.186592179)           ; 10^3 to submicrscopic
+(param k18 0.396648045)           ; 10^3 to 10^2
+(param k19 0.265921788)           ; 10^3 to 10^3 
+(param k20 0.016759777)           ; 10^3 to 10^4
+(param k21 0)           	  ; 10^3 to 10^5 
+(param k22 0)           	  ; 10^3 to 10^6 
+(param k23 0.259615385)           ; 10^4 to truezero
+(param k24 0.076923077)    	  ; 10^4 to submicrscopic
+(param k25 0.326923077)           ; 10^4 to 10^2
+(param k26 0.269230769)           ; 10^4 to 10^3 
+(param k27 0.067307692)           ; 10^4 to 10^4
+(param k28 0)           	  ; 10^4 to 10^5 
+(param k29 0)           	  ; 10^4 to 10^6 
+(param k30 0)         	 	  ; 10^5 to truezero
+(param k31 0)           	  ; 10^5 to submicrscopic
+(param k32 0)           	  ; 10^5 to 10^2
+(param k33 0)        		  ; 10^5 to 10^3 
+(param k34 0)           	  ; 10^5 to 10^4
+(param k35 0)           	  ; 10^5 to 10^5 
+(param k36 0)           	  ; 10^5 to 10^6 
+(param k37 0)         	 	  ; 10^6 to truezero
+(param k38 0)          		  ; 10^6 to submicrscopic
+(param k39 0)           	  ; 10^6 to 10^2
+(param k40 0)           	  ; 10^6 to 10^3 
+(param k41 0)          		  ; 10^6 to 10^4
+(param k42 0)           	  ; 10^6 to 10^5 
+(param k43 0)           	  ; 10^6 to 10^6 
+
+
+(reaction AtoA           (A) (A)   (* A k1))
+(reaction BtoA           (B) (A)   (* B k2))
+(reaction BtoB           (B) (B)   (* B k3))
+(reaction BtoC           (B) (C)   (* B k4))
+(reaction BtoD           (B) (D)   (* B k5))
+(reaction BtoE           (B) (E)   (* B k6))
+(reaction BtoF           (B) (F)   (* B k7))
+(reaction BtoG           (B) (G)   (* B k8))
+(reaction CtoA           (C) (A)   (* C k9))
+(reaction CtoB           (C) (B)   (* C k10))
+(reaction CtoC           (C) (C)   (* C k11))
+(reaction CtoD           (C) (D)   (* C k12))
+(reaction CtoE           (C) (E)   (* C k13))
+(reaction CtoF           (C) (F)   (* C k14))
+(reaction CtoG           (C) (G)   (* C k15))
+(reaction DtoA           (D) (A)   (* D k16))
+(reaction DtoB           (D) (B)   (* D k17))
+(reaction DtoC           (D) (C)   (* D k18))
+(reaction DtoD           (D) (D)   (* D k19))
+(reaction DtoE           (D) (E)   (* D k20))
+(reaction DtoF           (D) (F)   (* D k21))
+(reaction DtoG           (D) (G)   (* D k22))
+(reaction EtoA           (E) (A)   (* E k23))
+(reaction EtoB           (E) (B)   (* E k24))
+(reaction EtoC           (E) (C)   (* E k25))
+(reaction EtoD           (E) (D)   (* E k26))
+(reaction EtoE           (E) (E)   (* E k27))
+(reaction EtoF           (E) (F)   (* E k28))
+(reaction EtoG           (E) (G)   (* E k29))
+(reaction FtoA           (F) (A)   (* F k30))
+(reaction FtoB           (F) (B)   (* F k31))
+(reaction FtoC           (F) (C)   (* F k32))
+(reaction FtoD           (F) (D)   (* F k33))
+(reaction FtoE           (F) (E)   (* F k34))
+(reaction FtoF           (F) (F)   (* F k35))
+(reaction FtoG           (F) (G)   (* F k36))
+(reaction GtoA           (G) (A)   (* G k37))
+(reaction GtoB           (G) (B)   (* G k38))
+(reaction GtoC           (G) (C)   (* G k39))
+(reaction GtoD           (G) (D)   (* G k40))
+(reaction GtoE           (G) (E)   (* G k41))
+(reaction GtoF           (G) (F)   (* G k42))
+(reaction GtoG           (G) (G)   (* G k43))
+(end-model)

@@ -1,0 +1,13 @@
+{
+    "duration" : 4650,
+    "runs" : 100,
+    "samples" : 1000,
+    "solver" : "R",
+    "output" : {
+        "headers" : false
+    },
+    "tau-leaping" : {
+        "epsilon" : 0.1
+    },
+    "r-leaping" : {}
+}

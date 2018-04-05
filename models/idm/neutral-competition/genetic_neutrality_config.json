@@ -1,0 +1,14 @@
+{
+  "duration":  100,
+  "runs":      500,
+  "prng_seed":   0,
+  "samples":   251,
+  "output":
+  {
+    "headers": true,
+    "writecsv": true,
+    "compress": false,
+    "writeMatFile": true,
+    "writeSampleTimes": false
+  }
+}

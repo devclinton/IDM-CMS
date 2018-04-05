@@ -1,0 +1,85 @@
+; simple model of Zika in non-human primates and mosquitoes
+; Potential for Zika Virus to Establish a Sylvatic Transmission Cycle in the Americas
+; http://journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0005055
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "zika.emodl")
+
+; mosquitoes
+(species Sm 300)
+(species Em)
+(species Im)
+
+; primates
+(species Sp 4900)
+(species Ep)
+(species Ip 10)
+(species Rp)
+
+;(observe susceptible.mosq Sm)
+;(observe exposed.mosq     Em)
+;(observe infected.mosq    Im)
+;(observe susceptible      Sp)
+;(observe exposed          Ep)
+;(observe infectious       Ip)
+;(observe recovered        Rp)
+
+(func population.p (sum Sp Ep Ip Rp))
+(func population.m  (sum Sm Em Im))
+
+(observe susceptible.mosq.prop (/ Sm population.m))
+(observe exposed.mosq.prop     (/ Em population.m))
+(observe infected.mosq.prop    (/ Im population.m))
+(observe susceptible.prop      (/ Sp population.p))
+(observe exposed.prop          (/ Ep population.p))
+(observe infectious.prop       (/ Ip population.p))
+(observe recovered.prop        (/ Rp population.p))
+
+(observe total.infectious        (sum Ep Ip Em Ip))
+
+
+(observe population.p population.p )
+(observe population.m population.m )
+;(observe moonphase   (* 500 (+ 1 (sin (* (/ time 29.5) 2 pi)))))
+;(observe fivec       500)
+
+
+; mosquito parameters
+(param beta.p.m   (* 1 (/ 0.3))) ; per bite infection prob
+(param r.m.p      (* 1 0.5)) ; infectious bites per day
+(param eip        (* 1 (/ 1 10))) ; 10 days
+(param mu.m       (* 1 (/ 1 14))) ; 14 days
+(param nu.m       (* 1 (/ 1 14)))
+
+; primate parameters
+(param beta.m.p    (* 1 (/ 0.3)))
+(param latent.p    (* 1 (/ 1 10))) ; 10 days
+(param gamma.p     (* 1 (/ 1 7)))
+(param iota.p      (/ 0 365)) ; rate of infectious introduction
+(param mu.p        (* 1 (/ 1 (* 15 365)))) ; birthrate
+(param nu.p        (* 1 (/ 1 (* 15 365)))) ; deathrate
+
+
+; primate dynamics
+(reaction birth.p          ()       (Sp)    (* mu.p (sum Sp Ep Ip Rp)))
+(reaction exposure.p       (Sp Im)  (Ep Im) (/ (* beta.m.p r.m.p Sp Im) (sum Sp Ep Ip Rp)))
+(reaction infection.p      (Ep)     (Ip)    (* latent.p Ep))
+(reaction introduction.p   ()       (Ip)    iota.p)
+(reaction recovery.p       (Ip)     (Rp)    (* gamma.p Ip))
+(reaction death.Sp         (Sp)     ()      (* nu.p Sp))
+(reaction death.Ep         (Ep)     ()      (* nu.p Ep))
+(reaction death.Ip         (Ip)     ()      (* nu.p Ip))
+(reaction death.Rp         (Rp)     ()      (* nu.p Rp))
+
+; mosquito dynamics
+(reaction birth.m      ()      (Sm)    (* mu.m (sum Sm Em Im)))
+(reaction exposure.m   (Sm Ip) (Em Ip) (/ (* beta.p.m Sm Ip) (sum Sp Ep Ip Rp)))
+(reaction infection.m  (Em)    (Im)    (* eip Em))
+(reaction death.i.m    (Im)    ()      (* nu.m Im))
+(reaction death.e.m    (Em)    ()      (* nu.m Em))
+(reaction death.s.m    (Sm)    ()      (* nu.m Sm))
+
+(bool exitTimeEvent (== (sum Ep Ip Em Ip) 0) )
+
+(end-model)

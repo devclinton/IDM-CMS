@@ -1,0 +1,73 @@
+; simple HAT model
+; Parameters taken from Quantitative evaluation of the strategy to eliminate human African trypanosomiasis in the Democratic Republic of Congo
+; https://parasitesandvectors.biomedcentral.com/articles/10.1186/s13071-015-1131-8
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "simple_HAT.emodl")
+
+(species S 900)
+(species Ia 100)
+(species Ib)
+(species R)
+(species SV 3000)
+(species IV)
+(species AS)
+(species A)
+
+(observe susceptible S)
+(observe infectiousA  Ia)
+(observe infectiousB  Ib)
+(observe recovered   R)
+(observe suscvec     SV)
+(observe infvec      IV)
+(observe Asymps A)
+(observe Active_Screen AS)
+(observe prev (/ (+ Ia Ib A) (+ S A Ia Ib R)))
+
+
+(func N (+ S A Ia Ib R))
+(func recipN (/ 1 N))
+(func NV (+ SV IV))
+(func recipNV (/ 1 NV))
+
+
+(param mus .000054795) ;Host mortality
+(param afc .0043) ;Anthrophily+Biting rate+Vector competency *Not to exceed .333*
+(param sigma 0.005) ;Proportion of infections that are asymptomatic
+(param sigmac (- 1 sigma)) ;Proportion of infections that are symptomatic
+(param alpha .0019) ;Stage 1 to Stage 2 Progression
+(param gamma .006) ; Recovery rate
+
+(param muv .03) ;Tsetse mortality
+(param afcv .00333) ;Anthrophily+Biting rate+Hostcompetency *Not to exceed .333*
+(param screen_level .7) ;Screening level
+(param screen_levelc (- 1 screen_level)) ;Screening level comp
+
+(time-event screen 1000 365 ((AS (* screen_level (+ Ia Ib)))   (R  (+ R (* screen_level (+ Ia Ib))))    (Ia (* screen_levelc Ia)) (Ib (* screen_levelc Ib)) ))
+
+;Host birth/death
+(reaction birth   ()  (S) (* mus N))
+(reaction Sdeath  (S) () (* mus S))
+(reaction Iadeath  (Ia) () (* mus Ia))
+(reaction Ibdeath  (Ib) () (* mus Ib))
+(reaction Rdeath  (R) () (* mus R))
+(reaction Adeath  (A) () (* mus A))
+
+
+;Host Transitions
+(reaction Iaex    (S) (Ia) (* sigmac (* afc ( * S (* IV recipN)))))
+(reaction Aex     (S) (A) (* sigma (* afc ( * S (* IV recipN)))))
+(reaction Ibenter (Ia) (Ib) (* alpha Ia))
+(reaction Renter  (Ib) (R)  (* gamma Ib))
+(reaction Senter  (R)  (S)  (* gamma R))
+
+;Tsetse fly birth/death
+(reaction vbirth  ()  (SV) (* muv NV))
+(reaction Svdeath (SV) ()  (* muv SV))
+(reaction Ivdeath (IV) ()  (* muv IV))
+
+;Tsetse transitions
+(reaction Svex  (SV)  (IV) (* afcv  (* SV (* recipN (+ Ia A Ib)))))
+
+(end-model)

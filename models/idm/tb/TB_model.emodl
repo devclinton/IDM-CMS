@@ -1,0 +1,86 @@
+; TB model
+; Prospects for Tuberculosis Elimination
+; http://www.annualreviews.org/doi/pdf/10.1146/annurev-publhealth-031912-114431
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "TB_model")
+
+(observe uninfected        U)
+(observe latent_slow       Ls)
+(observe latent_fast       Lf)
+(observe infectious_tb     I)
+(observe noninfectious_tb  N)
+(observe recovered         C)
+
+(species U    9950)
+(species Ls   0)
+(species Lf   0)
+(species I    50)
+(species N    0)
+(species C    0)
+
+(param beta   8)
+(param mu     0.02)
+(param mu_I   0.3)
+(param mu_N   0.2)
+(param nc     0.15)
+(param rho    0.01)
+(param alpha  0.15)
+(param nu_f   0.67)
+(param nu_s   0.0005)
+(param sigma  0.7)
+(param x      0.35)
+
+(param delta  0.2)
+(param kappa  0.8)
+
+(param t2_start  350)
+(param delta_t2  0.3)
+
+(func totalPop    (sum U Ls Lf I N C))
+(func disDeath_I  (* mu_I I))
+(func disDeath_N  (* mu_N N))
+(func infect      (* (* (/ beta totalPop) U) I))
+(func reinfect    (* (* (* (/ beta totalPop) x) Ls) I))
+(func non_alpha   (- 1 alpha))
+(func non_sigma   (- 1 sigma))
+
+(func until_t2    (step (ln (/ t2_start time))))
+(func from_t2     (step (ln (/ time t2_start))))
+
+
+(reaction birth         ()   (U)    (+ (+ (* mu totalPop) disDeath_I) disDeath_N))
+(reaction death_U       (U)  ()     (* mu U))
+(reaction death_Ls      (Ls) ()     (* mu Ls))
+(reaction death_Lf      (Lf) ()     (* mu Lf))
+(reaction death_I       (I)  ()     (+ (* mu I) disDeath_I))
+(reaction death_N       (N)  ()     (+ (* mu N) disDeath_N))
+(reaction death_C       (C)  ()     (* mu C))
+
+(reaction infect_U_Ls   (U)  (Ls)   (* non_alpha infect))
+(reaction infect_U_Lf   (U)  (Lf)   (* alpha infect))
+
+(reaction reinfect_Ls_I (Ls) (I)    (* (* alpha reinfect) sigma))
+(reaction reinfect_Ls_N (Ls) (N)    (* (* alpha reinfect) non_sigma))
+
+(reaction reactiv_Ls_I  (Ls) (I)    (* (* nu_s Ls) sigma))
+(reaction reactiv_Ls_N  (Ls) (N)    (* (* nu_s Ls) non_sigma))
+
+(reaction activ_Lf_I    (Lf) (I)    (* (* nu_f Lf) sigma))
+(reaction activ_Lf_N    (Lf) (N)    (* (* nu_f Lf) non_sigma))
+
+(reaction selfCure_I_C  (I)  (C)    (* nc I ))
+(reaction selfCure_N_C  (N)  (C)    (* nc N ))
+
+(reaction treat_I_C     (I)  (C)    (* (* (* until_t2 delta) I) kappa))
+(reaction treat_N_C     (N)  (C)    (* (* (* until_t2 delta) N) kappa))
+
+(reaction treat_new_I_C (I)  (C)    (* (* (* from_t2 delta_t2) I) kappa))
+(reaction treat_new_N_C (N)  (C)    (* (* (* from_t2 delta_t2) N) kappa))
+
+(reaction relapse_C_I   (C)  (I)    (* (* rho C ) sigma))
+(reaction relapse_C_N   (C)  (N)    (* (* rho C ) non_sigma))
+
+
+(end-model)

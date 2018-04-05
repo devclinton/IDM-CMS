@@ -1,0 +1,42 @@
+; genetic neutrality model 
+; No coexistence for free: Neutral null models for multistrain pathogens
+; http://www.sciencedirect.com/science/article/pii/S1755436508000029?via%3Dihub
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "genetic_neutrality_competition.emodl")
+
+; State Variables
+(species S    950)
+(species I1    40)
+(species I2    10)
+(species I11    0)
+(species I12    0)
+(species I22    0)
+
+; Outputs
+(observe  susceptible   S  )
+(observe  infected1     I1 )
+(observe  infected2     I2 )
+(observe  super1        I11)
+(observe  coinfected    I12)
+(observe  super22       I22)
+
+; Constants
+(param beta 0.0005)
+(param mu   0.3)
+
+; Rates
+(reaction infection  (S)   (I1)   (* beta (+ I1 I12 (* 2 I11)) S))
+(reaction infection  (I1)  (S)    (* mu I1))
+(reaction infection  (S)   (I2)   (* beta (+ I2 I12 (* 2 I22)) S))
+(reaction infection  (I2)  (S)    (* mu I2))
+(reaction infection  (I1)  (I12)  (* beta (+ I2 I12 (* 2 I22)) I1))
+(reaction infection  (I2)  (I12)  (* beta (+ I1 I12 (* 2 I11)) I2))
+(reaction infection  (I11) (S)    (* mu I11))
+(reaction infection  (I12) (S)    (* mu I12))
+(reaction infection  (I22) (S)    (* mu I22))
+(reaction infection  (I1)  (I11)  (* beta (+ I1 I12 (* 2 I11)) I1))
+(reaction infection  (I2)  (I22)  (* beta (+ I2 I12 (* 2 I22)) I2))
+
+(end-model)

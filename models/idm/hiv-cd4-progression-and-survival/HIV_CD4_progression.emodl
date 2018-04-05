@@ -1,0 +1,60 @@
+; Joint estimation of CD4+ cell progression and survival in untreated individuals with HIV-1 infection
+; http://journals.lww.com/aidsonline/fulltext/2017/05150/Joint_estimation_of_CD4__cell_progression_and.3.aspx
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "HIV_CD4_progression.emodl")
+
+; Out of 3072 men
+(species X1 1690) ; 55%
+(species X2 768) ; 25%
+(species X3 491) ; 16%
+(species X4 123) ; 4%
+(species X5 0)
+(species X6 0)
+(species X7 0)
+(species Death 0)
+(species ART 0)
+
+(observe CD4_above_500 X1)
+(observe CD4_351_500 X2)
+(observe CD4_251_350 X3)
+(observe CD4_201_250 X4)
+(observe CD4_101_200 X5)
+(observe CD4_51_100 X6)
+(observe CD4_below_50 X7)
+(observe Death Death)
+(observe ART ART)
+
+; Table 3: Estimated annual transition rates (95% confidence interval) of the CD4+ cell-based Markov model of HIV natural history by region for 3072 men aged 15-24 years.
+(param lambda12 0.198)   ; Progression: Above 500 --> 351-500
+(param lambda23 0.329)   ; Progression: 351-500   --> 251-350
+(param lambda34 0.336)   ; Progression: 251-350   --> 251-350
+(param lambda45 0.509)   ; Progression: 251-350   --> 201-250
+(param lambda56 0.573)   ; Progression: 201-250   --> 101-200
+(param lambda67 0.867)   ; Progression: 101-200   --> At or below 50
+
+(param lambda19 0.003)   ; Death from CD4 > 500
+(param lambda29 0.009)   ; Death from CD4 351-500
+(param lambda39 0.007)   ; Death from CD4 251-350
+(param lambda49 0.013)   ; Death from CD4 201-250
+(param lambda59 0.022)   ; Death from CD4 101-200
+(param lambda69 0.037)   ; Death from CD4 51-100
+(param lambda79 0.845)   ; Death from CD4 <= 50
+
+(reaction deathX1         (X1) (Death)   (* X1 lambda19))
+(reaction deathX2         (X2) (Death)   (* X2 lambda29))
+(reaction deathX3         (X3) (Death)   (* X3 lambda39))
+(reaction deathX4         (X4) (Death)   (* X4 lambda49))
+(reaction deathX5         (X5) (Death)   (* X5 lambda59))
+(reaction deathX6         (X6) (Death)   (* X6 lambda69))
+(reaction deathX7         (X7) (Death)   (* X7 lambda79))
+
+(reaction progressX1         (X1) (X2)   (* X1 lambda12))
+(reaction progressX2         (X2) (X3)   (* X2 lambda23))
+(reaction progressX3         (X3) (X4)   (* X3 lambda34))
+(reaction progressX4         (X4) (X5)   (* X4 lambda45))
+(reaction progressX5         (X5) (X6)   (* X5 lambda56))
+(reaction progressX6         (X6) (X7)   (* X6 lambda67))
+
+(end-model)

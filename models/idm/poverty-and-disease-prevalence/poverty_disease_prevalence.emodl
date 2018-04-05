@@ -1,0 +1,50 @@
+; Poverty and disease prevalence
+; Health safety nets can break cycles of poverty and disease: a stochastic ecological model 
+; http://rsif.royalsocietypublishing.org/content/8/65/1796
+
+(import (rnrs) (emodl cmslib))
+(start-model "poverty_disease_prevalence.emodl")
+
+; Global model parameters
+(param alpha 0.06) ; birth rate
+(param mu 0.01) ; susceptible death rate
+(param nu 0.02) ; increase in death rate for infecteds
+(param r 0.05) ; income's rate parameter
+(param beta1 40.0) ; maximum transmission rate
+(param gamma1 0.15) ; maximum recovery rate
+(param epsilon 0.3) ; beta(income) = beta1*epsilon/(income + epsilon)
+(param kappa 100.0) ; gamma(income) = gamma1*income/(income + kappa)
+(param M0 100.0) ; max income
+
+; Then set the initial populations and
+; initial income.
+(species S 0)
+(species I 100)
+(species M 100)
+
+; Compute the total population
+(func totalpop (+ S I))
+
+; Given M, you can compute the M dependent rates
+(func gamma (/ (* gamma1 M) (+ M kappa)))  ; recovery rate
+(func beta (/ (* beta1 epsilon) (+ M epsilon))) ; transmission rate
+
+
+; What gets collected and output at 
+; every timestep
+(observe susceptible S)
+(observe infected I)
+(observe income M)
+(observe population totalpop)
+
+; Set the reactions
+(reaction birth             ()   (S)  (* alpha totalpop))
+(reaction deathS            (S)  ()   (* S mu))
+(reaction deathI            (I)  ()   (* I (+ mu nu)))
+(reaction infection         (S)  (I)  (* (/ I totalpop) beta S))
+(reaction recovery          (I)  (S)  (* gamma I))
+(reaction m1                (M)  ()   (* r M M))
+(reaction m2                ()   (M)  (* r M0 M (/ S totalpop)))
+
+; End the model
+(end-model)

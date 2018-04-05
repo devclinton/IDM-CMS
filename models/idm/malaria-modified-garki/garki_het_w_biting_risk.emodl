@@ -1,0 +1,136 @@
+; model is based on Garki Project
+; http://garkiproject.nd.edu/static/documents/garkiproject.pdf
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "garki_het_w_biting_risk.emodl")
+
+; heterogeneous group A
+(species XA1 750)
+(species XA2)
+(species YA1 75)
+(species YA2)
+(species YA3)
+(species XA3)
+(species XA4)
+
+; heterogeneous group B
+(species XB1 250)
+(species XB2)
+(species YB1 25)
+(species YB2)
+(species YB3)
+(species XB3)
+(species XB4)
+
+(func totalApop (sum XA1 XA2 XA3 XA4 YA1 YA2 YA3))
+(func totalBpop (sum XB1 XB2 XB3 XB4 YB1 YB2 YB3))
+(func totalpop (sum XA1 XA2 XA3 XA4 YA1 YA2 YA3 XB1 XB2 XB3 XB4 YB1 YB2 YB3))
+
+(func totalX1 (+ XA1 XB1))
+(func totalX2 (+ XA2 XB2))
+(func totalX3 (+ XA3 XB3))
+(func totalX4 (+ XA4 XB4))
+(func totalY1 (+ YA1 YB1))
+(func totalY2 (+ YA2 YB2))
+(func totalY3 (+ YA3 YB3))
+
+(observe susceptibleA XA1)
+(observe latentA XA2)
+(observe infectedA YA1)
+(observe recoveringA YA2)
+(observe immuneA (+ XA3 XA4 YA3))
+(observe totalApopulation totalApop)
+
+(observe susceptibleB XB1)
+(observe latentB XB2)
+(observe infectedB YB1)
+(observe recoveringB YB2)
+(observe immuneB (+ XB3 XB4 YB3))
+(observe totalBpopulation totalBpop)
+
+(observe susceptible totalX1)
+(observe latent totalX2)
+(observe infected totalY1)
+(observe recovering totalY2)
+(observe immune (+ totalX3 totalX4 totalY3))
+(observe totalpopulation totalpop)
+
+(param delta 0.0001)   ; birth and death rate
+(param a 0.3)          ; human biting rate
+(param N 15)           ; incubation in human
+(param n 10)           ; incubation in mosquito
+(param alpha2 0.00019) ; rate of transitioning to fast recovery
+(param g 0.097)        ; susceptibility to bite
+(param r1 0.0023)      ; slow daily recovery rate
+(param r2 0.023)       ; fast daily recovery rate
+(param alpha1 0.002)   ; rate of losing infectivity
+(param mdryA 3)        ; number of vectors per person dry season, pop A
+(param mdryB 12)       ; number of vectors per person dry season, pop B
+(param mwet 330)       ; number of vectors per person wet season
+(param pn 0.1355)      ; p ^ n
+(param lifewet 5)      ; vector lifetime in wet season
+(param lifedry 8.5)    ; vector lifetime in dry season
+
+; vectorial capacity
+(func isdry (step (+ 0.5 (sin (* (/ time 365) 2 pi)))))
+(func CdryA (* mdryA a a pn lifedry))
+(func CdryB (* mdryB a a pn lifedry))
+(func CwetA (* mwet (/ totalApop totalpop) a a pn lifewet))
+(func CwetB (* mwet (/ totalBpop totalpop) a a pn lifewet))
+(func CA (+ (* CdryA isdry) (* CwetA (- 1 isdry)))) 
+(func CB (+ (* CdryB isdry) (* CwetB (- 1 isdry)))) 
+
+; infection rate
+(func totaldrybites (+ (* mdryA totalApop) (* mdryB totalBpop)))
+(func drybitesYA1 (* mdryA YA1))
+(func drybitesYB1 (* mdryB YB1))
+(func apparentY1dry (* (/ (+ drybitesYA1 drybitesYB1) totaldrybites) totalpop))
+(func apparentY1 (+ (* apparentY1dry isdry) (* totalY1 (- 1 isdry)))) 
+(func hA (* g (- 1 (exp (/ (* (- CA) apparentY1) totalpop)))))
+(func hB (* g (- 1 (exp (/ (* (- CB) apparentY1) totalpop)))))
+
+(observe capacityA CA)
+(observe capacityB CB)
+(observe totalcapacity (+ CA CB))
+(observe apparentinfectiousdry apparentY1dry)
+(observe apparentinfectious apparentY1)
+(observe infrateA hA)
+(observe infrateB hB)
+
+(reaction birthA             ()   (XA1) (* delta totalApop))
+(reaction deathXA1           (XA1) ()   (* XA1 delta))
+(reaction deathXA2           (XA2) ()   (* XA2 delta))
+(reaction deathXA3           (XA3) ()   (* XA3 delta))
+(reaction deathXA4           (XA4) ()   (* XA4 delta))
+(reaction deathYA1           (YA1) ()   (* YA1 delta))
+(reaction deathYA2           (YA2) ()   (* YA2 delta))
+(reaction deathYA3           (YA3) ()   (* YA3 delta))
+(reaction infectXA1          (XA1) (XA2) (* XA1 hA))
+(reaction latencyXA2         (XA2) (YA1) (* XA2 100))
+(reaction lossinfectYA1      (YA1) (YA2) (* YA1 alpha1))
+(reaction acquireimmunityYA2 (YA2) (YA3) (* YA2 alpha2))
+(reaction recoveryYA3        (YA3) (XA3) (/ (* YA3 hA) (- (exp (/ hA r2)) 1)))
+(reaction infectXA3          (XA3) (XA4) (* XA3 hA))
+(reaction latencyXA4         (XA4) (YA3) (* XA4 100))
+(reaction recoveryYA2        (YA2) (XA1) (/ (* YA2 hA) (- (exp (/ hA r2)) 1)))
+
+(reaction birthB             ()   (XB1) (* delta totalBpop))
+(reaction deathXB1           (XB1) ()   (* XB1 delta))
+(reaction deathXB2           (XB2) ()   (* XB2 delta))
+(reaction deathXB3           (XB3) ()   (* XB3 delta))
+(reaction deathXB4           (XB4) ()   (* XB4 delta))
+(reaction deathYB1           (YB1) ()   (* YB1 delta))
+(reaction deathYB2           (YB2) ()   (* YB2 delta))
+(reaction deathYB3           (YB3) ()   (* YB3 delta))
+(reaction infectXB1          (XB1) (XB2) (* XB1 hB))
+(reaction latencyXB2         (XB2) (YB1) (* XB2 100))
+(reaction lossinfectYB1      (YB1) (YB2) (* YB1 alpha1))
+(reaction acquireimmunityYB2 (YB2) (YB3) (* YB2 alpha2))
+(reaction recoveryYB3        (YB3) (XB3) (/ (* YB3 hB) (- (exp (/ hB r2)) 1)))
+(reaction infectXB3          (XB3) (XB4) (* XB3 hB))
+(reaction latencyXB4         (XB4) (YB3) (* XB4 100))
+(reaction recoveryYB2        (YB2) (XB1) (/ (* YB2 hB) (- (exp (/ hB r2)) 1)))
+
+
+(end-model)

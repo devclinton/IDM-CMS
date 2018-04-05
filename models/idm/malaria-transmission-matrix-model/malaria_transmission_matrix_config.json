@@ -1,0 +1,9 @@
+{
+    "duration" : 8,
+    "runs" : 200,
+    "samples" : 100,
+    "solver" : "SSA",
+    "output" : {
+        "headers" : true
+    }
+}
