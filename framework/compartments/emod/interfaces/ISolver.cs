@@ -5,6 +5,6 @@
         void Solve();
         void OutputData(string prefix);
         string[] GetTrajectoryLabels();
-        float[][] GetTrajectoryData();
+        double[][] GetTrajectoryData();
     }
 }

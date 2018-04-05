@@ -13,7 +13,7 @@ namespace compartments.emod
         {
             _name = name;
             _locale = null;
-            _initialPopulation = new NumericExpressionTree(new Constant(0.0f));
+            _initialPopulation = new NumericExpressionTree(new Constant(0.0));
         }
 
         public SpeciesDescription(String name, int initialPopulation)
@@ -34,7 +34,7 @@ namespace compartments.emod
         {
             _name = name;
             _locale = locale;
-            _initialPopulation = new NumericExpressionTree(new Constant(0.0f));
+            _initialPopulation = new NumericExpressionTree(new Constant(0.0));
         }
 
         public SpeciesDescription(String name, NumericExpressionTree initialPopulation, LocaleInfo locale)

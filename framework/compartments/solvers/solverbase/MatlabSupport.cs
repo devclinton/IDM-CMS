@@ -90,7 +90,7 @@ namespace compartments.solvers.solverbase
             {
                 foreach (Observable o in trajectories.Keys)
                 {
-                    float[][] runs = trajectories[o];
+                    double[][] runs = trajectories[o];
                     for (int iRun = 0; iRun < rows; iRun++)
                     {
                         yield return (int)runs[iRun][iSample];
@@ -99,13 +99,13 @@ namespace compartments.solvers.solverbase
             }
         }
 
-        private static MatrixElement MatrixForObservable(float[][] observableData)
+        private static MatrixElement MatrixForObservable(double[][] observableData)
         {
             MatrixElement matrix = null;
 
             bool isIntegral;
-            float minimum;
-            float maximum;
+            double minimum;
+            double maximum;
 
             CharacterizeData(observableData, out isIntegral, out minimum, out maximum);
 
@@ -116,7 +116,7 @@ namespace compartments.solvers.solverbase
             if (isIntegral)
             {
                 // signed
-                if (minimum < 0.0f)
+                if (minimum < 0.0)
                 {
                     if ((minimum >= SByte.MinValue) && (maximum <= SByte.MaxValue))
                     {
@@ -151,11 +151,11 @@ namespace compartments.solvers.solverbase
             return matrix ?? new MatlabMatrix(ObservableAsFloat(observableData), new[] { traceCount, sampleCount });
         }
 
-        private static void CharacterizeData(IEnumerable<float[]> data, out bool isIntegral, out float minimum, out float maximum)
+        private static void CharacterizeData(IEnumerable<double[]> data, out bool isIntegral, out double minimum, out double maximum)
         {
             isIntegral = true;
-            minimum = Single.MaxValue;
-            maximum = Single.MinValue;
+            minimum = Double.MaxValue;
+            maximum = Double.MinValue;
 
             foreach (var vector in data)
             {
@@ -174,77 +174,88 @@ namespace compartments.solvers.solverbase
             }
         }
 
-        private static IEnumerable<float> ObservableAsFloat(float[][] runs)
+        private static IEnumerable<float> ObservableAsFloat(double[][] runs)
         {
             for (int iSample = 0; iSample < runs[0].Length; iSample++)
             {
-                foreach (float[] trace in runs)
+                foreach (double[] trace in runs)
+                {
+                    yield return (float)trace[iSample];
+                }
+            }
+        }
+
+        private static IEnumerable<double> ObservableAsDouble(double[][] runs)
+        {
+            for (int iSample = 0; iSample < runs[0].Length; iSample++)
+            {
+                foreach (double[] trace in runs)
                 {
                     yield return trace[iSample];
                 }
             }
         }
 
-        private static IEnumerable<SByte> ObservableAsInt8(float[][] runs)
+        private static IEnumerable<SByte> ObservableAsInt8(double[][] runs)
         {
             for (int iSample = 0; iSample < runs[0].Length; iSample++)
             {
-                foreach (float[] trace in runs)
+                foreach (double[] trace in runs)
                 {
                     yield return (SByte)trace[iSample];
                 }
             }
         }
 
-        private static IEnumerable<short> ObservableAsShort(float[][] runs)
+        private static IEnumerable<short> ObservableAsShort(double[][] runs)
         {
             for (int iSample = 0; iSample < runs[0].Length; iSample++)
             {
-                foreach (float[] trace in runs)
+                foreach (double[] trace in runs)
                 {
                     yield return (short)trace[iSample];
                 }
             }
         }
 
-        private static IEnumerable<int> ObservableAsInt(float[][] runs)
+        private static IEnumerable<int> ObservableAsInt(double[][] runs)
         {
             for (int iSample = 0; iSample < runs[0].Length; iSample++)
             {
-                foreach (float[] trace in runs)
+                foreach (double[] trace in runs)
                 {
                     yield return (int)trace[iSample];
                 }
             }
         }
 
-        private static IEnumerable<byte> ObservableAsByte(float[][] runs)
+        private static IEnumerable<byte> ObservableAsByte(double[][] runs)
         {
             for (int iSample = 0; iSample < runs[0].Length; iSample++)
             {
-                foreach (float[] trace in runs)
+                foreach (double[] trace in runs)
                 {
                     yield return (byte)trace[iSample];
                 }
             }
         }
 
-        private static IEnumerable<ushort> ObservableAsUshort(float[][] runs)
+        private static IEnumerable<ushort> ObservableAsUshort(double[][] runs)
         {
             for (int iSample = 0; iSample < runs[0].Length; iSample++)
             {
-                foreach (float[] trace in runs)
+                foreach (double[] trace in runs)
                 {
                     yield return (ushort)trace[iSample];
                 }
             }
         }
 
-        private static IEnumerable<uint> ObservableAsUint(float[][] runs)
+        private static IEnumerable<uint> ObservableAsUint(double[][] runs)
         {
             for (int iSample = 0; iSample < runs[0].Length; iSample++)
             {
-                foreach (float[] trace in runs)
+                foreach (double[] trace in runs)
                 {
                     yield return (uint)trace[iSample];
                 }

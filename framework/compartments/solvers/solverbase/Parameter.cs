@@ -15,9 +15,9 @@ namespace compartments.solvers.solverbase
 
         public string Name { get { return Info.Name; } }
 
-        public float Value { get; set; }
+        public double Value { get; set; }
 
-        public void Update(float value)
+        public void Update(double value)
         {
             Value = value;
         }

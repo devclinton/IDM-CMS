@@ -3,10 +3,10 @@ namespace distlib.randomvariates
 {
     public interface RandomVariateGenerator
     {
-        float GenerateUniformOO();
-        float GenerateUniformOC();
-        float GenerateUniformCO();
-        float GenerateUniformCC();
+        double GenerateUniformOO();
+        double GenerateUniformOC();
+        double GenerateUniformCO();
+        double GenerateUniformCC();
     }
 }
 // ReSharper restore InconsistentNaming

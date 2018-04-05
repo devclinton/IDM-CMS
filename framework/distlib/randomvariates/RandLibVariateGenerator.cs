@@ -8,6 +8,7 @@ namespace distlib.randomvariates
 
         // 1/16,777,216 = 1/0x01000000
         private const float Two24Inv = 0.000000059604644775390625f;
+        private const double Two52Inv = 0.00000000000000022204460493;
 
         private RandLibVariateGenerator(int s1 = 1234567890, int s2 = 123456789)
         {
@@ -36,7 +37,7 @@ namespace distlib.randomvariates
             return generator;
         }
 
-        public float GenerateUniformOO()
+        public double GenerateUniformOO()
         {
             int rand;
 
@@ -50,10 +51,10 @@ namespace distlib.randomvariates
 
             // 0 < rand/0x0100 0000 <= 0x00FF FFFF/0x0100 0000 < 1
             // return ((float)rand)/0x01000000;
-            return rand * Two24Inv;
+            return (double)(rand * Two24Inv);
         }
 
-        public float GenerateUniformOC()
+        public double GenerateUniformOC()
         {
             int rand;
 
@@ -67,10 +68,10 @@ namespace distlib.randomvariates
 
             // 0 < rand/0x0100 0000 <= 0x0100 0000/0x0100 0000 <= 1
             // return ((float)(rand)) / 0x01000000;
-            return rand * Two24Inv;
+            return (double)(rand * Two24Inv);
         }
 
-        public float GenerateUniformCO()
+        public double GenerateUniformCO()
         {
             int rand;
 
@@ -83,10 +84,10 @@ namespace distlib.randomvariates
 
             // 0 <= rand/0x0100 0000 <= 0x00FF FFFF/0x0100 0000 < 1
             // return ((float)(rand))/0x01000000;
-            return rand * Two24Inv;
+            return (double)(rand * Two24Inv);
         }
 
-        public float GenerateUniformCC()
+        public double GenerateUniformCC()
         {
             int rand;
 
@@ -99,7 +100,7 @@ namespace distlib.randomvariates
 
             // 0 <= rand/0x0100 0000 <= 0x0100 0000/0x0100 0000 <= 1
             // return ((float)(rand)) / 0x01000000;
-            return rand * Two24Inv;
+            return (double)(rand * Two24Inv);
         }
 
         public override string ToString()

@@ -18,70 +18,70 @@ namespace distlib.samplers
         {
         }
 
-        public float GenerateUniformOO()
+        public double GenerateUniformOO()
         {
             return VariateGenerator.GenerateUniformOO();
         }
 
-        public float GenerateUniformOO(float min, float max)
+        public double GenerateUniformOO(double min, double max)
         {
             return min + (VariateGenerator.GenerateUniformOO()*(max - min));
         }
 
-        public float GenerateUniformOC()
+        public double GenerateUniformOC()
         {
             return VariateGenerator.GenerateUniformOC();
         }
 
-        public float GenerateUniformOC(float min, float max)
+        public double GenerateUniformOC(double min, double max)
         {
             // Use the algorithm below rather than
             // min + (VariateGenerator.GenerateUniformOC()*(max - min))
             // to ensure that floating point precision issues don't
             // prevent returning max.
-            float sample = VariateGenerator.GenerateUniformOC();
-            float oneMinus = 1.0f - sample;
-            float delta = max - min;
-            float offset = oneMinus*delta;
-            float result = max - offset;
+            double sample = VariateGenerator.GenerateUniformOC();
+            double oneMinus = 1.0 - sample;
+            double delta = max - min;
+            double offset = oneMinus*delta;
+            double result = max - offset;
 
             return result;
         }
 
-        public float GenerateUniformCO()
+        public double GenerateUniformCO()
         {
             return VariateGenerator.GenerateUniformCO();
         }
 
-        public float GenerateUniformCO(float min, float max)
+        public double GenerateUniformCO(double min, double max)
         {
             return min + (VariateGenerator.GenerateUniformCO()*(max - min));
         }
 
-        public float GenerateUniformCC()
+        public double GenerateUniformCC()
         {
             return VariateGenerator.GenerateUniformCC();
         }
 
-        public float GenerateUniformCC(float min, float max)
+        public double GenerateUniformCC(double min, double max)
         {
             // Use the algorithm below rather than
             // min + (VariateGenerator.GenerateUniformCC()*(max - min))
             // to ensure that floating point precision issues don't
             // prevent returning max.
-            float sample = VariateGenerator.GenerateUniformCC();
+            double sample = VariateGenerator.GenerateUniformCC();
 
-            // Floating point precision issues may prevent sample = 0.0f
+            // Floating point precision issues may prevent sample = 0.0
             // from causing min to be returned.
-            if (sample == 0.0f)
+            if (sample == 0.0)
             {
                 return min;
             }
 
-            float oneMinus = 1.0f - sample;
-            float delta = max - min;
-            float offset = oneMinus * delta;
-            float result = max - offset;
+            double oneMinus = 1.0 - sample;
+            double delta = max - min;
+            double offset = oneMinus * delta;
+            double result = max - offset;
 
             return result;
         }
@@ -93,24 +93,24 @@ namespace distlib.samplers
          * 
          * Algorithm FL for m=5
         */
-        public float StandardNormal()
+        public double StandardNormal()
         {
-            float uStar;
-            float a;
-            float w;
-            float t;
+            double uStar;
+            double a;
+            double w;
+            double t;
 
             bool finished = false;
 
             //  1 Generate u. Store the first bit of u as a sign s. Left-shift u by 1 bit (u = 2u - s).
-            float u;
+            double u;
             int s;
             do
             {
                 u = VariateGenerator.GenerateUniformOO();
-                s = (u >= 0.5f) ? 1 : 0;
+                s = (u >= 0.5) ? 1 : 0;
                 u += u - s;
-            } while (u == 0.0f);
+            } while (u == 0.0);
 
             //  2 Shift u to the left by m bits (u = 2^m*u), i = [u]. If i == 0 goto 9
             u *= 32;
@@ -177,16 +177,16 @@ namespace distlib.samplers
                 {
                     // 10 u = 2u, if u >= 1 to to 12
                     u *= 2;
-                    if (u < 1.0f)
+                    if (u < 1.0)
                     {
                         // 11 a = a + d[i], i = i + 1, goto 10
                         a += SnD[i];
                         i++;
                     }
-                } while (u < 1.0f);
+                } while (u < 1.0);
 
                 // 12 u = u - 1
-                u -= 1.0f;
+                u -= 1.0;
 
                 Step13(a, i, u, out t, out w);
 
@@ -217,74 +217,75 @@ namespace distlib.samplers
             }
 
             // 17 y = a + w, if s == 0 return x = y if s = 1 return x = -y
-            float y = a + w;
-            float norm = (s == 0) ? y : -y;
+            double y = a + w;
+            double norm = (s == 0) ? y : -y;
+
             return norm;
         }
 
-        private static void Step5(float a, int i, float u, out float w, out float t)
+        private static void Step5(double a, int i, double u, out double w, out double t)
         {
             //  5 Generate u. w = u*(a[i+1] - a), t = (w/2 + a)*w
             w = u * (SnA[i + 1] - a);
-            t = (0.5f * w + a) * w;
+            t = (0.5 * w + a) * w;
         }
 
-        private static void Step13(float a, int i, float u, out float t, out float w)
+        private static void Step13(double a, int i, double u, out double t, out double w)
         {
             // 13 w = u*d[i], t = (w/2 + a)*w
             w = u * SnD[i];
-            t = (0.5f * w + a) * w;
+            t = (0.5 * w + a) * w;
         }
 
-        static readonly float[] SnA = {
-           -1.0f,
-            0.0f,       3.917609e-2f, 7.841241e-2f, 0.11777f,   0.1573107f, 0.1970991f, 0.2372021f, 0.2776904f,
-            0.3186394f, 0.36013f,     0.4022501f,   0.4450965f, 0.4887764f, 0.5334097f, 0.5791322f, 0.626099f,
-            0.6744898f, 0.7245144f,   0.7764218f,   0.8305109f, 0.8871466f, 0.9467818f, 1.00999f,   1.077516f,
-            1.150349f,  1.229859f,    1.318011f,    1.417797f,  1.534121f, 1.67594f,    1.862732f,  2.153875f
+        static readonly double[] SnA = {
+           -1.0,
+            0.0,       3.917609e-2, 7.841241e-2, 0.11777,   0.1573107, 0.1970991, 0.2372021, 0.2776904,
+            0.3186394, 0.36013,     0.4022501,   0.4450965, 0.4887764, 0.5334097, 0.5791322, 0.626099,
+            0.6744898, 0.7245144,   0.7764218,   0.8305109, 0.8871466, 0.9467818, 1.00999,   1.077516,
+            1.150349,  1.229859,    1.318011,    1.417797,  1.534121, 1.67594,    1.862732,  2.153875
         };
 
-        static readonly float[] SnT = {
-           -1.0f,
-            7.673828E-4f, 2.30687E-3f,  3.860618E-3f, 5.438454E-3f, 7.0507E-3f,   8.708396E-3f,
-            1.042357E-2f, 1.220953E-2f, 1.408125E-2f, 1.605579E-2f, 1.81529E-2f,  2.039573E-2f,
-            2.281177E-2f, 2.543407E-2f, 2.830296E-2f, 3.146822E-2f, 3.499233E-2f, 3.895483E-2f,
-            4.345878E-2f, 4.864035E-2f, 5.468334E-2f, 6.184222E-2f, 7.047983E-2f, 8.113195E-2f,
-            9.462444E-2f, 0.1123001f,   0.136498f,    0.1716886f,   0.2276241f,   0.330498f,
-            0.5847031f
+        static readonly double[] SnT = {
+           -1.0,
+            7.673828E-4, 2.30687E-3,  3.860618E-3, 5.438454E-3, 7.0507E-3,   8.708396E-3,
+            1.042357E-2, 1.220953E-2, 1.408125E-2, 1.605579E-2, 1.81529E-2,  2.039573E-2,
+            2.281177E-2, 2.543407E-2, 2.830296E-2, 3.146822E-2, 3.499233E-2, 3.895483E-2,
+            4.345878E-2, 4.864035E-2, 5.468334E-2, 6.184222E-2, 7.047983E-2, 8.113195E-2,
+            9.462444E-2, 0.1123001,   0.136498,    0.1716886,   0.2276241,   0.330498,
+            0.5847031
         };
 
-        static readonly float[] SnH = {
-            -1.0f,
-            3.920617E-2f, 3.932705E-2f, 3.951E-2f,    3.975703E-2f, 4.007093E-2f, 4.045533E-2f,
-            4.091481E-2f, 4.145507E-2f, 4.208311E-2f, 4.280748E-2f, 4.363863E-2f, 4.458932E-2f,
-            4.567523E-2f, 4.691571E-2f, 4.833487E-2f, 4.996298E-2f, 5.183859E-2f, 5.401138E-2f,
-            5.654656E-2f, 5.95313E-2f,  6.308489E-2f, 6.737503E-2f, 7.264544E-2f, 7.926471E-2f,
-            8.781922E-2f, 9.930398E-2f, 0.11556f,     0.1404344f,   0.1836142f,   0.2790016f,
-            0.7010474f
+        static readonly double[] SnH = {
+            -1.0,
+            3.920617E-2, 3.932705E-2, 3.951E-2,    3.975703E-2, 4.007093E-2, 4.045533E-2,
+            4.091481E-2, 4.145507E-2, 4.208311E-2, 4.280748E-2, 4.363863E-2, 4.458932E-2,
+            4.567523E-2, 4.691571E-2, 4.833487E-2, 4.996298E-2, 5.183859E-2, 5.401138E-2,
+            5.654656E-2, 5.95313E-2,  6.308489E-2, 6.737503E-2, 7.264544E-2, 7.926471E-2,
+            8.781922E-2, 9.930398E-2, 0.11556,     0.1404344,   0.1836142,   0.2790016,
+            0.7010474
         };
 
-        private static readonly float[] SnD =
+        private static readonly double[] SnD =
             {
-               -1.0f,
-                0.67448975019607f, 0.47585963017993f, 0.38377116397654f, 0.32861132306910f,
-                0.29114282663980f, 0.26368462217502f, 0.24250845238097f, 0.22556744380930f,
-                0.21163416577204f, 0.19992426749317f, 0.18991075842246f, 0.18122518100691f,
-                0.17360140038056f, 0.16684190866667f, 0.16079672918053f, 0.15534971747692f,
-                0.15040938382813f, 0.14590257684509f, 0.14177003276856f, 0.13796317369537f,
-                0.13444176150074f, 0.13117215026483f, 0.12812596512583f, 0.12527909006226f,
-                0.12261088288608f, 0.12010355965651f, 0.11774170701949f, 0.11551189226063f,
-                0.11340234879117f, 0.11140272044119f, 0.10950385201710f, 0.10769761656476f,
-                0.10597677198479f, 0.10433484129317f, 0.10276601206127f, 0.10126505151402f,
-                0.09982723448906f, 0.09844828202068f, 0.09712430874765f, 0.09585177768776f,
-                0.09462746119186f, 0.09344840710526f, 0.09231190933664f, 0.09121548217294f,
-                0.09015683778986f, 0.08913386650005f, 0.08814461935364f
+               -1.0,
+                0.67448975019607, 0.47585963017993, 0.38377116397654, 0.32861132306910,
+                0.29114282663980, 0.26368462217502, 0.24250845238097, 0.22556744380930,
+                0.21163416577204, 0.19992426749317, 0.18991075842246, 0.18122518100691,
+                0.17360140038056, 0.16684190866667, 0.16079672918053, 0.15534971747692,
+                0.15040938382813, 0.14590257684509, 0.14177003276856, 0.13796317369537,
+                0.13444176150074, 0.13117215026483, 0.12812596512583, 0.12527909006226,
+                0.12261088288608, 0.12010355965651, 0.11774170701949, 0.11551189226063,
+                0.11340234879117, 0.11140272044119, 0.10950385201710, 0.10769761656476,
+                0.10597677198479, 0.10433484129317, 0.10276601206127, 0.10126505151402,
+                0.09982723448906, 0.09844828202068, 0.09712430874765, 0.09585177768776,
+                0.09462746119186, 0.09344840710526, 0.09231190933664, 0.09121548217294,
+                0.09015683778986, 0.08913386650005, 0.08814461935364
             };
 
 
-        public float GenerateNormal(float mean, float variance)
+        public double GenerateNormal(double mean, double variance)
         {
-            float sample = variance*StandardNormal() + mean;
+            double sample = variance * StandardNormal() + mean;
 
             return sample;
         }
@@ -296,26 +297,26 @@ namespace distlib.samplers
          * 
          * Algorithm PD
          */
-        private const float OneOverSqrt2Pi = 0.398942280f;
+        private const double OneOverSqrt2Pi = 0.39894228040143267793994605993438; // (float)0.398942280f;
 
-        public int GeneratePoisson(float mu)
+        public int GeneratePoisson(double mu)
         {
             int k = -1;
 
-            if (mu >= 10.0f)
+            if (mu >= 10.0)
             {
                 // Case A
-                var s = (float)Math.Sqrt(mu);
-                float d = 6.0f * mu * mu;
-                var ell = (int)(mu - 1.1484f);    // equivalent to floor() since mu >= 10
+                var s = Math.Sqrt(mu);
+                double d = 6.0 * mu * mu;
+                var ell = (int)(mu - 1.1484);    // equivalent to floor() since mu >= 10
 
                 // Step N
-                float T = StandardNormal();
-                float g = mu + s * T;
+                double T = StandardNormal();
+                double g = mu + s * T;
 
-                float u = 0.0f;
+                double u = 0.0;
 
-                if (g >= 0.0f)
+                if (g >= 0.0)
                 {
                     k = (int)g;    // equivalent to floor() since G >= 0
 
@@ -334,32 +335,32 @@ namespace distlib.samplers
                 }
 
                 // Step P
-                float omega = OneOverSqrt2Pi / s;
-                float b1 = (1.0f / 24.0f) / mu;
-                float b2 = (3.0f / 10.0f) * b1 * b1;
-                float c3 = (1.0f / 7.0f) * b1 * b2;
-                float c2 = b2 - 15.0f * c3;
-                float c1 = b1 - 6.0f * b2 + 45.0f * c3;
-                float c0 = 1.0f - b1 + 3.0f * b2 - 15.0f * c3;
-                float c = 0.1069f / mu;
+                double omega = OneOverSqrt2Pi / s;
+                double b1 = (1.0 / 24.0) / mu;
+                double b2 = (3.0 / 10.0) * b1 * b1;
+                double c3 = (1.0 / 7.0) * b1 * b2;
+                double c2 = b2 - 15.0 * c3;
+                double c1 = b1 - 6.0 * b2 + 45.0 * c3;
+                double c0 = 1.0 - b1 + 3.0 * b2 - 15.0 * c3;
+                double c = 0.1069 / mu;
 
-                float px;
-                float py;
-                float fx;
-                float fy;
+                double px;
+                double py;
+                double fx;
+                double fy;
 
-                if (g >= 0.0f)
+                if (g >= 0.0)
                 {
                     ProcedureF(mu, k, s, omega, c3, c2, c1, c0, out px, out py, out fx, out fy);
 
                     // Step Q
-                    if ((fy * (1.0f - u)) <= (py * Math.Exp(px - fx)))
+                    if ((fy * (1.0 - u)) <= (py * Math.Exp(px - fx)))
                     {
                         return k;
                     }
                 }
 
-                float e;
+                double e;
                 do
                 {
                     // Step E
@@ -367,9 +368,9 @@ namespace distlib.samplers
                     {
                         e = StandardExponential();
                         u = VariateGenerator.GenerateUniformOO();
-                        u += u - 1.0f;
-                        T = 1.8f + e * Math.Sign(u);
-                    } while (T <= -0.6744f);
+                        u += u - 1.0;
+                        T = 1.8 + e * Math.Sign(u);
+                    } while (T <= -0.6744);
 
                     k = (int)(mu + s * T);
 
@@ -383,15 +384,15 @@ namespace distlib.samplers
                 // Case B
                 int m = Math.Max(1, (int)mu);
                 int ell = 0;
-                var p = (float)Math.Exp(-mu);
-                float q = p;
-                float p0 = p;
-                var pk = new float[35];
+                var p = Math.Exp(-mu);
+                double q = p;
+                double p0 = p;
+                var pk = new double[35];
 
                 do
                 {
                     // Step U
-                    float u = VariateGenerator.GenerateUniformOO();
+                    double u = VariateGenerator.GenerateUniformOO();
                     k = 0;
 
                     if (u <= p0)
@@ -402,7 +403,7 @@ namespace distlib.samplers
                     // Step T
                     if (ell > 0)
                     {
-                        int j = u <= 0.458f ? 1 : Math.Min(ell, m);
+                        int j = u <= 0.458 ? 1 : Math.Min(ell, m);
                         for (k = j; k <= ell; k++)
                         {
                             if (u <= pk[k - 1])
@@ -433,40 +434,40 @@ namespace distlib.samplers
             return k;
         }
 
-        private static void ProcedureF(float mu, int k, float s, float omega, float c3, float c2,
-                                       float c1, float c0, out float px, out float py, out float fx, out float fy)
+        private static void ProcedureF(double mu, int k, double s, double omega, double c3, double c2,
+                                       double c1, double c0, out double px, out double py, out double fx, out double fy)
         {
             // Procedure F, Part 1
             if (k < 10)
             {
                 px = -mu;
-                py = (float)(Math.Pow(mu, k) / Factorial(k));
+                py = Math.Pow(mu, k) / Factorial(k);
             }
             else
             {
-                float delta = (1.0f / 12.0f) / k;
-                delta -= 4.8f * delta * delta * delta;
-                float v = (mu - k) / k;
+                double delta = (1.0 / 12.0) / k;
+                delta -= 4.8 * delta * delta * delta;
+                double v = (mu - k) / k;
                 if (Math.Abs(v) > 0.25)
                 {
-                    px = (float)(k * Math.Log(1.0f + v) - (mu - k) - delta);
+                    px = (k * Math.Log(1.0 + v) - (mu - k) - delta);
                 }
                 else
                 {
-                    float sumAv = 0.0f;
+                    double sumAv = 0.0;
                     for (int i = 1; i <= PoissonA.Length; i++)
                     {
-                        sumAv += (float)(PoissonA[i - 1] * Math.Pow(v, i));
+                        sumAv += (PoissonA[i - 1] * Math.Pow(v, i));
                     }
                     px = k * v * v * sumAv - delta;
                 }
-                py = OneOverSqrt2Pi / (float)Math.Sqrt(k);
+                py = OneOverSqrt2Pi / Math.Sqrt(k);
             }
 
             // Procedure F, Part 2
-            float x = (k - mu + 0.5f) / s;
-            float xSquared = x * x;
-            fx = -0.5f * xSquared;    // Note, there's an error in the original paper which omits the minus sign.
+            double x = (k - mu + 0.5) / s;
+            double xSquared = x * x;
+            fx = -0.5 * xSquared;   // Note, there's an error in the original paper which omits the minus sign.
             fy = omega * (((c3 * xSquared + c2) * xSquared + c1) * xSquared + c0);
         }
 
@@ -511,16 +512,16 @@ namespace distlib.samplers
             return fact;
         }
 
-        static readonly float[] PoissonA =
+        static readonly double[] PoissonA =
             {
-                -0.49999999f,
-                 0.33333328f,
-                -0.25000678f,
-                 0.20001178f,
-                -0.16612694f,
-                 0.14218783f,
-                -0.13847944f,
-                 0.12500596f
+                -0.49999999,
+                 0.33333328,
+                -0.25000678,
+                 0.20001178,
+                -0.16612694,
+                 0.14218783,
+                -0.13847944,
+                 0.12500596
             };
 
         /*
@@ -528,17 +529,17 @@ namespace distlib.samplers
          * COMPUTER METHODS FOR SAMPLING FROM THE EXPONENTIAL AND NORMAL DISTRIBUTIONS.
          * COMM. ACM, 15,10 (OCT. 1972), 873 - 882.
          */
-        public float StandardExponential()
+        public double StandardExponential()
         {
-            const float ln2 = 0.69314718f;  // ln(2)
-            float x;
+            const double ln2 = 0.69314718055994530941723212145818;// (float)0.69314718f;
+            double x;
 
             // 1
-            float a = 0.0f;
-            float u = VariateGenerator.GenerateUniformOO();
+            double a = 0.0;
+            double u = VariateGenerator.GenerateUniformOO();
 
             // 2
-            while (u < 0.5f)
+            while (u < 0.5)
             {
                 // 3
                 a += ln2;
@@ -546,7 +547,7 @@ namespace distlib.samplers
             }
 
             // 4
-            u += (u - 1.0f);
+            u += (u - 1.0);
             if (u <= ln2)
             {
                 // 5
@@ -555,8 +556,8 @@ namespace distlib.samplers
             else
             {
                 int i = 1;
-                float uStar = VariateGenerator.GenerateUniformOO();
-                float umin = uStar;
+                double uStar = VariateGenerator.GenerateUniformOO();
+                double umin = uStar;
 
                 do
                 {
@@ -580,23 +581,23 @@ namespace distlib.samplers
         }
 
         // q[i] = SUM(POW(LN(2),i)/i!)
-        private static readonly float[] ExponentialQ =
+        private static readonly double[] ExponentialQ =
             {
-                0.693147181f,
-                0.933373688f,
-                0.988877796f,
-                0.998495925f,
-                0.999829281f,
-                0.999983316f,
-                0.999998569f,
-                0.999999891f,
-                0.999999992f,
-                1.0f
+                0.693147181,
+                0.933373688,
+                0.988877796,
+                0.998495925,
+                0.999829281,
+                0.999983316,
+                0.999998569,
+                0.999999891,
+                0.999999992,
+                1.0
             };
 
-        public float GenerateExponential(float mean)
+        public double GenerateExponential(double mean)
         {
-            float sample = StandardExponential() * mean;
+            double sample = StandardExponential() * mean;
 
             return sample;
         }
@@ -618,30 +619,30 @@ namespace distlib.samplers
          * 
          * Algorithm 'GS'
          */
-        public float StandardGamma(float shape)
+        public double StandardGamma(double shape)
         {
-            float sGamma = -1.0f;
+            double sGamma = -1.0;
             bool finished = false;
 
-            if (shape >= 1.0f)  // Algorithm 'GD'
+            if (shape >= 1.0)  // Algorithm 'GD'
             {
                 // 1
-                float s2 = shape - 0.5f;
-                var s = (float)Math.Sqrt(s2);
-                float d = 5.65685425f - 12.0f * s;
+                double s2 = shape - 0.5;
+                var s = Math.Sqrt(s2);
+                double d = 5.65685425 - 12.0 * s;
 
                 // 2
-                float T = StandardNormal();
-                float x = s + 0.5f * T;
+                double T = StandardNormal();
+                double x = s + 0.5 * T;
 
-                if (T >= 0.0f)
+                if (T >= 0.0)
                 {
                     sGamma = x * x;
                 }
                 else
                 {
                     // 3
-                    float u = VariateGenerator.GenerateUniformOO();
+                    double u = VariateGenerator.GenerateUniformOO();
                     if ((d * u) <= (T * T * T))
                     {
                         sGamma = x * x;
@@ -649,41 +650,41 @@ namespace distlib.samplers
                     else
                     {
                         // 4
-                        float q0 = 0.0f;
-                        float b;
-                        float sigma;
-                        float c;
+                        double q0 = 0.0;
+                        double b;
+                        double sigma;
+                        double c;
 
-                        float oneOverShape = 1.0f / shape;
+                        double oneOverShape = 1.0 / shape;
                         for (int k = GammaQ.Length - 1; k >= 0; k--)
                         {
                             q0 += GammaQ[k];
                             q0 *= oneOverShape;
                         }
 
-                        if (shape <= 3.686f)
+                        if (shape <= 3.686)
                         {
-                            b = 0.463f + s + 0.178f * s2;   // + 0.178f * s2 -OR- - 0.178f * s2 ?
-                            sigma = 1.235f;
-                            c = 0.195f / s - 0.079f + 0.16f * s;
+                            b = 0.463 + s + 0.178 * s2;   // + 0.178 * s2 -OR- - 0.178 * s2 ?
+                            sigma = 1.235;
+                            c = 0.195 / s - 0.079 + 0.16 * s;
                         }
-                        else if (shape <= 13.022f)
+                        else if (shape <= 13.022)
                         {
-                            b = 1.654f + 0.0076f * s2;
-                            sigma = 1.68f / s + 0.275f;
-                            c = 0.062f / s + 0.024f;
+                            b = 1.654 + 0.0076 * s2;
+                            sigma = 1.68 / s + 0.275;
+                            c = 0.062 / s + 0.024;
                         }
                         else
                         {
-                            b = 1.77f;
-                            sigma = 0.75f;
-                            c = 0.1515f / s;
+                            b = 1.77;
+                            sigma = 0.75;
+                            c = 0.1515 / s;
                         }
 
                         // 5
-                        float v;
-                        float q;
-                        if (x > 0.0f)
+                        double v;
+                        double q;
+                        if (x > 0.0)
                         {
                             // 6
                             v = T / (s + s);
@@ -700,24 +701,24 @@ namespace distlib.samplers
                         // 8
                         while (!finished)
                         {
-                            float e = StandardExponential();
+                            double e = StandardExponential();
                             u = VariateGenerator.GenerateUniformOO();
-                            u += u - 1.0f;
+                            u += u - 1.0;
                             T = b + e * sigma * Math.Sign(u);
 
                             // 9
-                            if (T > -0.71874483771719f)
+                            if (T > -0.71874483771719)
                             {
                                 // 10
                                 v = T / (s + s);
                                 q = GammaStep6(v, q0, s, T, s2);
 
                                 // 11
-                                if (q > 0.0f)
+                                if (q > 0.0)
                                 {
                                     double temp1 = c * Math.Abs(u);
                                     double temp2;
-                                    if (q > 0.5f)
+                                    if (q > 0.5)
                                     {
                                         temp2 = Math.Exp(q) - 1;
                                     }
@@ -740,7 +741,7 @@ namespace distlib.samplers
                                     if (temp1 <= temp3)
                                     {
                                         // 12
-                                        x = s + 0.5f * T;
+                                        x = s + 0.5 * T;
                                         sGamma = x * x;
                                         finished = true;
                                     }
@@ -752,13 +753,13 @@ namespace distlib.samplers
             }
             else    // Algorithm 'GS'
             {
-                float b = 1.0f + 0.36788794412f * shape;
+                double b = 1.0 + 0.36788794412 * shape;
                 do
                 {
-                    float p = b * VariateGenerator.GenerateUniformOO();
-                    if (p <= 1.0f)
+                    double p = b * VariateGenerator.GenerateUniformOO();
+                    if (p <= 1.0)
                     {
-                        var x = (float)(Math.Exp(Math.Log(p) / shape));
+                        var x = (Math.Exp(Math.Log(p) / shape));
                         if (Math.Log(VariateGenerator.GenerateUniformOO()) <= -x)
                         {
                             sGamma = x;
@@ -767,8 +768,8 @@ namespace distlib.samplers
                     }
                     else
                     {
-                        float x = -(float)Math.Log((b - p) / shape);
-                        if (Math.Log(VariateGenerator.GenerateUniformOO()) <= ((shape - 1.0f) * Math.Log(x)))
+                        double x = -Math.Log((b - p) / shape);
+                        if (Math.Log(VariateGenerator.GenerateUniformOO()) <= ((shape - 1.0) * Math.Log(x)))
                         {
                             sGamma = x;
                             finished = true;
@@ -780,63 +781,63 @@ namespace distlib.samplers
             return sGamma;
         }
 
-        private static float GammaStep6(float v, float q0, float s, float T, float s2)
+        private static double GammaStep6(double v, double q0, double s, double T, double s2)
         {
-            float q;
+            double q;
 
             if (Math.Abs(v) > 0.25)
             {
-                q = q0 - s * T + 0.25f * T * T + (s2 + s2) * (float)Math.Log(1 + v);
+                q = q0 - s * T + 0.25 * T * T + (s2 + s2) * Math.Log(1 + v);
             }
             else
             {
-                float sum = 0.0f;
+                double sum = 0.0;
                 for (int k = 1; k <= GammaA.Length; k++)
                 {
-                    sum += (float)(GammaA[k - 1] * Math.Pow(v, k));
+                    sum += (GammaA[k - 1] * Math.Pow(v, k));
                 }
 
-                q = q0 + 0.5f * T * T * sum;
+                q = q0 + 0.5 * T * T * sum;
             }
 
             return q;
         }
 
-        private static readonly float[] GammaA =
+        private static readonly double[] GammaA =
             {
-                0.3333333f,
-                -0.2500030f,
-                0.2000062f,
-                -0.1662921f,
-                0.1423657f,
-                -0.1367177f,
-                0.1233795f
+                 0.3333333,
+                -0.2500030,
+                 0.2000062,
+                -0.1662921,
+                 0.1423657,
+                -0.1367177,
+                 0.1233795
             };
 
-        private static readonly float[] GammaE =
+        private static readonly double[] GammaE =
             {
-                1.0f,
-                0.4999897f,
-                0.1668290f,
-                0.0407753f,
-                0.0102930f
+                1.0,
+                0.4999897,
+                0.1668290,
+                0.0407753,
+                0.0102930
             };
 
-        private static readonly float[] GammaQ =
+        private static readonly double[] GammaQ =
             {
-                0.04166669f,
-                0.02083148f,
-                0.00801191f,
-                0.00144121f,
-                -0.00007388f,
-                0.00024511f,
-                0.00024240f
+                 0.04166669,
+                 0.02083148,
+                 0.00801191,
+                 0.00144121,
+                -0.00007388,
+                 0.00024511,
+                 0.00024240
             };
 
-        public float GenerateGamma(float shape, float scale)
+        public double GenerateGamma(double shape, double scale)
         {
-            float stdGamma = StandardGamma(shape);
-            float gamma = stdGamma / scale;
+            double stdGamma = StandardGamma(shape);
+            double gamma = stdGamma / scale;
 
             return gamma;
         }
@@ -847,25 +848,25 @@ namespace distlib.samplers
          *     Communications of the ACM, 31, 2
          *     (February, 1988) 216.
         */
-        public int GenerateBinomial(int trials, float probabilitySuccess)
+        public int GenerateBinomial(int trials, double probabilitySuccess)
         {
             int successes;
-            float pPrime = Math.Min(probabilitySuccess, 1.0f - probabilitySuccess);
+            double pPrime = Math.Min(probabilitySuccess, 1.0 - probabilitySuccess);
 
-            if ((trials * pPrime) < 30.0f)
+            if ((trials * pPrime) < 30.0)
             {
                 // Algorithm BU
                 // Step 1
-                float q = 1.0f - pPrime;
-                float s = pPrime / q;
-                float a = (trials + 1.0f) * s;
-                var qn = (float)Math.Pow(q, trials);
-                float r = qn;
+                double q = 1.0 - pPrime;
+                double s = pPrime / q;
+                double a = (trials + 1.0) * s;
+                var qn = Math.Pow(q, trials);
+                double r = qn;
 
                 // Step 2
-                // float uSave = VariateGenerator.GenerateUniformOO();
-                // float u = uSave;
-                float u = VariateGenerator.GenerateUniformOO();
+                // double uSave = VariateGenerator.GenerateUniformOO();
+                // double u = uSave;
+                double u = VariateGenerator.GenerateUniformOO();
                 int x = 0;
 
                 // Step 3
@@ -891,22 +892,22 @@ namespace distlib.samplers
             {
                 // Algorithm BTPE
                 // Step 0
-                float r = Math.Min(probabilitySuccess, 1.0f - probabilitySuccess);
-                float q = 1.0f - r;
-                float fM = trials * r + r;
+                double r = Math.Min(probabilitySuccess, 1.0 - probabilitySuccess);
+                double q = 1.0 - r;
+                double fM = trials * r + r;
                 var m = (int)(fM); // floor(fM)
-                float p1 = (float)(Math.Floor(2.195 * Math.Sqrt(trials * r * q) - 4.6 * q)) + 0.5f;
-                float xM = m + 0.5f;
-                float xL = xM - p1;
-                float xR = xM + p1;
-                float c = 0.134f + 20.5f / (15.3f + m);
-                float a = (fM - xL) / (fM - xL * r);
-                float lambdaL = a * (1.0f + 0.5f * a);
+                double p1 = (Math.Floor(2.195 * Math.Sqrt(trials * r * q) - 4.6 * q)) + 0.5;
+                double xM = m + 0.5;
+                double xL = xM - p1;
+                double xR = xM + p1;
+                double c = 0.134 + 20.5 / (15.3 + m);
+                double a = (fM - xL) / (fM - xL * r);
+                double lambdaL = a * (1.0 + 0.5 * a);
                 a = (xR - fM) / (xR * q);
-                float lambdaR = a * (1.0f + 0.5f * a);
-                float p2 = p1 * (1.0f + 2.0f * c);
-                float p3 = p2 + c / lambdaL;
-                float p4 = p3 + c / lambdaR;
+                double lambdaR = a * (1.0 + 0.5 * a);
+                double p2 = p1 * (1.0 + 2.0 * c);
+                double p3 = p2 + c / lambdaL;
+                double p4 = p3 + c / lambdaR;
 
                 // This value is never used, the initialization makes the compiler happy.
                 // Note that y is first read in Step 5, accept reject. We only encounter this code
@@ -917,8 +918,8 @@ namespace distlib.samplers
                 bool finished = false;
                 do
                 {
-                    float u = VariateGenerator.GenerateUniformOO() * p4;
-                    float v = VariateGenerator.GenerateUniformOO();
+                    double u = VariateGenerator.GenerateUniformOO() * p4;
+                    double v = VariateGenerator.GenerateUniformOO();
 
                     bool acceptReject = false;
 
@@ -955,8 +956,8 @@ namespace distlib.samplers
                         }
                         else
                         {
-                            float x = xL + (u - p1) / c;
-                            v = v * c + 1.0f - Math.Abs(m - x + 0.5f) / p1;
+                            double x = xL + (u - p1) / c;
+                            v = v * c + 1.0 - Math.Abs(m - x + 0.5) / p1;
                             if (v <= 1)
                             {
                                 y = (int)Math.Floor(x);
@@ -967,13 +968,13 @@ namespace distlib.samplers
                         // Step 5
                         if (acceptReject)
                         {
-                            float k = Math.Abs(y - m);
-                            if ((k > 20) && (k < (0.5f * trials * r * q - 1.0f)))
+                            double k = Math.Abs(y - m);
+                            if ((k > 20) && (k < (0.5 * trials * r * q - 1.0)))
                             {
                                 // Step 5.2
-                                float rho = (k / (trials * r * q)) * ((k * (k / 3 + 0.625f) + 0.166667f) / (trials * r * q) + 0.5f);
-                                float t = -0.5f * k * k / (trials * r * q);
-                                var logV = (float)Math.Log(v);
+                                double rho = (k / (trials * r * q)) * ((k * (k / 3 + 0.625) + 0.166667) / (trials * r * q) + 0.5);
+                                double t = -0.5 * k * k / (trials * r * q);
+                                var logV = Math.Log(v);
 
                                 if (logV < (t - rho))
                                 {
@@ -984,25 +985,25 @@ namespace distlib.samplers
                                     if (logV <= (t + rho))
                                     {
                                         // Step 5.3
-                                        float x1 = y + 1.0f;
-                                        float f1 = m + 1.0f;
-                                        float z = trials + 1 - m;
-                                        float w = trials - y + 1.0f;
-                                        float x2 = x1 * x1;
-                                        float f2 = f1 * f1;
-                                        float z2 = z * z;
-                                        float w2 = w * w;
+                                        double x1 = y + 1.0;
+                                        double f1 = m + 1.0;
+                                        double z = trials + 1 - m;
+                                        double w = trials - y + 1.0;
+                                        double x2 = x1 * x1;
+                                        double f2 = f1 * f1;
+                                        double z2 = z * z;
+                                        double w2 = w * w;
 
-                                        float test = xM * (float)Math.Log(f1 / x1) + (trials - m + 0.5f) * (float)Math.Log(z / w) +
-                                                     (y - m) * (float)Math.Log(w * r / (x1 * q)) +
-                                                     (13860.0f - (462.0f - (132.0f - (99.0f - 140.0f / f2) / f2) / f2) / f2) / f1 /
-                                                     166320.0f +
-                                                     (13860.0f - (462.0f - (132.0f - (99.0f - 140.0f / z2) / z2) / z2) / z2) / z /
-                                                     166320.0f +
-                                                     (13860.0f - (462.0f - (132.0f - (99.0f - 140.0f / x2) / x2) / x2) / x2) / x1 /
-                                                     166320.0f +
-                                                     (13860.0f - (462.0f - (132.0f - (99.0f - 140.0f / w2) / w2) / w2) / w2) / w /
-                                                     166320.0f;
+                                        double test = xM * Math.Log(f1 / x1) + (trials - m + 0.5) * Math.Log(z / w) +
+                                                      (y - m) * Math.Log(w * r / (x1 * q)) +
+                                                      (13860.0 - (462.0 - (132.0 - (99.0 - 140.0 / f2) / f2) / f2) / f2) / f1 /
+                                                      166320.0 +
+                                                      (13860.0 - (462.0 - (132.0 - (99.0 - 140.0 / z2) / z2) / z2) / z2) / z /
+                                                      166320.0 +
+                                                      (13860.0 - (462.0 - (132.0 - (99.0 - 140.0 / x2) / x2) / x2) / x2) / x1 /
+                                                      166320.0 +
+                                                      (13860.0 - (462.0 - (132.0 - (99.0 - 140.0 / w2) / w2) / w2) / w2) / w /
+                                                      166320.0;
 
                                         finished = (logV <= test);
                                     }
@@ -1011,9 +1012,9 @@ namespace distlib.samplers
                             else
                             {
                                 // Step 5.1
-                                float s = r / q;
+                                double s = r / q;
                                 a = s * (trials + 1);
-                                float f = 1.0f;
+                                double f = 1.0;
 
                                 if (m < y)
                                 {
@@ -1040,7 +1041,7 @@ namespace distlib.samplers
                 successes = y;
             }
 
-            int binomial = (probabilitySuccess <= 0.5f) ? successes : trials - successes;
+            int binomial = (probabilitySuccess <= 0.5) ? successes : trials - successes;
 
             return binomial;
         }
@@ -1049,7 +1050,7 @@ namespace distlib.samplers
          * Algorithm from page 559 of Devroye, Luc
          * Non-Uniform Random Variate Generation.  Springer-Verlag, New York, 1986.
          */
-        public void GenerateMultinomial(int totalEvents, float[] probabilityVector, int[] events)
+        public void GenerateMultinomial(int totalEvents, double[] probabilityVector, int[] events)
         {
             int remainingEvents = totalEvents;
             for (int i = 0; i < events.Length; i++)
@@ -1057,10 +1058,10 @@ namespace distlib.samplers
                 events[i] = 0;
             }
 
-            float remainingProbability = 1.0f;
+            double remainingProbability = 1.0;
             for (int i = 0; i < events.Length - 1; i++)
             {
-                float probability = probabilityVector[i] / remainingProbability;
+                double probability = probabilityVector[i] / remainingProbability;
                 events[i] = GenerateBinomial(remainingEvents, probability);
                 remainingEvents -= events[i];
                 if (remainingEvents <= 0)

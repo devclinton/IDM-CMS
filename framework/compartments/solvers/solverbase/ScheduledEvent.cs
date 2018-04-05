@@ -14,7 +14,7 @@ namespace compartments.solvers.solverbase
         }
 
         public ScheduledEventInfo Info { get { return info as ScheduledEventInfo; } }
-        public float Interval { get; private set; }
-        public float Time { get; set; }
+        public double Interval { get; private set; }
+        public double Time { get; set; }
     }
 }

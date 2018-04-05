@@ -18,17 +18,17 @@ namespace compartments.solvers
          TransportSSA : SolverBase 
          *************************************************************************************/
 
-        protected float[]           currentReactionRates;   // reaction events only
+        protected double[]          currentReactionRates;   // reaction events only
 
-        protected float[][]         kernels;                // (number of species) x (number of neighbors + 1) jagged array, probability density function for the Multinomial distribution
+        protected double[][]        kernels;                // (number of species) x (number of neighbors + 1) jagged array, probability density function for the Multinomial distribution
         protected int[][]           speciesIndices;         // (number of species) x (number of neighbors + 1) jagged array, indices for the nearest neighbors
         protected int[]             lambda;                 // (number of species), change for each species count from diffusion/transport events
-        protected float[]           diffusionRates;         // (number of diffusion events)
+        protected double[]          diffusionRates;         // (number of diffusion events)
 
         protected int               maxInitialCount;        // used to compute the diffusion time-step constraint
-        protected float             diffusionTau;           // diffusion time-step
-        protected float             epsilon;                // used for diffusion time-step constraint, unrelated to epsilon in R- and tau-Leaping
-        protected float             graphDimension;         // maximum number of neighbors in the graph
+        protected double            diffusionTau;           // diffusion time-step
+        protected double            epsilon;                // used for diffusion time-step constraint, unrelated to epsilon in R- and tau-Leaping
+        protected double            graphDimension;         // maximum number of neighbors in the graph
         protected int               greensFunctionIterations; // number of integration steps for Green's function
         protected bool              verbose;                // prints the current time to standard output
 
@@ -37,11 +37,11 @@ namespace compartments.solvers
         protected IList<Reaction>   reactionReactions;      // reaction events
 
         protected static int        reactionCountThreshold = 5;   // operator splitting works best when one reaction per time-step is exectued
-        private float _actualLeap;
+        private double _actualLeap;
 
         protected DistributionSampler _distributionSampler;
 
-        public TransportSSA(ModelInfo modelInfo, float duration, int repeats, int samples)
+        public TransportSSA(ModelInfo modelInfo, double duration, int repeats, int samples)
                : base(modelInfo, duration, repeats, samples)
         {
             Configuration config    = Configuration.CurrentConfiguration;
@@ -52,22 +52,22 @@ namespace compartments.solvers
             // Reaction events
             reactionReactions       = model.Reactions.Where(r => r.IsLocal).ToList();
 
-            currentReactionRates                = new float[reactionReactions.Count];
-            kernels                             = new float[model.Species.Count][];           // jagged array (i.e. array of arrays)
+            currentReactionRates                = new double[reactionReactions.Count];
+            kernels                             = new double[model.Species.Count][];           // jagged array (i.e. array of arrays)
             speciesIndices                      = new int[model.Species.Count][];             // nearest neighbors of the current species
             lambda                              = new int[model.Species.Count];               // X(t+tau) = X(t) + lambda, diffusion changes
-            diffusionRates                      = new float[diffusionReactions.Count];
+            diffusionRates                      = new double[diffusionReactions.Count];
             _partiallyExecutedReactionsEvents   = new List<int>();
 
             // Jagged array initialization 
             for (int iSpecies = 0; iSpecies < model.Species.Count; ++iSpecies)
             {
                 int numberOfNieghbors       = NumberOfNeighbors(iSpecies) + 1; // +1 for the current node + number of neighbors
-                kernels[iSpecies]           = new float[numberOfNieghbors];
+                kernels[iSpecies]           = new double[numberOfNieghbors];
                 speciesIndices[iSpecies]    = new int[numberOfNieghbors];
             }
 
-            epsilon                     = config.GetParameterWithDefault("tssa.epsilon", 0.01f);    
+            epsilon                     = config.GetParameterWithDefault("tssa.epsilon", 0.01);
             greensFunctionIterations    = config.GetParameterWithDefault("tssa.greensFunctionIterations", 100);
             verbose                     = config.GetParameterWithDefault("tssa.verbose", false);
 
@@ -85,7 +85,7 @@ namespace compartments.solvers
             ComputeFundamentalSolutions();
         }
 
-        protected override float CalculateProposedTau(float tauLimit)
+        protected override double CalculateProposedTau(double tauLimit)
         {
             _actualLeap = Math.Min(diffusionTau, tauLimit - CurrentTime);
             return Math.Min(CurrentTime + diffusionTau, tauLimit);
@@ -93,10 +93,10 @@ namespace compartments.solvers
 
         protected override void ExecuteReactions()
         {
-            float a0 = UpdateAndSumRates(reactionReactions, currentReactionRates);
+            double a0 = UpdateAndSumRates(reactionReactions, currentReactionRates);
             _partiallyExecutedReactionsEvents.Clear();
 
-            if (a0 > 0.0f) // reaction & transport, using operator splitting
+            if (a0 > 0.0) // reaction & transport, using operator splitting
             {
                 // Operator Splitting
 
@@ -117,17 +117,17 @@ namespace compartments.solvers
         }
 
         // Partially execute reactions till diffusionTime
-        private void OperatorSplittingReactions(IList<int> partiallyExecutedReactionsEvents, float a0, float leapLimit)
+        private void OperatorSplittingReactions(IList<int> partiallyExecutedReactionsEvents, double a0, double leapLimit)
         {
-            float virtualReactionTime = 0.0f;
-            float u1 = rng.GenerateUniformOO();
-            float reactionTau = (float)(-Math.Log(u1) / a0);
+            double virtualReactionTime = 0.0;
+            double u1 = rng.GenerateUniformOO();
+            double reactionTau = (-Math.Log(u1) / a0);
 
             while ((virtualReactionTime + reactionTau) < leapLimit)
             {
                 virtualReactionTime += reactionTau;
 
-                float u2 = rng.GenerateUniformCC();
+                double u2 = rng.GenerateUniformCC();
                 double threshold = u2 * (double)a0;
                 int mu = GetReactionIndex(currentReactionRates, threshold);
 
@@ -138,7 +138,7 @@ namespace compartments.solvers
                 a0 = UpdateAndSumRates(reactionReactions, currentReactionRates);
 
                 u1 = rng.GenerateUniformOO();
-                reactionTau = (float)(-Math.Log(u1) / a0);
+                reactionTau = (-Math.Log(u1) / a0);
             }
 
             if (partiallyExecutedReactionsEvents.Count >= reactionCountThreshold)
@@ -148,9 +148,9 @@ namespace compartments.solvers
         }
 
         // Execute the transport/diffusion process and complete the execution of the reactions
-        private void OperatorSplittingTransport(float dt)
+        private void OperatorSplittingTransport(double dt)
         {
-            float virtualDiffusionTime = 0.0f;
+            double virtualDiffusionTime = 0.0;
             while (virtualDiffusionTime < dt) // match the times of the processes
             {
                 ApplyLambda();
@@ -185,7 +185,7 @@ namespace compartments.solvers
         }
 
         // Sets the species counts to unity so as to find the rate
-        protected void FindDiffusionRates(ref float[] rates)
+        protected void FindDiffusionRates(ref double[] rates)
         {
             // Find the diffusion rates from the model file by setting species vales to unity
             foreach (Species s in model.Species)
@@ -200,7 +200,7 @@ namespace compartments.solvers
         }
 
         // Returns the maximum number of neighbors encountered in the graph
-        protected float ComputeGraphDimension()
+        protected double ComputeGraphDimension()
         {
             return (kernels.Max(k => k.Length) - 1);
         }
@@ -209,8 +209,8 @@ namespace compartments.solvers
         // The integration in virtual time, i.e. (0, diffusionTau], obeys the Fourier and CFL conditions
         protected void ComputeFundamentalSolutions()
         {
-            var greensFunction        = new float[model.Species.Count];
-            var greensFunctionChanges = new float[model.Species.Count];
+            var greensFunction        = new double[model.Species.Count];
+            var greensFunctionChanges = new double[model.Species.Count];
 
             // maximum number of neighbors used for Fourier number constraint
             graphDimension = ComputeGraphDimension(); 
@@ -219,7 +219,7 @@ namespace compartments.solvers
             maxInitialCount = model.Species.Max(s => s.Count);
             Console.WriteLine("max species count: {0}", maxInitialCount);
 
-            float dPrime = diffusionRates.Length > 0 ? diffusionRates.Max() : 0.0f;
+            double dPrime = diffusionRates.Length > 0 ? diffusionRates.Max() : 0.0;
 
             // Fourier and Courant-Friedrichs-Lewy (CFL) conditions
             // Fourier: dt <= C1 h^2 / (2*d*D),
@@ -236,7 +236,7 @@ namespace compartments.solvers
             // Diffusion rates in the input file should be D/h^2 and convection rates should be v/h, but this is the responsibility of
             // the modeler.  Diffusion to nodes that are far away should have smaller rates compared to a node that is close.
 
-            diffusionTau = (float)(1.0 / maxInitialCount * Math.Sqrt(epsilon) * (1.0 / dPrime) * (1.0 / graphDimension)); 
+            diffusionTau = (1.0 / maxInitialCount * Math.Sqrt(epsilon) * (1.0 / dPrime) * (1.0 / graphDimension)); 
             Console.WriteLine("diffusion tau: {0}", diffusionTau);
 
             // for all nodes in the graph
@@ -257,22 +257,22 @@ namespace compartments.solvers
         // To find Green's function for a node j, let G_j = 1 and solve (d/dt) G = Delta G, where Delta represents the 
         // changes applied to the graph (e.g. for diffusion (d/dt) G_i = -2*G_i+G_(i-1)+G(i+1) ).  Green's function in this 
         // case is similar to a spatially-discretized PDE.
-        protected void SolveGreensFunction(ref float[] greensFunction, ref float[] greensFunctionChanges, int iSpecies)
+        protected void SolveGreensFunction(ref double[] greensFunction, ref double[] greensFunctionChanges, int iSpecies)
         {
             // reset Green's function
             for (int z = 0; z < model.Species.Count; ++z)
             {
-                greensFunction[z] = 0.0f;
+                greensFunction[z] = 0.0;
             }
 
             // compute Green's function
-            greensFunction[iSpecies] = 1.0f; // Kronecker's delta function
+            greensFunction[iSpecies] = 1.0; // Kronecker's delta function
            
             for (int iGreensFunctionIterations = 0; iGreensFunctionIterations < greensFunctionIterations; ++iGreensFunctionIterations) // time
             {
                 for (int z = 0; z < model.Species.Count; ++z)
                 {
-                    greensFunctionChanges[z] = 0.0f;
+                    greensFunctionChanges[z] = 0.0;
                 }
 
                 for (int iReaction = 0; iReaction < diffusionReactions.Count; ++iReaction)
@@ -284,7 +284,7 @@ namespace compartments.solvers
                     int speciesOrigin        = model.Species.IndexOf(reactants[0]);
                     int speciesDestination   = model.Species.IndexOf(products[0]);
 
-                    float change = (float)(greensFunction[speciesOrigin] * diffusionRates[iReaction] * diffusionTau * (1.0 / ((float)greensFunctionIterations)));
+                    double change = (greensFunction[speciesOrigin] * diffusionRates[iReaction] * diffusionTau * (1.0 / greensFunctionIterations));
 
                     greensFunctionChanges[speciesOrigin]        -= change;
                     greensFunctionChanges[speciesDestination]   += change;
@@ -298,7 +298,7 @@ namespace compartments.solvers
         }
 
         // Places Green's function in a matrix
-        protected void FillKernelMatrix(float[] greensFunction, int iSpecies)
+        protected void FillKernelMatrix(double[] greensFunction, int iSpecies)
         {
             // fill the jagged kernel and speciesIndices array  array
             Species s                   = model.Species[iSpecies];
@@ -323,14 +323,14 @@ namespace compartments.solvers
         }
 
         // Normalizes Green's function so that the integral is unity
-        protected void NormalizeGreensFunction(ref float[] greensFunction)
+        protected void NormalizeGreensFunction(ref double[] greensFunction)
         {
-            float summation = 0.0f;
+            double summation = 0.0;
             for (int k = 0; k < model.Species.Count; ++k)
             {
-                if (greensFunction[k] < 0.0f)
+                if (greensFunction[k] < 0.0)
                 {
-                    greensFunction[k] = 0.0f;
+                    greensFunction[k] = 0.0;
                 }
 
                 summation += greensFunction[k];
@@ -347,14 +347,14 @@ namespace compartments.solvers
         {
             for (int iSpecies = 0; iSpecies < model.Species.Count; ++iSpecies)
             {
-                float summation = 0.0f;
+                double summation = 0.0;
                 for (int iSubgraph = 0; iSubgraph < kernels[iSpecies].Length; ++iSubgraph)
                 {
                     summation += kernels[iSpecies][iSubgraph];
                 }
 
-                float error         = (float)Math.Abs(1.0 - summation);
-                float toDistribute  = error / ((float)(kernels[iSpecies].Length-1));
+                double error        = Math.Abs(1.0 - summation);
+                double toDistribute = error / (kernels[iSpecies].Length-1);
 
                 // distribute to the neighbors and exclude the current node (iSubgraph = 0)
                 for (int iSubgraph = 1; iSubgraph < kernels[iSpecies].Length; ++iSubgraph)

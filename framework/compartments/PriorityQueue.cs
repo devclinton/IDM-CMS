@@ -6,10 +6,10 @@ namespace compartments
     {
         public struct Node<U>
         {
-            private float _priority;
+            private double _priority;
             private U _payload;
 
-            public float Priority
+            public double Priority
             {
                 get { return _priority; }
                 set { _priority = value; }
@@ -22,7 +22,7 @@ namespace compartments
                 set { _payload = value; }
             }
 
-            public Node(float priority, U payload)
+            public Node(double priority, U payload)
             {
                 _priority = priority;
                 _payload = payload;
@@ -66,7 +66,7 @@ namespace compartments
         }
 
         //This will read out the top value 
-        public void Top(out float priority, out T payload)
+        public void Top(out double priority, out T payload)
         {
             priority = _nodes[0].Priority;
             payload  = _nodes[0].Payload;
@@ -78,7 +78,7 @@ namespace compartments
         }
 
         //Find the reaction r, then change the tau to new value.
-        private int UpdatePriority(float priority, T target)
+        private int UpdatePriority(double priority, T target)
         {
             int j;
             Boolean found = false; 
@@ -100,7 +100,7 @@ namespace compartments
         }
 
         //Add a new node then sort it
-        public void Add(float priority, T payload)
+        public void Add(double priority, T payload)
         {
             _lastIndex++;
 
@@ -110,7 +110,7 @@ namespace compartments
             UpdateIndex(priority, payload);
         }
 
-        public float ShowEntry(int index)
+        public double ShowEntry(int index)
         {
             if ((index > _lastIndex) || (index < 0))
                 throw new ArgumentException(String.Format(
@@ -127,20 +127,20 @@ namespace compartments
         }
 
         //Find the tau values of the two children.  If they do not exist, set to positiveinfinity
-        private void FindChildren(out float leftChildPriority, out float rightChildPriority, int index)
+        private void FindChildren(out double leftChildPriority, out double rightChildPriority, int index)
         {
             int leftChildIndex  = 2 * index + 1;
             int rightChildIndex = 2 * index + 2;
 
             if (leftChildIndex > _lastIndex)
             {
-                leftChildPriority  = float.PositiveInfinity;
-                rightChildPriority = float.PositiveInfinity;
+                leftChildPriority  = double.PositiveInfinity;
+                rightChildPriority = double.PositiveInfinity;
             }
             else if (rightChildIndex > _lastIndex)
             {
                 leftChildPriority  = _nodes[leftChildIndex].Priority;
-                rightChildPriority = float.PositiveInfinity;
+                rightChildPriority = double.PositiveInfinity;
             }
             else
             {
@@ -150,7 +150,7 @@ namespace compartments
         }
 
         // This Updates the value of tau for r (if changed), then sorts it relative to parent and child
-        public void UpdateIndex(float priority, T payload)
+        public void UpdateIndex(double priority, T payload)
         {
             //Find the Index of the reaction r in the queue.  Also updates Tau if changed.
 
@@ -162,8 +162,8 @@ namespace compartments
             {
                 //First establish what the two children tau are of node[index]
 
-                float leftChildTau;
-                float rightChildTau;
+                double leftChildTau;
+                double rightChildTau;
                 FindChildren(out leftChildTau, out rightChildTau, index);
 
                 // If the reaction chosen is at the top of the queue, then only look at children.
@@ -186,7 +186,7 @@ namespace compartments
                 }
                 else
                 {
-                    float parentTau = _nodes[(index - 1) / 2].Priority;
+                    double parentTau = _nodes[(index - 1) / 2].Priority;
 
                     if (priority < parentTau)
                     {

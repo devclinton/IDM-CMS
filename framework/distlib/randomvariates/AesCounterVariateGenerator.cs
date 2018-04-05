@@ -1,4 +1,5 @@
-﻿using distlib.hidden;
+﻿using System;
+using distlib.hidden;
 
 namespace distlib.randomvariates
 {
@@ -6,8 +7,8 @@ namespace distlib.randomvariates
     {
         private readonly AesCounter _aesCounter;
 
-        // 1/2^24 = 1/0x0100 0000
-        private const float Two24Inv = 0.000000059604644775390625f;
+        private const float Two24Inv = 0.000000059604644775390625f;                         // 1/2^24 = 1/0x0100 0000
+        private const double Two52Inv = 0.00000000000000022204460492503130808472633361816;  // 1/2^52 = 1/0x0010 0000 0000 0000
 
         private AesCounterVariateGenerator(uint seed = 0, uint index = 0)
         {
@@ -36,39 +37,46 @@ namespace distlib.randomvariates
             return generator;
         }
 
-        public float GenerateUniformOO()
+        public double GenerateUniformOO()
         {
             return _aesCounter.NextVariate();
         }
 
-        public float GenerateUniformOC()
+        public double GenerateUniformOC()
         {
-            uint bits = _aesCounter.Next32Bits();   // 0 <= bits <= 0xFFFF FFFF
-            bits >>= 8;                             // 0 <= bits <= 0x00FF FFFF
-            bits += 1;                              // 0  < bits <= 0x0100 0000
+            UInt64 bits = _aesCounter.Next64Bits(); // 0 <= bits <= 0xFFFF FFFF FFFF FFFF
+            bits >>= 12;                            // 0 <= bits <= 0x000F FFFF FFFF FFFF
+            bits += 1;                              // 0  < bits <= 0x0010 0000 0000 0000
 
-            return bits * Two24Inv;
+            return bits * Two52Inv;                 // 0.0 < return <= 1.0
         }
 
-        public float GenerateUniformCO()
+        public double GenerateUniformCO()
         {
-            uint bits = _aesCounter.Next32Bits();   // 0 <= bits <= 0xFFFF FFFF
-            bits >>= 8;                             // 0 <= bits <= 0x00FF FFFF
+            UInt64 bits = _aesCounter.Next64Bits(); // 0 <= bits <= 0xFFFF FFFF FFFF FFFF
+            bits >>= 12;                            // 0 <= bits <= 0x000F FFFF FFFF FFFF
 
-            return bits * Two24Inv;
+            return bits * Two52Inv;                 // 0.0 <= return < 1.0
         }
 
-        public float GenerateUniformCC()
+        /* Note on the choice of constant 0x8000 0000 0000 07FF: all bit values from 0 to 7FF
+         * (2048 possibilities) will become 0 before being returned. Similarly, all bit
+         * values from 800 to FFF (another 2048 possibilities) will become 1 before being
+         * returned, etc. Thus, we want to choose any of 2048 bit patterns to eventually
+         * become 0x0100 0000 0000 0000 before being returned. Allowing values up to
+         * 0x8000 0000 0000 07FF enables this.
+         */
+        public double GenerateUniformCC()
         {
-            uint bits;
+            UInt64 bits;
             do
             {
-                bits = _aesCounter.Next32Bits();    // 0 <= bits <= 0xFFFF FFFF
-            } while (bits > 0x8000007F);            // 0 <= bits <= 0x8000 007F
+                bits = _aesCounter.Next64Bits();    // 0 <= bits <= 0xFFFF FFFF FFFF FFFF
+            } while (bits > 0x80000000000007FF);    // 0 <= bits <= 0x8000 0000 0000 07FF
 
-            bits >>= 7;                             // 0 <= bits <= 0x0100 0000
+            bits >>= 11;                            // 0 <= bits <= 0x0010 0000 0000 0000
 
-            return bits * Two24Inv;
+            return bits * Two52Inv;                 // 0.0 <= return <= 1.0
         }
 
         public static bool IsSupported { get { return AesCounter.IsSupported; } }

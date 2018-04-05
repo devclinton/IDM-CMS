@@ -76,13 +76,13 @@ namespace cmsunittests
             Expect(!xorFalseFalse.Value);
         }
 
-//        private readonly INumericOperator _oneHalf       = new Constant(0.5f);
-        private readonly INumericOperator _two           = new Constant(2.0f);
-        private readonly INumericOperator _twenty        = new Constant(20.0f);
-        private readonly INumericOperator _twentyTwo     = new Constant(22.0f);
-        private readonly INumericOperator _negativeThree = new Constant(-3.0f);
-        private readonly INumericOperator _pi            = new Constant(3.14159265f);
-        private readonly INumericOperator _e             = new Constant(2.718281828459f);
+//        private readonly INumericOperator _oneHalf       = new Constant(0.5);
+        private readonly INumericOperator _two           = new Constant(2.0);
+        private readonly INumericOperator _twenty        = new Constant(20.0);
+        private readonly INumericOperator _twentyTwo     = new Constant(22.0);
+        private readonly INumericOperator _negativeThree = new Constant(-3.0);
+        private readonly INumericOperator _pi            = new Constant(3.14159265);
+        private readonly INumericOperator _e             = new Constant(2.718281828459);
 
         [Test, Description("AddOperator test")]
         public void AdderTest()
@@ -92,7 +92,7 @@ namespace cmsunittests
             Console.WriteLine("Testing AddOperator...");
             Console.WriteLine();
 
-            Expect(adder.Value == 42.0f);
+            Expect(adder.Value == 42.0);
         }
 
         [Test, Description("SubtractOperator test")]
@@ -103,7 +103,7 @@ namespace cmsunittests
             Console.WriteLine("Testing SubtractOperator...");
             Console.WriteLine();
 
-            Expect(subtract.Value == -2.0f);
+            Expect(subtract.Value == -2.0);
         }
 
         [Test, Description("MultiplyOperator test")]
@@ -114,7 +114,7 @@ namespace cmsunittests
             Console.WriteLine("Testing MultiplyOperator...");
             Console.WriteLine();
 
-            Expect(multiply.Value == 440.0f);
+            Expect(multiply.Value == 440.0);
         }
 
         [Test, Description("DivideOperator test")]
@@ -125,7 +125,7 @@ namespace cmsunittests
             Console.WriteLine("Testing DivideOperator...");
             Console.WriteLine();
 
-            Expect(divide.Value == 1.1f);
+            Expect(divide.Value == 1.1);
         }
 
         [Test, Description("ModuloOperator test 22 % 20 == 2")]
@@ -136,7 +136,7 @@ namespace cmsunittests
             Console.WriteLine("Testing ModuloOperator...");
             Console.WriteLine();
 
-            Expect(modulo.Value == 2.0f);
+            Expect(modulo.Value == 2.0);
         }
 
         [Test, Description("ModuloOperator test 22 % pi == 1")]
@@ -147,7 +147,7 @@ namespace cmsunittests
             Console.WriteLine("Testing ModuloOperator...");
             Console.WriteLine();
 
-            Expect(modulo.Value == 1.0f);
+            Expect(modulo.Value == 1.0);
         }
 
         [Test, Description("ModuloOperator test e % 22 == 2")]
@@ -158,7 +158,7 @@ namespace cmsunittests
             Console.WriteLine("Testing ModuloOperator...");
             Console.WriteLine();
 
-            Expect(modulo.Value == 2.0f);
+            Expect(modulo.Value == 2.0);
         }
 
         [Test, Description("ModuloOperator test pi % e == 1")]
@@ -169,7 +169,7 @@ namespace cmsunittests
             Console.WriteLine("Testing ModuloOperator...");
             Console.WriteLine();
 
-            Expect(modulo.Value == 1.0f);
+            Expect(modulo.Value == 1.0);
         }
 
         [Test, Description("PowerOperator test")]
@@ -180,7 +180,7 @@ namespace cmsunittests
             Console.WriteLine("Testing PowerOperator...");
             Console.WriteLine();
 
-            Expect(power.Value == 4.1943039069687888944681713664E28f);
+            Assert.That(power.Value, Is.EqualTo(4.194304E28));
         }
 
         [Test, Description("MaximumOperator test")]
@@ -192,8 +192,8 @@ namespace cmsunittests
             Console.WriteLine("Testing MaximumOperator...");
             Console.WriteLine();
 
-            Expect(maximum1.Value == 22.0f);
-            Expect(maximum2.Value == 22.0f);
+            Expect(maximum1.Value == 22.0);
+            Expect(maximum2.Value == 22.0);
         }
 
         [Test, Description("MinimumOperator test")]
@@ -205,8 +205,8 @@ namespace cmsunittests
             Console.WriteLine("Testing MinimumOperator...");
             Console.WriteLine();
 
-            Expect(minimum1.Value == 20.0f);
-            Expect(minimum2.Value == 20.0f);
+            Expect(minimum1.Value == 20.0);
+            Expect(minimum2.Value == 20.0);
         }
 
         [Test, Description("LessThan test")]
@@ -298,12 +298,12 @@ namespace cmsunittests
         [Test, Description("Constant test")]
         public void ConstantTest()
         {
-            IValue constant = (new Constant(42.0f)).ResolveReferences(null);
+            IValue constant = (new Constant(42.0)).ResolveReferences(null);
 
             Console.WriteLine("Testing Constant() expressions...");
             Console.WriteLine();
 
-            Expect(constant.Value == 42.0f);
+            Expect(constant.Value == 42.0);
         }
 
         [Test, Description("Symbol test")]
@@ -338,7 +338,7 @@ namespace cmsunittests
         {
             IValue exponentiate = (new ExponentiationOperator(_two)).ResolveReferences(null);
 
-            Expect(exponentiate.Value == 7.38905620574951171875f);
+            Assert.That(exponentiate.Value, Is.EqualTo(7.3890560989306504));
         }
 
         [Test, Description("LogarithmOperator test")]
@@ -346,7 +346,7 @@ namespace cmsunittests
         {
             IValue logarithm = (new LogarithmOperator(_two)).ResolveReferences(null);
 
-            Expect(logarithm.Value == 6.93147182464599609375E-1f);
+            Assert.That(logarithm.Value, Is.EqualTo(0.69314718055994529));
         }
 
         [Test, Description("SineOperator test")]
@@ -354,7 +354,7 @@ namespace cmsunittests
         {
             IValue sine = (new SineOperator(_two)).ResolveReferences(null);
 
-            Expect(sine.Value == 0.909297406673431396484375f);
+            Assert.That(sine.Value, Is.EqualTo(0.90929742682568171));
         }
 
         [Test, Description("CosineOperator test")]
@@ -362,7 +362,7 @@ namespace cmsunittests
         {
             IValue cosine = (new CosineOperator(_two)).ResolveReferences(null);
 
-            Expect(cosine.Value == -0.4161468446254730224609375f);
+            Assert.That(cosine.Value, Is.EqualTo(-0.41614683654714241));
         }
 
         [Test, Description("TangentOperator test")]
@@ -372,7 +372,7 @@ namespace cmsunittests
 /*
             IValue tangent = new TangentOperator(_two);
 
-            Expect(tangent.Value == -2.1850397586822509765625f);
+            Expect(tangent.Value == -2.1850397586822509765625);
 */
         }
 
@@ -383,7 +383,7 @@ namespace cmsunittests
 /*
             IValue arcSine = new ArcSineOperator(_oneHalf);
 
-            Expect(arcSine.Value == 0.52359879016876220703125f);
+            Expect(arcSine.Value == 0.52359879016876220703125);
 */
         }
 
@@ -394,7 +394,7 @@ namespace cmsunittests
 /*
             IValue arcCosine = new ArcCosineOperator(_oneHalf);
 
-            Expect(arcCosine.Value == 1.0471975803375244140625f);
+            Expect(arcCosine.Value == 1.0471975803375244140625);
 */
         }
 
@@ -405,7 +405,7 @@ namespace cmsunittests
 /*
             IValue arcTangent = new ArcTangentOperator(_two);
 
-            Expect(arcTangent.Value == 1.10714876651763916015625f);
+            Expect(arcTangent.Value == 1.10714876651763916015625);
 */
         }
 
@@ -415,36 +415,36 @@ namespace cmsunittests
             IValue absValuePositive = (new AbsoluteOperator(_two)).ResolveReferences(null);
             IValue absValueNegative = (new AbsoluteOperator(_negativeThree)).ResolveReferences(null);
 
-            Expect(absValuePositive.Value == 2.0f);
-            Expect(absValueNegative.Value == 3.0f);
+            Expect(absValuePositive.Value == 2.0);
+            Expect(absValueNegative.Value == 3.0);
         }
 
         [Test, Description("FloorOperator test")]
         public void FloorTest()
         {
-            IValue floor1 = (new FloorOperator(new Constant(2.75f))).ResolveReferences(null);
-            IValue floor2 = (new FloorOperator(new Constant(2.25f))).ResolveReferences(null);
-            IValue floor3 = (new FloorOperator(new Constant(-2.25f))).ResolveReferences(null);
-            IValue floor4 = (new FloorOperator(new Constant(-2.75f))).ResolveReferences(null);
+            IValue floor1 = (new FloorOperator(new Constant(2.75))).ResolveReferences(null);
+            IValue floor2 = (new FloorOperator(new Constant(2.25))).ResolveReferences(null);
+            IValue floor3 = (new FloorOperator(new Constant(-2.25))).ResolveReferences(null);
+            IValue floor4 = (new FloorOperator(new Constant(-2.75))).ResolveReferences(null);
 
-            Expect(floor1.Value == 2.0f);
-            Expect(floor2.Value == 2.0f);
-            Expect(floor3.Value == -3.0f);
-            Expect(floor4.Value == -3.0f);
+            Expect(floor1.Value == 2.0);
+            Expect(floor2.Value == 2.0);
+            Expect(floor3.Value == -3.0);
+            Expect(floor4.Value == -3.0);
         }
 
         [Test, Description("CeilingOperator test")]
         public void CeilingTest()
         {
-            IValue ceiling1 = (new CeilingOperator(new Constant(2.75f))).ResolveReferences(null);
-            IValue ceiling2 = (new CeilingOperator(new Constant(2.25f))).ResolveReferences(null);
-            IValue ceiling3 = (new CeilingOperator(new Constant(-2.25f))).ResolveReferences(null);
-            IValue ceiling4 = (new CeilingOperator(new Constant(-2.75f))).ResolveReferences(null);
+            IValue ceiling1 = (new CeilingOperator(new Constant(2.75))).ResolveReferences(null);
+            IValue ceiling2 = (new CeilingOperator(new Constant(2.25))).ResolveReferences(null);
+            IValue ceiling3 = (new CeilingOperator(new Constant(-2.25))).ResolveReferences(null);
+            IValue ceiling4 = (new CeilingOperator(new Constant(-2.75))).ResolveReferences(null);
 
-            Expect(ceiling1.Value == 3.0f);
-            Expect(ceiling2.Value == 3.0f);
-            Expect(ceiling3.Value == -2.0f);
-            Expect(ceiling4.Value == -2.0f);
+            Expect(ceiling1.Value == 3.0);
+            Expect(ceiling2.Value == 3.0);
+            Expect(ceiling3.Value == -2.0);
+            Expect(ceiling4.Value == -2.0);
         }
 
         [Test, Description("Square root test")]
@@ -452,29 +452,29 @@ namespace cmsunittests
         {
             IValue squareRoot = (new SqrtOperator(_two)).ResolveReferences(null);
 
-            Expect(squareRoot.Value == 1.41421353816986083984375f);
+            Assert.That(squareRoot.Value, Is.EqualTo(1.4142135623730951));
         }
 
         [Test, Description("NegateOperator test")]
         public void NegateTest()
         {
             IValue negatePositive = (new NegateOperator(_two)).ResolveReferences(null);
-            IValue negateNegative = (new NegateOperator(new Constant(-3.0f))).ResolveReferences(null);
+            IValue negateNegative = (new NegateOperator(new Constant(-3.0))).ResolveReferences(null);
 
-            Expect(negatePositive.Value == -2.0f);
-            Expect(negateNegative.Value == 3.0f);
+            Expect(negatePositive.Value == -2.0);
+            Expect(negateNegative.Value == 3.0);
         }
 
         [Test, Description("HeavisideStepOperator test")]
         public void HeavisideStepTest()
         {
             IValue stepPositive = (new HeavisideStepOperator(_two)).ResolveReferences(null);
-            IValue stepZero     = (new HeavisideStepOperator(new Constant(0.0f))).ResolveReferences(null);
-            IValue stepNegative = (new HeavisideStepOperator(new Constant(-3.0f))).ResolveReferences(null);
+            IValue stepZero     = (new HeavisideStepOperator(new Constant(0.0))).ResolveReferences(null);
+            IValue stepNegative = (new HeavisideStepOperator(new Constant(-3.0))).ResolveReferences(null);
 
-            Expect(stepPositive.Value == 1.0f);
-            Expect(stepZero.Value == 1.0f);
-            Expect(stepNegative.Value == 0.0f);
+            Expect(stepPositive.Value == 1.0);
+            Expect(stepZero.Value == 1.0);
+            Expect(stepNegative.Value == 0.0);
         }
     }
 }

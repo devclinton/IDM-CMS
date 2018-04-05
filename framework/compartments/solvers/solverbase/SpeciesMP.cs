@@ -11,24 +11,24 @@ namespace compartments.solvers.solverbase
         {
         }
 
-        public override int Count { get { return (int)Value; } set { Value = (float)value; } }
+        public override int Count { get { return (int)Value; } set { Value = (double)value; } }
 
-        public override float Value
+        public override double Value
         {
             get;
             set;
         }
 
-        public override void Update(float value)
+        public override void Update(double value)
         {
             Value = value;
         }
 
         public override int Increment() { Value = Value + 1; return Count; }
-        public override int Increment(int delta) {Value = Value + (float)delta;  return Count;}
+        public override int Increment(int delta) {Value = Value + (double)delta;  return Count;}
         public override int Decrement() { Value = Value - 1; return Count; }
-        public override int Decrement(int delta) { Value = Value - (float)delta;  return Count;}
-        public float Increment(float delta) { return Value += delta; }
-        public float Decrement(float delta) { return Value -= delta; }
+        public override int Decrement(int delta) { Value = Value - (double)delta;  return Count;}
+        public double Increment(double delta) { return Value += delta; }
+        public double Decrement(double delta) { return Value -= delta; }
     }
 }

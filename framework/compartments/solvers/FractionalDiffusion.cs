@@ -14,7 +14,7 @@ namespace compartments.solvers
     {
         #region fields
         protected List<Reaction>    _reactions;                     // list of reactions, not including diffusion events
-        protected float[]           _currentRates;                  // current propensities of reactions
+        protected double[]           _currentRates;                  // current propensities of reactions
         private readonly int[]      _field;                         // the field that is subject to fractional diffusion
         private readonly int        _n;                             // the number of nodes in field, i.e. the number of nodes in the domain
         private readonly double     _alpha;                         // order of the fractional derivative
@@ -25,31 +25,31 @@ namespace compartments.solvers
         private readonly bool       _verbose;                       // flag for verbose output
         private readonly int        _numberOfNonDiscretizedSpecies; // number of species that are subject to fractional diffusion
         private readonly int        _truncationDistance;            // maximum distance to diffuse
-        private float               _tau;                           // timestep
+        private double              _tau;                           // timestep
         private int[]               _dispersalChanges;              // changes to apply for the fractional diffusion operator
         private int[]               _executionsPerReaction;         // changes to apply for the reactions
         private DistributionSampler _distributionSampler;
         #endregion
 
-        public FractionalDiffusion(ModelInfo modelInfo, float duration, int repeats, int samples)
+        public FractionalDiffusion(ModelInfo modelInfo, double duration, int repeats, int samples)
             : base(modelInfo, duration, repeats, samples, new ModelBuilder())
         {
             Configuration config            = Configuration.CurrentConfiguration;
 
             #region initializeFields
             _reactions                      = new List<Reaction>(model.Reactions);
-            _alpha                          = config.GetParameterWithDefault("fd.alpha", 0.5f);
+            _alpha                          = config.GetParameterWithDefault("fd.alpha", 0.5);
             _verbose                        = config.GetParameterWithDefault("fd.verbose", false);
-            _Dalpha                         = config.GetParameterWithDefault("fd.Dalpha", 1.0f);
-            _constant                       = config.GetParameterWithDefault("fd.constant", 0.25f);
-            _h                              = config.GetParameterWithDefault("fd.h", 1.0f);
+            _Dalpha                         = config.GetParameterWithDefault("fd.Dalpha", 1.0);
+            _constant                       = config.GetParameterWithDefault("fd.constant", 0.25);
+            _h                              = config.GetParameterWithDefault("fd.h", 1.0);
             _truncationDistance             = config.GetParameterWithDefault("fd.truncation", (int)Math.Round(((double)(modelInfo.Locales.Count() - 1))/4.0));
             _fourierNumber                  = 0.5;
             _n                              = modelInfo.Locales.Count() - 1;             
-            _currentRates                   = new float[_reactions.Count];
+            _currentRates                   = new double[_reactions.Count];
             _field                          = new int[_n];
             _numberOfNonDiscretizedSpecies  = modelInfo.Species.Count() / _n;
-            _tau                            = (float)TimeStep(_fourierNumber, _constant, _h, _alpha, _Dalpha);
+            _tau                            = TimeStep(_fourierNumber, _constant, _h, _alpha, _Dalpha);
             _dispersalChanges               = new int[model.Species.Count];
             _executionsPerReaction          = new int[model.Reactions.Count];
             _distributionSampler            = RandLibSampler.CreateRandLibSampler(rng);
@@ -71,17 +71,23 @@ namespace compartments.solvers
 
         #region SolverBaseMethods
 
-        protected override float CalculateProposedTau(float tauLimit)
+        protected override double CalculateProposedTau(double tauLimit)
         {
-            float tau = (float)TimeStep(_fourierNumber, _constant, _h, _alpha, _Dalpha);
+            double tau = TimeStep(_fourierNumber, _constant, _h, _alpha, _Dalpha);
 
             if (CurrentTime + tau <= tauLimit)
-            { _tau = tau; }
+            {
+                _tau = tau;
+            }
             else
-            { _tau = tauLimit - CurrentTime; }
+            {
+                _tau = tauLimit - CurrentTime;
+            }
 
             if (_verbose == true)
-            {  Console.WriteLine("t = {0}", CurrentTime); }
+            {
+                Console.WriteLine("t = {0}", CurrentTime);
+            }
 
             return Math.Min(CurrentTime + _tau, tauLimit);
         }
@@ -164,11 +170,11 @@ namespace compartments.solvers
 
         protected void ApplyReactionOperator(int[] executionsPerReaction, double tau)
         {
-            float a0 = UpdateAndSumRates(_reactions, _currentRates);
+            double a0 = UpdateAndSumRates(_reactions, _currentRates);
 
             for (int j = 0; j < modelInfo.Reactions.Count(); j++)
             {
-                executionsPerReaction[j] = _distributionSampler.GeneratePoisson((float)(_currentRates[j] * tau));
+                executionsPerReaction[j] = _distributionSampler.GeneratePoisson(_currentRates[j] * tau);
             }
         }
         #endregion
@@ -192,18 +198,18 @@ namespace compartments.solvers
                 }
 
                 var numberOfExecutions  = new int[lambda.Length];
-                var pr                  = new float[lambda.Length];
+                var pr                  = new double[lambda.Length];
 
                 // fill the probability vector
                 for (int j = 0; j < pr.Length; ++j)
                 {
                     if (Math.Abs(i - j) > _truncationDistance) // truncated levy flight
                     {
-                        pr[j] = 0.0f;
+                        pr[j] = 0.0;
                     }
                     else
                     {
-                        pr[j] = (float)FractionalDiffusionKernel(tau, h, alpha, Dalpha, i, j);
+                        pr[j] = FractionalDiffusionKernel(tau, h, alpha, Dalpha, i, j);
                     }
                 }
 
@@ -212,7 +218,7 @@ namespace compartments.solvers
                 _distributionSampler.GenerateMultinomial(y[i], pr, numberOfExecutions);
 
                 // finite-precision error in the multinomial distribution (conditional binomial), nothing should occur when p = 0
-                if ((numberOfExecutions[pr.Length - 1] != 0) && (pr[pr.Length - 1] == 0.0f))
+                if ((numberOfExecutions[pr.Length - 1] != 0) && (pr[pr.Length - 1] == 0.0))
                 {
                     numberOfExecutions[i] += numberOfExecutions[pr.Length - 1];
                     numberOfExecutions[pr.Length - 1] = 0;
@@ -235,9 +241,9 @@ namespace compartments.solvers
             }
         }
 
-        protected void Normalize(float[] p)
+        protected void Normalize(double[] p)
         {
-            float z = 0.0f;
+            double z = 0.0;
             for (int j = 0; j < p.Length; ++j)
             {
                 z += p[j];

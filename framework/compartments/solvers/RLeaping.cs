@@ -11,36 +11,36 @@ namespace compartments.solvers
     public class RLeaping : SolverBase
     {
         protected List<Reaction> reactions;
-        protected float[]       currentRates;
-        protected float[,]      jacobianMatrix;
+        protected double[]       currentRates;
+        protected double[,]      jacobianMatrix;
 
-        private readonly float[] _probabilityVector;
+        private readonly double[] _probabilityVector;
         private readonly int[]   _executionsPerReaction;
         private readonly bool    _verbose;
 
-        private readonly float   _epsilon;
-        private readonly float   _theta;
-        private readonly float   _sortingInterval;
+        private readonly double  _epsilon;
+        private readonly double  _theta;
+        private readonly double  _sortingInterval;
         private int              _sortingIterationNumber;
-        private float            _a0;
+        private double           _a0;
         private int              _actualL;
 
         private DistributionSampler _distributionSampler;
 
-        public RLeaping(ModelInfo modelInfo, float duration, int repeats, int samples)
+        public RLeaping(ModelInfo modelInfo, double duration, int repeats, int samples)
             : base(modelInfo, duration, repeats, samples)
         {
             Configuration config   = Configuration.CurrentConfiguration;
 
             reactions              = new List<Reaction>(model.Reactions);
-            currentRates           = new float[reactions.Count];
-            jacobianMatrix         = new float[reactions.Count, model.Species.Count];
-            _probabilityVector     = new float[reactions.Count];
+            currentRates           = new double[reactions.Count];
+            jacobianMatrix         = new double[reactions.Count, model.Species.Count];
+            _probabilityVector     = new double[reactions.Count];
             _executionsPerReaction = new int[reactions.Count];
 
-            _epsilon         = config.GetParameterWithDefault("r-leaping.epsilon",            0.1f);
-            _theta           = config.GetParameterWithDefault("r-leaping.theta",              0.0f);
-            _sortingInterval = config.GetParameterWithDefault("r-leaping.sorting interval", 365.0f);
+            _epsilon         = config.GetParameterWithDefault("r-leaping.epsilon",            0.1);
+            _theta           = config.GetParameterWithDefault("r-leaping.theta",              0.0);
+            _sortingInterval = config.GetParameterWithDefault("r-leaping.sorting interval", 365.0);
             _verbose         = config.GetParameterWithDefault("r-leaping.verbose", false);
 
             _distributionSampler = RandLibSampler.CreateRandLibSampler(rng);
@@ -53,20 +53,19 @@ namespace compartments.solvers
             _sortingIterationNumber = 0;
         }
 
-        protected override float CalculateProposedTau(float tauLimit)
+        protected override double CalculateProposedTau(double tauLimit)
         {
-            float actualTau = tauLimit;
+            double actualTau = tauLimit;
 
             SortReactionsIfNecessary();
             _a0 = UpdateAndSumRates(reactions, currentRates);
 
-            if (_a0 > 0.0f)
+            if (_a0 > 0.0)
             {
                 actualTau = CurrentTime + ComputeProposedLeap(_a0, tauLimit - CurrentTime, out _actualL);
 
                 if (_verbose)
                 {
-                    // Diagnostics
                     Console.WriteLine("t = {0},  current L = {1}", CurrentTime, _actualL);
                     Console.WriteLine("\n\n");
                 }
@@ -83,7 +82,7 @@ namespace compartments.solvers
         private void SortReactionsIfNecessary()
         {
             // check to see if it's time to sort
-            if (CurrentTime >= (_sortingIterationNumber*_sortingInterval))
+            if (CurrentTime >= (_sortingIterationNumber * _sortingInterval))
             {
                 // sort the reaction list in descending order (minus sign) using the new propensities
                 reactions.Sort((r1, r2) => -(r1.Rate.CompareTo(r2.Rate)));
@@ -101,26 +100,27 @@ namespace compartments.solvers
             }
         }
 
-        protected int ComputeLeapLength(float a0)
+        protected int ComputeLeapLength(double a0)
         {
-            jacobianMatrix    = ComputeJacobian();
-            float[] tauvector = PossibleTaus(jacobianMatrix, _epsilon, a0);
-            float tau         = tauvector.Min();
-            int Ltau          = Math.Max((int)(a0 * tau), 1);
-            int L             = ComputeLFromLtauAndA0UsingTheta(Ltau, a0);
+            jacobianMatrix     = ComputeJacobian();
+            double[] tauvector = PossibleTaus(jacobianMatrix, _epsilon, a0);
+            double tau         = tauvector.Min();
+            int Ltau           = Math.Max((int)(a0 * tau), 1);
+            int L              = ComputeLFromLtauAndA0UsingTheta(Ltau, a0);
 
             return L;
         }
 
-        protected float ComputeProposedLeap(float a0, float leapLimit, out int L)
+        protected double ComputeProposedLeap(double a0, double leapLimit, out int L)
         {
-            jacobianMatrix     = ComputeJacobian();
-            float[] tauvector  = PossibleTaus(jacobianMatrix, _epsilon, a0);
-            float tau          = tauvector.Min();
-            int Ltau           = Math.Max((int)(a0 * tau), 1);
-            L                  = ComputeLFromLtauAndA0UsingTheta(Ltau, a0);
-            float proposedLeap = ((float)(1.0 / a0)) * _distributionSampler.StandardGamma(L);
-            float actualLeap   = proposedLeap;
+            jacobianMatrix      = ComputeJacobian();
+            double[] tauvector  = PossibleTaus(jacobianMatrix, _epsilon, a0);
+            double tau          = tauvector.Min();
+            int Ltau            = Math.Max((int)(a0 * tau), 1);
+            L                   = ComputeLFromLtauAndA0UsingTheta(Ltau, a0);
+            double proposedLeap = (1.0 / a0) * _distributionSampler.StandardGamma(L);
+            double actualLeap   = proposedLeap;
+
             if (proposedLeap > leapLimit)
             {
                 #region verbose
@@ -136,11 +136,11 @@ namespace compartments.solvers
             return actualLeap;
         }
 
-        protected float[,] ComputeJacobian()
+        protected double[,] ComputeJacobian()
         {
-            var jacobian       = new float[reactions.Count, model.Species.Count];
-            var actualRates    = new float[reactions.Count];
-            var perturbedRates = new float[reactions.Count];
+            var jacobian       = new double[reactions.Count, model.Species.Count];
+            var actualRates    = new double[reactions.Count];
+            var perturbedRates = new double[reactions.Count];
             int iSpecies       = 0;
 
             for (int iReaction = 0; iReaction < reactions.Count; iReaction++)
@@ -155,7 +155,7 @@ namespace compartments.solvers
                 int index = 0;
                 foreach (Reaction r in reactions)
                 {
-                    float av = r.Rate;
+                    double av = r.Rate;
                     perturbedRates[index++] = av;
                 }
 
@@ -172,10 +172,10 @@ namespace compartments.solvers
             return jacobian;
         }
 
-        protected float[] PossibleTaus(float[,] jacobian, float epsilon, float a0)
+        protected double[] PossibleTaus(double[,] jacobian, double epsilon, double a0)
         {
-            var eta          = new float[model.Species.Count];
-            var possibleTaus = new float[reactions.Count];
+            var eta          = new double[model.Species.Count];
+            var possibleTaus = new double[reactions.Count];
 
             //  Here we compute Eta  
             for (int iReaction = 0; iReaction < reactions.Count; iReaction++)
@@ -193,7 +193,7 @@ namespace compartments.solvers
             //  Here we compute the Tauvector
             for (int iReaction = 0; iReaction < reactions.Count; iReaction++)
             {
-                float sum = 0.0f;
+                double sum = 0.0;
                 for (int iSpecies = 0; iSpecies < model.Species.Count; iSpecies++)
                 {
                     sum += eta[iSpecies] * jacobian[iReaction, iSpecies];
@@ -205,7 +205,7 @@ namespace compartments.solvers
             return possibleTaus;
         }
 
-        protected void ExecuteLReactions(int L, float a0)
+        protected void ExecuteLReactions(int L, double a0)
         {
             // fill the probability vector
             for (int i = 0; i < reactions.Count; i++)
@@ -224,7 +224,7 @@ namespace compartments.solvers
             }
         }
 
-        protected int ComputeLFromLtauAndA0UsingTheta(int Ltau, float a0)
+        protected int ComputeLFromLtauAndA0UsingTheta(int Ltau, double a0)
         {
             int L = Ltau;
             foreach (Reaction r in reactions)
@@ -246,7 +246,7 @@ namespace compartments.solvers
                     { lj = Math.Min(lj, -s.Count / nu); }
                 }
 
-                int proposedL = (int)((1.0 - _theta * (1.0 - a0 / r.Rate)) * ((float)lj));
+                int proposedL = (int)((1.0 - _theta * (1.0 - a0 / r.Rate)) * ((double)lj));
 
                 if (proposedL < L && proposedL > 0)
                 {

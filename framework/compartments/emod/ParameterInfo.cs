@@ -7,7 +7,7 @@ namespace compartments.emod
     {
         private readonly String _name;
 
-        public ParameterInfo(String name, float value)
+        public ParameterInfo(String name, double value)
         {
             _name  = name;
             Value = value;
@@ -18,9 +18,9 @@ namespace compartments.emod
             get { return _name; }
         }
 
-        public float Value { get; set; }
+        public double Value { get; set; }
 
-        public static implicit operator float(ParameterInfo p)
+        public static implicit operator double(ParameterInfo p)
         {
             return p.Value;
         }

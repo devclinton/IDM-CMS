@@ -26,14 +26,14 @@ namespace compartments.solvers.solverbase
             _delay = info.HasDelay ? info.DelayExpression.ResolveReferences(map) : null;
         }
 
-        public float Delay
+        public double Delay
         {
             get { return _delay.Value; }
         }
 
         public ReactionInfo Info { get; private set; }
 
-        public float Rate
+        public double Rate
         {
             get { return _rate.Value; }
         }

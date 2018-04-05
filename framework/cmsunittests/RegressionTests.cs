@@ -18,7 +18,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\negativepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new Gillespie(modelInfo, duration, repeats, samples);
@@ -36,7 +36,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\negativepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new GillespieFirstReaction(modelInfo, duration, repeats, samples);
@@ -54,7 +54,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\negativepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new GibsonBruck(modelInfo, duration, repeats, samples);
@@ -72,7 +72,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\negativepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new BLeaping(modelInfo, duration, repeats, samples);
@@ -90,7 +90,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\negativepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new HybridSSA(modelInfo, duration, repeats, samples);
@@ -108,7 +108,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\negativepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new MidPoint(modelInfo, duration, repeats, samples);
@@ -126,7 +126,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\negativepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new RLeaping(modelInfo, duration, repeats, samples);
@@ -144,7 +144,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\negativepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new RLeapingFast(modelInfo, duration, repeats, samples);
@@ -162,7 +162,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\negativepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
@@ -180,7 +180,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\infinitepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new Gillespie(modelInfo, duration, repeats, samples);
@@ -198,7 +198,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\infinitepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new GillespieFirstReaction(modelInfo, duration, repeats, samples);
@@ -216,7 +216,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\infinitepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new GibsonBruck(modelInfo, duration, repeats, samples);
@@ -234,7 +234,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\infinitepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new BLeaping(modelInfo, duration, repeats, samples);
@@ -252,7 +252,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\infinitepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new HybridSSA(modelInfo, duration, repeats, samples);
@@ -270,7 +270,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\infinitepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new MidPoint(modelInfo, duration, repeats, samples);
@@ -288,7 +288,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\infinitepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new RLeaping(modelInfo, duration, repeats, samples);
@@ -306,7 +306,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\infinitepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new RLeapingFast(modelInfo, duration, repeats, samples);
@@ -324,7 +324,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\infinitepropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
@@ -342,7 +342,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\nanpropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new Gillespie(modelInfo, duration, repeats, samples);
@@ -360,7 +360,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\nanpropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new GillespieFirstReaction(modelInfo, duration, repeats, samples);
@@ -378,7 +378,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\nanpropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new GibsonBruck(modelInfo, duration, repeats, samples);
@@ -396,7 +396,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\nanpropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new BLeaping(modelInfo, duration, repeats, samples);
@@ -414,7 +414,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\nanpropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new HybridSSA(modelInfo, duration, repeats, samples);
@@ -432,7 +432,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\nanpropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new MidPoint(modelInfo, duration, repeats, samples);
@@ -450,7 +450,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\nanpropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new RLeaping(modelInfo, duration, repeats, samples);
@@ -468,7 +468,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\nanpropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new RLeapingFast(modelInfo, duration, repeats, samples);
@@ -486,7 +486,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\nanpropensity.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);

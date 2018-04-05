@@ -11,7 +11,7 @@ namespace cmsunittests
         private const string Description = "description";
         private const int NumRealizations = 10;
         private const int NumSamples = 20;
-        private readonly float[] _sampleTimes = { 0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f, 13.0f, 14.0f, 15.0f, 16.0f, 17.0f, 18.0f, 19.0f };
+        private readonly double[] _sampleTimes = { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0 };
         private readonly string[] _observableNames = { "S", "E", "I", "R" };
 
         [Test]

@@ -12,7 +12,7 @@ namespace compartments.emod.utils
         public long UpperBound { get; protected set; }
         public readonly int BinCount;
 
-        private float _inverseWidth;
+        private double _inverseWidth;
         private readonly long[] _bins;
 
         public long this[int index]
@@ -49,7 +49,7 @@ namespace compartments.emod.utils
             SampleCount   = 0;
             LowerBound    = 0;
             Width         = 1;
-            _inverseWidth = 1.0f;
+            _inverseWidth = 1.0;
             UpperBound    = BinCount; // LowerBound + Width * BinCount
         }
 
@@ -132,7 +132,7 @@ namespace compartments.emod.utils
 
             LowerBound    = newLowerBound;
             Width         = newWidth;
-            _inverseWidth = 1.0f / newWidth;
+            _inverseWidth = 1.0 / newWidth;
             UpperBound    = newLowerBound + BinCount*newWidth;
 
             var newBins           = new long[BinCount];
@@ -155,7 +155,7 @@ namespace compartments.emod.utils
             LowerBound    = 0;
             UpperBound    = BinCount;
             Width         = 1;
-            _inverseWidth = 1.0f;
+            _inverseWidth = 1.0;
 
             for (int i = 0; i < BinCount; i++)
             {

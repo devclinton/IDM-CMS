@@ -10,7 +10,7 @@
     },
 
     "b-leaping" : {
-        "Tau" : .01
+        "Tau" : 0.005
     },
     "output" : {
         "prefix" : "BLeapTest",

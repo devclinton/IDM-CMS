@@ -52,7 +52,9 @@ namespace cmsregressiontests
             String trajectoriesJson = outputDirectory + tempTestName + ".json";
             String trajectoriesMatlab = outputDirectory + tempTestName + ".mat";
 
+            Console.Write($"Running {testName}...");
             ExecuteCompartmentsExe(tempModelFileName, tempConfigFileName, outputDirectory, logFile, errFile);
+            Console.WriteLine("done.");
 
             switch(vt)
             {

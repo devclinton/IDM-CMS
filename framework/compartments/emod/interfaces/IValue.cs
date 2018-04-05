@@ -2,6 +2,6 @@
 {
     public interface IValue
     {
-        float Value { get; }
+        double Value { get; }
     }
 }

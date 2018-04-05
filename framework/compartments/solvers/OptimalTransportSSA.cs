@@ -17,7 +17,7 @@ namespace compartments.solvers
 
         private readonly int _transportSSAThreshold;
 
-        public                  OptimalTransportSSA(ModelInfo modelInfo, float duration, int repeats, int samples)
+        public                  OptimalTransportSSA(ModelInfo modelInfo, double duration, int repeats, int samples)
                                 : base(modelInfo, duration, repeats, samples)
         {
             // SolverBase constructor has been executed at this point
@@ -73,7 +73,7 @@ namespace compartments.solvers
                     {
                         int inputCount = Math.Min(currentCount, UMax);
 
-                        float uniformRandomNumber = rng.GenerateUniformOO();
+                        double uniformRandomNumber = rng.GenerateUniformOO();
                         int mu = InvertCumulativeDistribution(uniformRandomNumber, dictionary[iSpecies][inputCount - 1]);
 
                         lambda[speciesIndices[iSpecies][0]]     -= 1;

@@ -14,7 +14,7 @@ namespace compartments.emod.expressions
             ArgumentB = argB;
         }
 
-        public abstract float Value { get; }
+        public abstract double Value { get; }
     }
 
     // Add, Subtract, Multiply, Divide, Modulo, Power, Minimum, Maximum
@@ -25,7 +25,7 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
             get { return ArgumentA.Value + ArgumentB.Value; }
         }
@@ -37,7 +37,7 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
             get { return ArgumentA.Value - ArgumentB.Value; }
         }
@@ -49,7 +49,7 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
             get { return ArgumentA.Value*ArgumentB.Value; }
         }
@@ -61,7 +61,7 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
             get { return ArgumentA.Value/ArgumentB.Value; }
         }
@@ -73,9 +73,9 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
-            get { return (float) ((int) ArgumentA.Value%(int) ArgumentB.Value); }
+            get { return (double) ((int) ArgumentA.Value%(int) ArgumentB.Value); }
         }
     }
 
@@ -85,9 +85,9 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
-            get { return (float) Math.Pow(ArgumentA.Value, ArgumentB.Value); }
+            get { return Math.Pow(ArgumentA.Value, ArgumentB.Value); }
         }
     }
 
@@ -97,7 +97,7 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
             get { return Math.Min(ArgumentA.Value, ArgumentB.Value); }
         }
@@ -109,7 +109,7 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
             get { return Math.Max(ArgumentA.Value, ArgumentB.Value); }
         }

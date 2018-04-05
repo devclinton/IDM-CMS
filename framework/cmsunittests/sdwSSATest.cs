@@ -33,7 +33,7 @@ namespace cmsunittests
             Species product1;
             CreateSpeciesInfoAndSpecies("product1", 90, out info3, out product1);
 
-            const float rate1 = 2.0f;
+            const double rate1 = 2.0;
             var reaction1 = CreateReaction(info1, reactant1, info2, reactant2, info3, product1, rate1);
             Assert.AreEqual(reaction1.Reactants[0], reactant1);
             Assert.AreEqual(reaction1.Reactants[1], reactant2);
@@ -104,8 +104,8 @@ namespace cmsunittests
             Species product2;
             CreateSpeciesInfoAndSpecies("product2", 3, out info6, out product2);
 
-            const float rate1 = 2.0f;
-            const float rate2 = 3.0f;
+            const double rate1 = 2.0;
+            const double rate2 = 3.0;
             Reaction reaction1 = CreateReaction(info1, reactant1, info2, reactant2, info3, product1, rate1);
             Reaction reaction2 = CreateReaction(info4, reactant3, info5, reactant4, info6, product2, rate2);
             const int gammaSize = 10;
@@ -223,7 +223,7 @@ namespace cmsunittests
             Assert.AreEqual(0.0, GetHiddenField<double>("_runningVariance", solver));
 
             Assert.AreEqual(100000, GetHiddenField<int>("_crossEntropyRuns", solver));
-            Assert.AreEqual(0.01f, GetHiddenField<float>("_crossEntropyThreshold", solver));
+            Assert.AreEqual(0.01, GetHiddenField<double>("_crossEntropyThreshold", solver));
             Assert.AreEqual(20, GetHiddenField<int>("_binCountThreshold", solver));
             Assert.AreEqual(200, GetHiddenField<int>("_crossEntropyMinDataSize", solver));
 
@@ -237,14 +237,14 @@ namespace cmsunittests
 
             Assert.AreEqual("reExpression", GetHiddenField<string>("_reExpressionName", solver));
             Assert.AreEqual("reVal", GetHiddenField<string>("_reValName", solver));
-            Assert.AreEqual(0.0f, GetHiddenField<float>("_rareEventValue", solver));
+            Assert.AreEqual(0.0, GetHiddenField<double>("_rareEventValue", solver));
 
             Assert.AreEqual("reExpression", GetHiddenField<Expression>("_reExpression", solver).Name);
             var equalto = GetHiddenField<EqualTo>("_rareEventTest", solver);
             Assert.AreEqual(true, equalto.Value);
 
             solver.Initialize();
-            Assert.AreEqual(30.0f, GetHiddenField<float>("_rareEventValue", solver));
+            Assert.AreEqual(30.0, GetHiddenField<double>("_rareEventValue", solver));
             Assert.AreEqual(1, GetHiddenField<int>("_rareEventType", solver));
             Assert.AreEqual("global", GetHiddenField<BiasingParameters>("_biasingParameters", solver).RareEvent.ExpressionLocale);
 
@@ -264,13 +264,13 @@ namespace cmsunittests
             RunResetRNGFactory();
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
 
             Assert.AreEqual(1000000, GetHiddenField<int>("_crossEntropyRuns", solver));
-            Assert.AreEqual(0.005f, GetHiddenField<float>("_crossEntropyThreshold", solver));
+            Assert.AreEqual(0.005, GetHiddenField<double>("_crossEntropyThreshold", solver));
             Assert.AreEqual("resources\\rever_isom_sdwSSA_CEinfo.json", GetHiddenField<string>("_biasingParametersFileName", solver));
             Assert.AreEqual(false, GetHiddenField<Boolean>("_biasingParametersFlag", solver));
 
@@ -308,15 +308,15 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
 
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
             solver.Initialize();
 
-            Assert.AreEqual(30.0f, GetHiddenField<float>("_rareEventValue", solver));
-            Assert.AreEqual(0.0f, GetHiddenField<Expression>("_reExpression", solver).Value);
+            Assert.AreEqual(30.0, GetHiddenField<double>("_rareEventValue", solver));
+            Assert.AreEqual(0.0, GetHiddenField<Expression>("_reExpression", solver).Value);
             Assert.AreEqual(1, GetHiddenField<int>("_rareEventType", solver));
 
             var biasingParameters = GetHiddenField<BiasingParameters>("_biasingParameters", solver);
@@ -337,7 +337,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -361,7 +361,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
 
@@ -386,7 +386,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
 
@@ -410,7 +410,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
 
@@ -435,7 +435,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
 
@@ -460,7 +460,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
 
@@ -485,7 +485,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -510,7 +510,7 @@ namespace cmsunittests
             RunResetRNGFactory();
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom_custom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -534,7 +534,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -560,7 +560,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -583,7 +583,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -604,7 +604,7 @@ namespace cmsunittests
             RunResetRNGFactory();
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 1000000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -629,7 +629,7 @@ namespace cmsunittests
 
             try
             {
-                var inputArray1 = new object[] { 1.0f };
+                var inputArray1 = new object[] { 1.0 };
                 method.Invoke(solver, inputArray1);
                 Assert.Fail("CalculateProposedTau should have thrown an Error");
             }
@@ -664,7 +664,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 100000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -674,10 +674,10 @@ namespace cmsunittests
             method.Invoke(solver, null);
 
             var reExpression = GetHiddenField<Expression>("_reExpression", solver);
-            var reEventValue = GetHiddenField<float>("_rareEventValue", solver);
+            var reEventValue = GetHiddenField<double>("_rareEventValue", solver);
 
             Assert.AreEqual(0, reExpression.Value);
-            Assert.AreEqual(30.0f, reEventValue);
+            Assert.AreEqual(30.0, reEventValue);
             Assert.AreEqual(1, GetHiddenField<int>("_rareEventType", solver));
         }
 
@@ -688,7 +688,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 100000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -709,7 +709,7 @@ namespace cmsunittests
             RunResetRNGFactory();
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 100000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -721,8 +721,14 @@ namespace cmsunittests
             GetHiddenMethod("RunCrossEntropy", solver).Invoke(solver, null);
             var biasingParameters = GetHiddenField<BiasingParameters>("_biasingParameters", solver);
 
-            Assert.AreEqual(biasingParameters.Locales[0].Reactions[0].RareEvents[0].Gammas, new[]
-                {2.0631374260651874, 1.6275260813957282, 1.2852465989965649, 1.1551778002545692, 1.0896852429443773, 1.0597861285148038, 1.0521305608249278, 1.0491667590772435, 1.0058609338670563, 1.0114445292874816, 1.0208331777734598, 1.01513053565442, 1.0298844136066307});
+            Console.Error.WriteLine("** TestRunCrossEntropy gammas **");
+            foreach (double value in biasingParameters.Locales[0].Reactions[0].RareEvents[0].Gammas)
+            {
+                Console.Error.WriteLine(value);
+            }
+
+            Assert.AreEqual(new[] { 2.0273575170009774, 1.6011280886463515, 1.2909305036960836, 1.1580792074159503, 1.1014233907817004, 1.0495114005076731, 1.0308762479433711, 1.01949884022247545, 1.0123811789981323, 1.013972793156378, 1.0147858262235918, 0.97835339270352839, 1.025712153478078 },
+                            biasingParameters.Locales[0].Reactions[0].RareEvents[0].Gammas);
         } 
 
         [Test]
@@ -749,7 +755,7 @@ namespace cmsunittests
             RunResetRNGFactory();
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 100000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -762,8 +768,8 @@ namespace cmsunittests
             var inputArray1 = new object[] { 1.5 };
             stepOnce.Invoke(solver, inputArray1);
 
-            var currentTime = GetHiddenField<float>("_currentTime", solver);
-            Assert.AreEqual(0.0262772311f, currentTime);
+            var currentTime = GetHiddenField<double>("_currentTime", solver);
+            Assert.AreEqual(0.0075434142087234968, currentTime);
         }
 
         [Test]
@@ -777,11 +783,11 @@ namespace cmsunittests
 
             var trajectoryCounter = GetHiddenField<int>("_trajectoryCounter", solver);
             var runningMean = GetHiddenField<double>("_runningMean", solver);
-            var currentTime = GetHiddenField<float>("_currentTime", solver);
+            var currentTime = GetHiddenField<double>("_currentTime", solver);
 
             Assert.AreEqual(1, trajectoryCounter);
             Assert.AreEqual(0.0, runningMean);
-            Assert.GreaterOrEqual(currentTime, 10.0f);
+            Assert.GreaterOrEqual(currentTime, 10.0);
         }
 
         [Test]
@@ -792,7 +798,7 @@ namespace cmsunittests
             RunResetRNGFactory();
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            const float duration = 10.0f;
+            const double duration = 10.0;
             const int repeats = 100000;
             const int samples = 1;
             var solver = new sdwSSA(modelInfo, duration, repeats, samples);
@@ -802,8 +808,8 @@ namespace cmsunittests
             var runningMean = GetHiddenField<double>("_runningMean", solver);
             var runningVariance = GetHiddenField<double>("_runningVariance", solver);
            Assert.AreEqual(100000, trajectoryCounter);
-           Assert.AreEqual(1.1726528009912961E-05, runningMean);
-           Assert.AreEqual(0.00017372036406235587d, runningVariance);
+           Assert.AreEqual(0.000011777283310510327, runningMean);
+           Assert.AreEqual(0.00017388263350241653, runningVariance);
         }
 
         [Test]
@@ -845,7 +851,7 @@ namespace cmsunittests
             species.Reset();
         }
 
-        private static Reaction CreateReaction(SpeciesDescription info1, Species reactant1, SpeciesDescription info2, Species reactant2, SpeciesDescription info3, Species product1, float rate)
+        private static Reaction CreateReaction(SpeciesDescription info1, Species reactant1, SpeciesDescription info2, Species reactant2, SpeciesDescription info3, Species product1, double rate)
         {
             var builder = new ReactionInfo.ReactionBuilder("theReaction");
             builder.AddReactant(info1);
@@ -888,7 +894,7 @@ namespace cmsunittests
             RunResetRNGFactory();
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\rever_isom.emodl");
-            var solver = new sdwSSA(modelInfo, 10.0f, 1000000, 1);
+            var solver = new sdwSSA(modelInfo, 10.0, 1000000, 1);
 
             return solver;
         }

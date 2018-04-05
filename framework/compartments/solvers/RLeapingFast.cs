@@ -15,45 +15,45 @@ namespace compartments.solvers
     {
         #region fields
         protected List<Reaction>    reactions;
-        protected float[]           currentRates;
+        protected double[]           currentRates;
 
-        private readonly float[] _probabilityVector;
+        private readonly double[] _probabilityVector;
 
         private readonly int[]   _highestOrderReaction;   // highest order reaction in which a species is involved (Ref. denoted by HOR(i))
-        private readonly float[] _muHat;                  // expected change for each species during the next time step (Ref. Eq. 32 a)
-        private readonly float[] _sigmaHat2;              // expected variance for each species during the next time step (Ref. Eq. 32 b)
-        private readonly float[] _varHat;                 // R-Leaping corrected variance (sigmaHat2 rescaled, see R-Leaping article)
+        private readonly double[] _muHat;                  // expected change for each species during the next time step (Ref. Eq. 32 a)
+        private readonly double[] _sigmaHat2;              // expected variance for each species during the next time step (Ref. Eq. 32 b)
+        private readonly double[] _varHat;                 // R-Leaping corrected variance (sigmaHat2 rescaled, see R-Leaping article)
 
         private readonly int[]   _executionsPerReaction;
         private readonly bool    _verbose;
 
-        private readonly float _epsilon;          // error control parameter
-        private readonly float _sortingInterval;  // when to sort
+        private readonly double _epsilon;          // error control parameter
+        private readonly double _sortingInterval;  // when to sort
         private int _sortingIterationNumber;
-        private float _a0;
+        private double _a0;
         private int _actualL;
 
         private DistributionSampler _distributionSampler;
         #endregion
 
-        public RLeapingFast(ModelInfo modelInfo, float duration, int repeats, int samples)
+        public RLeapingFast(ModelInfo modelInfo, double duration, int repeats, int samples)
             : base(modelInfo, duration, repeats, samples)
         {
             Configuration config = Configuration.CurrentConfiguration;
 
             reactions    = new List<Reaction>(model.Reactions);
-            currentRates = new float[reactions.Count];
+            currentRates = new double[reactions.Count];
 
             _highestOrderReaction = new int[model.Species.Count];
-            _muHat                = new float[model.Species.Count];
-            _sigmaHat2            = new float[model.Species.Count];
-            _varHat               = new float[model.Species.Count];
+            _muHat                = new double[model.Species.Count];
+            _sigmaHat2            = new double[model.Species.Count];
+            _varHat               = new double[model.Species.Count];
 
-            _probabilityVector     = new float[reactions.Count];
+            _probabilityVector     = new double[reactions.Count];
             _executionsPerReaction = new int[reactions.Count];
 
-            _epsilon         = config.GetParameterWithDefault("r-leaping.epsilon", 0.1f);
-            _sortingInterval = config.GetParameterWithDefault("r-leaping.sorting interval", 365.0f);
+            _epsilon         = config.GetParameterWithDefault("r-leaping.epsilon", 0.1);
+            _sortingInterval = config.GetParameterWithDefault("r-leaping.sorting interval", 365.0);
             _verbose         = config.GetParameterWithDefault("r-leaping.verbose", false);
 
             _distributionSampler = RandLibSampler.CreateRandLibSampler(rng);
@@ -66,20 +66,19 @@ namespace compartments.solvers
             _sortingIterationNumber = 0;
         }
 
-        protected override float CalculateProposedTau(float tauLimit)
+        protected override double CalculateProposedTau(double tauLimit)
         {
-            float actualTau = tauLimit;
+            double actualTau = tauLimit;
 
             SortReactionsIfNecessary();
             _a0 = UpdateAndSumRates(reactions, currentRates);
 
-            if (_a0 > 0.0f)
+            if (_a0 > 0.0)
             {
                 actualTau = CurrentTime + ComputeProposedLeap(_a0, tauLimit - CurrentTime, out _actualL);
 
                 if (_verbose)
                 {
-                    // Diagnostics
                     Console.WriteLine("t = {0},  current L = {1}", CurrentTime, _actualL);
                     Console.WriteLine("\n\n");
                 }
@@ -106,6 +105,7 @@ namespace compartments.solvers
                 {
                     Console.WriteLine("Sorting the reactions at time t = {0}", CurrentTime);
                     Console.WriteLine("Sorted reactions by propensities");
+
                     foreach (Reaction r in reactions)
                     {
                         Console.WriteLine("{0}", r);
@@ -114,12 +114,12 @@ namespace compartments.solvers
             }
         }
 
-        protected float ComputeProposedLeap(float a0, float leapLimit, out int L)
+        protected double ComputeProposedLeap(double a0, double leapLimit, out int L)
         {
-            float tau          = ComputeTau(a0);
-            L                  = Math.Max((int)(a0 * tau), 1);
-            float proposedLeap = ((float)(1.0 / a0)) * _distributionSampler.StandardGamma(L);
-            float actualLeap   = proposedLeap;
+            double tau          = ComputeTau(a0);
+            L                   = Math.Max((int)(a0 * tau), 1);
+            double proposedLeap = (1.0 / a0) * _distributionSampler.StandardGamma(L);
+            double actualLeap   = proposedLeap;
             if (proposedLeap > leapLimit)
             {
                 #region verbose
@@ -135,36 +135,36 @@ namespace compartments.solvers
             return actualLeap;
         }
 
-        protected float ComputeTau(float a0)
+        protected double ComputeTau(double a0)
         {
             ComputeHor();
             ComputeMuHatAndSigmaHat2();
             ComputeVarHat(a0);
 
-            float tau = float.MaxValue;
+            double tau = double.MaxValue;
 
             for (int iSpecies = 0; iSpecies < model.Species.Count; ++iSpecies)
             {
-                float xi = model.Species[iSpecies].Count;
+                double xi = model.Species[iSpecies].Count;
 
-                float epsixi;
-                float epsixi2;
+                double epsixi;
+                double epsixi2;
 
                 switch (_highestOrderReaction[iSpecies]) // highest order reaction that the species participates in
                 {
                     case 0:
                         break;
                     case 1:
-                        epsixi      = (float)Math.Max(_epsilon*xi, 1.0);
-                        epsixi2     = (float)Math.Pow(epsixi,     2.0);
+                        epsixi      = Math.Max(_epsilon*xi, 1.0);
+                        epsixi2     = Math.Pow(epsixi,     2.0);
 
                         tau         = Math.Min(tau, epsixi  / Math.Abs(_muHat[iSpecies]) );
                         tau         = Math.Min(tau, epsixi2 / _varHat[iSpecies]          );
                         break;
 
                     case 2:
-                        epsixi      = (float)Math.Max(0.5*_epsilon*xi, 1.0);
-                        epsixi2     = (float)Math.Pow(epsixi,         2.0);
+                        epsixi      = Math.Max(0.5*_epsilon*xi, 1.0);
+                        epsixi2     = Math.Pow(epsixi,         2.0);
 
                         tau         = Math.Min(tau, epsixi  / Math.Abs(_muHat[iSpecies]) );
                         tau         = Math.Min(tau, epsixi2 / _varHat[iSpecies]          );
@@ -206,8 +206,8 @@ namespace compartments.solvers
         {
             for (int iSpecies = 0; iSpecies < model.Species.Count; ++iSpecies)
             {
-                _muHat[iSpecies]     = 0.0f;
-                _sigmaHat2[iSpecies] = 0.0f;
+                _muHat[iSpecies]     = 0.0;
+                _sigmaHat2[iSpecies] = 0.0;
             }
 
             for (int iSpecies = 0; iSpecies < model.Species.Count; ++iSpecies)
@@ -226,30 +226,30 @@ namespace compartments.solvers
                     if (nu != 0)
                     {
                         _muHat[iSpecies]     += nu * currentRates[iReaction];
-                        _sigmaHat2[iSpecies] += (float)(Math.Pow(nu, (float)2.0) * currentRates[iReaction]);
+                        _sigmaHat2[iSpecies] += (Math.Pow(nu, 2.0) * currentRates[iReaction]);
                     }
                 }
             }
         }
 
         // only for R-Leaping, for tau-Leaping use varhat = sigmaHat2.
-        protected void ComputeVarHat(float a0)
+        protected void ComputeVarHat(double a0)
         {
             for (int iSpecies = 0; iSpecies < _varHat.Length; ++iSpecies)
             {
-                float rLeapingVarianceRescale = (float)(1.0 / a0) * (float)(Math.Pow(_muHat[iSpecies], 2.0));
-                float rescaledVariance        = _sigmaHat2[iSpecies] - rLeapingVarianceRescale;
+                double rLeapingVarianceRescale = (1.0 / a0) * Math.Pow(_muHat[iSpecies], 2.0);
+                double rescaledVariance        = _sigmaHat2[iSpecies] - rLeapingVarianceRescale;
 
                 _varHat[iSpecies] = rescaledVariance;
 
-                if (_varHat[iSpecies] <= 0.0f) 
+                if (_varHat[iSpecies] <= 0.0) 
                 {
-                    _varHat[iSpecies] = 0.0f;
+                    _varHat[iSpecies] = 0.0;
                 }
             }
         }
 
-        protected void ExecuteLReactions(int L, float a0)
+        protected void ExecuteLReactions(int L, double a0)
         {
             // fill the probability vector
             for (int i = 0; i < reactions.Count; i++)

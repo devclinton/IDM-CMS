@@ -2,6 +2,6 @@
 {
     public interface IUpdateable
     {
-        void Update(float value);
+        void Update(double value);
     }
 }

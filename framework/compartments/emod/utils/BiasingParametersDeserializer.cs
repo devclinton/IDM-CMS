@@ -69,7 +69,7 @@ namespace compartments.emod.utils
             var intermediateRareEventCount = (int) rareEventSpec["IRE_COUNT"];
             var thresholds = (JArray) rareEventSpec["THRESHOLDS"];
             for (int i = 0; i < intermediateRareEventCount; i++)
-                parameters.RareEvent.Thresholds.Add((float) thresholds[i]);
+                parameters.RareEvent.Thresholds.Add((double)thresholds[i]);
         }
 
         protected static void ReadRareEventExpressionInfo(JObject rareEventExpressionInfo, ref BiasingParameters parameters)

@@ -14,16 +14,16 @@ namespace compartments.solvers
             ExactMethod = 2
         }
 
-        protected float[] currentRates;
-        protected SortedDictionary<float, IList<Reaction>> priorityQueue;
+        protected double[] currentRates;
+        protected SortedDictionary<double, IList<Reaction>> priorityQueue;
         protected Mode runMode;
         private Reaction _nextReaction;
 
-        public HybridSSA(ModelInfo modelInfo, float duration, int repeats, int samples) :
+        public HybridSSA(ModelInfo modelInfo, double duration, int repeats, int samples) :
             base(modelInfo, duration, repeats, samples)
         {
-            currentRates  = new float[model.Reactions.Count];
-            priorityQueue = new SortedDictionary<float, IList<Reaction>>();
+            currentRates  = new double[model.Reactions.Count];
+            priorityQueue = new SortedDictionary<double, IList<Reaction>>();
 
             runMode = Mode.ExactMethod;
 #if DEPRECATED
@@ -45,16 +45,16 @@ namespace compartments.solvers
 #if DEPRECATED
                 case Mode.RejectionMethod:
                     {
-                        float timeOfNextReaction = float.MaxValue;
-                        float timeOfNextEvent = float.MaxValue;
+                        double timeOfNextReaction = double.MaxValue;
+                        double timeOfNextEvent = double.MaxValue;
 
                         // Calculate time to next reaction
-                        float a0 = UpdateRates();
+                        double a0 = UpdateRates();
 
-                        if (a0 > 0.0f)
+                        if (a0 > 0.0)
                         {
-                            float r1 = rng.NextVariate() + float.Epsilon;
-                            timeOfNextReaction = CurrentTime + (float)Math.Log(1.0 / r1) / a0;
+                            double r1 = rng.NextVariate() + double.Epsilon;
+                            timeOfNextReaction = CurrentTime + Math.Log(1.0 / r1) / a0;
                         }
 
                         if (priorityQueue.Count > 0)
@@ -67,8 +67,8 @@ namespace compartments.solvers
                         {
                             UpdateTime(timeOfNextReaction - CurrentTime);
 
-                            float r2 = rng.NextVariate();
-                            float threshold = r2 * a0;
+                            double r2 = rng.NextVariate();
+                            double threshold = r2 * a0;
                             int mu = SelectReaction(threshold);
 
                             FireReaction(model.Reactions[mu]);
@@ -100,20 +100,20 @@ namespace compartments.solvers
                         // Refactored version of Direct Method from
                         // Cai, X. 2007. Exact stochastic simulation of coupled chemical reactions with delays,
                         // The Journal of Chemical Physics 126, 124108 (2007)
-                        float u2 = rng.GenerateUniformOO();
-                        float a0 = UpdateAndSumRates(model.Reactions, currentRates);
+                        double u2 = rng.GenerateUniformOO();
+                        double a0 = UpdateAndSumRates(model.Reactions, currentRates);
 
                         if (priorityQueue.Count == 0)
                         {
                             if (a0 > 0)
                             {
-                                float tau = (float)(-Math.Log(u2) / a0);
+                                double tau = (-Math.Log(u2) / a0);
 
                                 if ((CurrentTime + tau) <= duration)
                                 {
                                     UpdateTime(tau);
 
-                                    float r2 = rng.GenerateUniformCC();
+                                    double r2 = rng.GenerateUniformCC();
                                     double threshold = r2 * (double)a0;
                                     int mu = GetReactionIndex(currentRates, threshold);
 
@@ -131,10 +131,10 @@ namespace compartments.solvers
                         }
                         else
                         {
-                            float timeOfNextEvent = GetTimeOfNextEvent();
-                            float eventOffset = 0.0f;
-                            float aSubt = a0 * (timeOfNextEvent - CurrentTime);
-                            float F = (float)(1 - Math.Exp(-aSubt));
+                            double timeOfNextEvent = GetTimeOfNextEvent();
+                            double eventOffset = 0.0;
+                            double aSubt = a0 * (timeOfNextEvent - CurrentTime);
+                            double F = (1 - Math.Exp(-aSubt));
 
                             while (F < u2)
                             {
@@ -149,7 +149,7 @@ namespace compartments.solvers
                                     if ((priorityQueue.Count > 0) && ((timeOfNextEvent = GetTimeOfNextEvent()) <= duration))
                                     {
                                         aSubt += a0 * (timeOfNextEvent - CurrentTime);
-                                        F = (float)(1 - Math.Exp(-aSubt));
+                                        F = (1 - Math.Exp(-aSubt));
                                     }
                                     else
                                     {
@@ -157,24 +157,24 @@ namespace compartments.solvers
                                         // timeOfNextEvent = infinity
                                         // aSubt += a0 * infinity, which is infinity
                                         // F = 1 - exp(-aSubt), which is 1.0 and breaks us out of the while loop
-                                        F = 1.0f;
+                                        F = 1.0;
                                     }
                                 }
                                 else
                                 {
                                     // The next event is past the end of the simulation
-                                    F = 1.0f;
+                                    F = 1.0;
                                 }
                             }
 
-                            float tau = -(float)((Math.Log(u2) + eventOffset) / a0);
+                            double tau = -((Math.Log(u2) + eventOffset) / a0);
 
                             if ((CurrentTime + tau) <= duration)
                             {
                                 UpdateTime(tau);
 
-                                float r2 = rng.GenerateUniformCC();
-                                double threshold = r2 * (double)a0;
+                                double r2 = rng.GenerateUniformCC();
+                                double threshold = r2 * a0;
                                 int mu = GetReactionIndex(currentRates, threshold);
 
                                 FireReaction(model.Reactions[mu]);
@@ -192,9 +192,9 @@ namespace compartments.solvers
             }
         }
 
-        protected override float CalculateProposedTau(float tauLimit)
+        protected override double CalculateProposedTau(double tauLimit)
         {
-            float actualTau = tauLimit;
+            double actualTau = tauLimit;
 
             return actualTau;
         }
@@ -208,7 +208,7 @@ namespace compartments.solvers
             }
         }
 
-        float GetTimeOfNextEvent()
+        double GetTimeOfNextEvent()
         {
             return priorityQueue.First().Key;
         }
@@ -228,7 +228,7 @@ namespace compartments.solvers
             return priorityQueue.First().Value;
         }
 
-        protected void UpdateTime(float delta)
+        protected void UpdateTime(double delta)
         {
             CurrentTime += delta;
             SamplingParams = trajectories.RecordObservables(model.Observables, SamplingParams, CurrentTime, duration);
@@ -241,13 +241,13 @@ namespace compartments.solvers
 
             reactionsFiredInCurrentRealization++;
 
-            float delay = reaction.HasDelay ? reaction.Delay : 0.0f;
+            double delay = reaction.HasDelay ? reaction.Delay : 0.0;
 
-            if (delay > 0.0f)
+            if (delay > 0.0)
             {
                 // Put products on queue
                 IList<Reaction> reactionList;
-                float time = CurrentTime + delay;
+                double time = CurrentTime + delay;
 
                 if (!priorityQueue.TryGetValue(time, out reactionList))
                 {

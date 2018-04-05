@@ -10,19 +10,19 @@ namespace compartments.solvers
 {
     public class BLeaping : SolverBase
     {
-        private readonly float[] _currentRates;
-        private readonly float _tau;
-        private float _deltaTau;
+        private readonly double[] _currentRates;
+        private readonly double _tau;
+        private double _deltaTau;
         private int _step;
         private readonly DistributionSampler _distributionSampler;
 
-        public BLeaping(ModelInfo modelInfo, float duration, int repeats, int samples)
+        public BLeaping(ModelInfo modelInfo, double duration, int repeats, int samples)
             : base(modelInfo, duration, repeats, samples)
         {
-            _currentRates = new float[model.Reactions.Count];
-            _tau = Configuration.CurrentConfiguration.GetParameterWithDefault("b-leaping.Tau", 0.1f);
+            _currentRates = new double[model.Reactions.Count];
+            _tau = Configuration.CurrentConfiguration.GetParameterWithDefault("b-leaping.Tau", 0.1);
             _step = 1;
-            _deltaTau = 0.0f;
+            _deltaTau = 0.0;
             _distributionSampler = RandLibSampler.CreateRandLibSampler(rng);
         }
 
@@ -32,10 +32,10 @@ namespace compartments.solvers
             _step = 1;
         }
 
-        protected override float CalculateProposedTau(float tauLimit)
+        protected override double CalculateProposedTau(double tauLimit)
         {
-            float desiredTau = _step*_tau;
-            float actualTau;
+            double desiredTau = _step * _tau;
+            double actualTau;
 
             if (desiredTau < tauLimit)
             {
@@ -54,18 +54,18 @@ namespace compartments.solvers
 
         protected override void ExecuteReactions()
         {
-            if (_deltaTau > 0.0f)
+            if (_deltaTau > 0.0)
             {
                 UpdateAndSumRates(model.Reactions, _currentRates);
                 ComputeLambda(_deltaTau, model.Reactions, _currentRates);
             }
         }
 
-        private void ComputeLambda(float tauMin, IList<Reaction> subreactions, float[] noncritrates)
+        private void ComputeLambda(double tauMin, IList<Reaction> subreactions, double[] noncritrates)
         {
             for (int jReaction = 0; jReaction < subreactions.Count; jReaction++)
             {
-                float change = noncritrates[jReaction] * tauMin;
+                double change = noncritrates[jReaction] * tauMin;
                 int howManyReactions = _distributionSampler.GeneratePoisson(change);
 
                 FireReaction(subreactions[jReaction], howManyReactions);

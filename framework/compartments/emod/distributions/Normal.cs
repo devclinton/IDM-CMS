@@ -9,14 +9,14 @@ namespace compartments.emod.distributions
 {
     public class Normal : INumericOperator, IValue
     {
-        private readonly float _mean;
-        private readonly float _variance;
+        private readonly double _mean;
+        private readonly double _variance;
 
         private readonly DistributionSampler _distributionSampler;
 
-        public Normal(float mean, float variance)
+        public Normal(double mean, double variance)
         {
-            if (variance <= 0.0f)
+            if (variance <= 0.0)
                 throw new ArgumentException("Variance must be greater than 0.");
 
             _mean     = mean;
@@ -25,7 +25,7 @@ namespace compartments.emod.distributions
             _distributionSampler = RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG());
         }
 
-        public float Value { get { return _distributionSampler.GenerateNormal(_mean, _variance); } }
+        public double Value { get { return _distributionSampler.GenerateNormal(_mean, _variance); } }
 
         public IValue ResolveReferences(IDictionary<string, IValue> map)
         {

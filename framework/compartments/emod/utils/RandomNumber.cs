@@ -8,7 +8,7 @@ namespace compartments.emod.utils
     {
         private static RandomVariateGenerator _rng = RNGFactory.GetRNG();
 
-        public virtual float Value { get { return _rng.GenerateUniformCC(); } }
+        public virtual double Value { get { return _rng.GenerateUniformCC(); } }
 
         public static RandomVariateGenerator Generator
         {

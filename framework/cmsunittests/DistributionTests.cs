@@ -16,32 +16,32 @@ namespace cmsunittests
 
         private bool IsUniformDistribution()
         {
-            const float minimum = 0.0f;
-            const float maximum = 1.0f;
+            const double minimum = 0.0;
+            const double maximum = 1.0;
 
             IValue uniform = new Uniform(minimum, maximum);
-            float sum = 0.0f;
-            var values = new float[NumberOfSamples];
+            double sum = 0.0;
+            var values = new double[NumberOfSamples];
 
             for (int i = 0; i < NumberOfSamples; i++)
             {
-                float value = uniform.Value;
+                double value = uniform.Value;
                 sum += value;
                 values[i] = value;
             }
 
-            float actualMean = sum / NumberOfSamples;
-            const float expectedMean = (maximum + minimum) / 2;
-            float accumulator = 0.0f;
+            double actualMean = sum / NumberOfSamples;
+            const double expectedMean = (maximum + minimum) / 2;
+            double accumulator = 0.0;
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (float value in values)
+            foreach (double value in values)
             {
-                float difference = value - actualMean;
+                double difference = value - actualMean;
                 accumulator += (difference * difference);
             }
 
-            float actualVariance = accumulator / NumberOfSamples;
-            const float expectedVariance = (maximum - minimum) * (maximum - minimum) / 12.0f;
+            double actualVariance = accumulator / NumberOfSamples;
+            const double expectedVariance = (maximum - minimum) * (maximum - minimum) / 12.0;
 
             Console.WriteLine("Uniform Distribution Test:");
             Console.WriteLine("MinimumOperator: {0} MaximumOperator:   {1}", minimum, maximum);
@@ -88,19 +88,19 @@ namespace cmsunittests
         [ExpectedException(typeof(ArgumentException), ExpectedMessage = "must be", MatchType = MessageMatch.Contains)]
         public void TestInvalidUniform()
         {
-            Console.WriteLine("Testing invalid Uniform(128f, -128f) - minimum <= maximum");
+            Console.WriteLine("Testing invalid Uniform(128, -128f) - minimum <= maximum");
             #pragma warning disable 168
-            IValue uniform = new Uniform(128f, -128f);
+            IValue uniform = new Uniform(128, -128f);
             #pragma warning restore 168
-            Console.WriteLine("Invalid Uniform(128f, -128f) FAILED.");
+            Console.WriteLine("Invalid Uniform(128, -128f) FAILED.");
         }
 
         [Test]
         [Ignore, Description("This test is disabled until it is redesigned.")]
         public void TestNormal()
         {
-            const float mu = 0.0f;
-            const float sigma = 1.0f;
+            const double mu = 0.0;
+            const double sigma = 1.0;
             int numOfFailures = 0;
             const int numOfTimesToRun = 1000;
             const int maxExpectedFailures = 15;
@@ -124,23 +124,23 @@ namespace cmsunittests
             Expect(numOfFailures <= maxExpectedFailures);
         }
 
-        private bool IsNormalDistribution(float mu, float sigma)
+        private bool IsNormalDistribution(double mu, double sigma)
         {
             IValue normal = new Normal(mu, sigma*sigma);
 
-            float computedMean = 0.0f;
+            double computedMean = 0.0;
 
             for (int i = 0; i < NumberOfSamples; i++)
             {
-                
-                float value = normal.Value;
+
+                double value = normal.Value;
                 computedMean += value;
             }
 
             computedMean = Math.Abs(computedMean/NumberOfSamples);
 
-            const float alpha = 2.4f;
-            float criterion = (float)Math.Pow(NumberOfSamples, -0.5)*sigma*alpha;
+            const double alpha = 2.4;
+            double criterion = Math.Pow(NumberOfSamples, -0.5)*sigma*alpha;
 
             Console.WriteLine("Abs. Computed Mean: {0}", computedMean); 
             Console.WriteLine("Criterion: {0}", criterion); 
@@ -155,22 +155,22 @@ namespace cmsunittests
         [ExpectedException(typeof(ArgumentException), ExpectedMessage = "must be", MatchType = MessageMatch.Contains)]
         public void TestInvalidNormal1()
         {
-            Console.WriteLine("Testing invalid Normal(10.0f, 0.0f)");
+            Console.WriteLine("Testing invalid Normal(10.0, 0.0)");
             #pragma warning disable 168
-            IValue normal = new Normal(10.0f, 0.0f);
+            IValue normal = new Normal(10.0, 0.0);
             #pragma warning restore 168
-            Console.WriteLine("Invalid Normal(10.0f, 0.0f) FAILED.");
+            Console.WriteLine("Invalid Normal(10.0, 0.0) FAILED.");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentException), ExpectedMessage = "must be", MatchType = MessageMatch.Contains)]
         public void TestInvalidNormal2()
         {
-            Console.WriteLine("Testing invalid Normal(10.0f, -2.0f)");
+            Console.WriteLine("Testing invalid Normal(10.0, -2.0)");
             #pragma warning disable 168
-            IValue normal = new Normal(10.0f, -2.0f);
+            IValue normal = new Normal(10.0, -2.0);
             #pragma warning restore 168
-            Console.WriteLine("Invalid Normal(10.0f, -2.0f) FAILED.");
+            Console.WriteLine("Invalid Normal(10.0, -2.0) FAILED.");
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace cmsunittests
             Console.WriteLine("Checking bin count.");
             Expect(empirical.BinCount == 16);
 
-            var edges = new[] { 0.0f, 5.0f, 10.0f, 15.0f, 20.0f, 25.0f, 30.0f, 35.0f, 40.0f, 45.0f, 50.0f, 55.0f, 60.0f, 65.0f, 75.0f, 85.0f, 100.0f };
+            var edges = new[] { 0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0, 65.0, 75.0, 85.0, 100.0 };
             Console.WriteLine("Checking bin edges (#).");
             Expect(empirical.BinEdges.Length == edges.Length);
             Console.WriteLine("Checking bin edges (values).");
@@ -190,22 +190,22 @@ namespace cmsunittests
                 Expect(empirical.BinEdges[iEdge] == edges[iEdge]);
 
             var probabilities = new[] {
-                0.068139579f,
-                0.073020819f,
-                0.072944671f,
-                0.071844401f,
-                0.067382041f,
-                0.068870283f,
-                0.072882992f,
-                0.080687295f,
-                0.079745843f,
-                0.071396427f,
-                0.062488581f,
-                0.047861576f,
-                0.038395993f,
-                0.065350307f,
-                0.043924148f,
-                0.015065044f
+                0.068139579,
+                0.073020819,
+                0.072944671,
+                0.071844401,
+                0.067382041,
+                0.068870283,
+                0.072882992,
+                0.080687295,
+                0.079745843,
+                0.071396427,
+                0.062488581,
+                0.047861576,
+                0.038395993,
+                0.065350307,
+                0.043924148,
+                0.015065044
             };
             Console.WriteLine("Checking bin values (probabilities).");
             for (int iBin = 0; iBin < empirical.BinCount; iBin++)

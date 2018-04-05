@@ -18,7 +18,7 @@ namespace cmsunittests
             var args = new[] { "-model", "resources\\foo.emodl", "-cfg", "resources\\bar.cfg" };
             Assert.IsTrue(compartments.Program.ProcessArguments(args, out executionParameters));
             Assert.AreEqual("resources\\bar.cfg", executionParameters.ConfigFileName);
-            Assert.AreEqual(314159.0f, executionParameters.Duration);
+            Assert.AreEqual(314159.0, executionParameters.Duration);
             Assert.AreEqual("resources\\foo.emodl", executionParameters.ModelFileName);
             Assert.AreEqual(2012, executionParameters.Repeats);
             Assert.AreEqual(271828, executionParameters.Samples);
@@ -78,7 +78,7 @@ namespace cmsunittests
             Configuration.CurrentConfiguration =
                 Configuration.ConfigurationFromString("{\"output\":{\"prefix\":\"testmodel\",\"writematfile\":true}}");
             ModelInfo modelInfo = compartments.Program.LoadModel("resources\\testmodel.emodl");
-            compartments.Program.RunModel(modelInfo, "SSA", 1825.0f, 10, 250);
+            compartments.Program.RunModel(modelInfo, "SSA", 1825.0, 10, 250);
             Assert.IsTrue(File.Exists("testmodel.csv"));
             Assert.IsTrue(File.Exists("testmodel.mat"));
         }
@@ -89,7 +89,7 @@ namespace cmsunittests
             ModelInfo modelInfo = compartments.Program.LoadModel("resources\\testmodel.emodl");
             const int runs = 10;
             const int samples = 250;
-            SimulationResults results = compartments.Program.ExecuteModel(modelInfo, "SSA", 1825.0f, runs, samples);
+            SimulationResults results = compartments.Program.ExecuteModel(modelInfo, "SSA", 1825.0, runs, samples);
             Assert.AreEqual(runs*2, results.Labels.Length);
             Assert.AreEqual("Susceptible{0}", results.Labels[0]);
             Assert.AreEqual(runs*2, results.Data.Length);

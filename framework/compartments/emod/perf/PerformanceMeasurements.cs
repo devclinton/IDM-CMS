@@ -11,12 +11,12 @@ namespace compartments.emod.perf
         public string FormatVersion { get { return Version; } }
         public string FrameworkVersion { get; protected set; }
         public string FrameworkDescription { get; protected set; }
-        public float SimulationDuration { get; protected set; }
+        public double SimulationDuration { get; protected set; }
         public int FrameCount { get; protected set; }
         public int HistogramBins { get; protected set; }
         public long TotalTimeTicks { get; protected set; }
         public long TickFrequency { get { return Stopwatch.Frequency; } }
-        public float TotalTimeMs { get { return 1000.0f*TotalTimeTicks/Stopwatch.Frequency; } }
+        public double TotalTimeMs { get { return 1000.0 * TotalTimeTicks / Stopwatch.Frequency; } }
         public long MeasurementTimeTicks { get; protected set; }
         public DynamicHistogram RealizationTimes { get; protected set; }
         public DynamicHistogram[] SolverSteps { get; protected set; }
@@ -25,7 +25,7 @@ namespace compartments.emod.perf
 
         private int _currentSample;
         private readonly Stopwatch _stopwatch;
-        private float _simTimeOfLastLog;
+        private double _simTimeOfLastLog;
         private long _ticksAtLastLog;
         private long _ticksAtRealizationStart;
         private int _accumulatedSolverSteps;
@@ -83,7 +83,7 @@ namespace compartments.emod.perf
         {
             _stopwatch.Start();
             _currentSample           = 0;
-            _simTimeOfLastLog        = 0.0f;
+            _simTimeOfLastLog        = 0.0;
             _ticksAtRealizationStart = _stopwatch.ElapsedTicks;
             _ticksAtLastLog          = _stopwatch.ElapsedTicks;
 
@@ -92,7 +92,7 @@ namespace compartments.emod.perf
             _accumulatedReactionFirings = 0;
         }
 
-        public void LogStep(int reactionFirings, float currentSimulationTime)
+        public void LogStep(int reactionFirings, double currentSimulationTime)
         {
             ValidateStepArguments(reactionFirings, currentSimulationTime);
 
@@ -105,9 +105,9 @@ namespace compartments.emod.perf
 
             while (_simTimeOfLastLog < currentSimulationTime)
             {
-                float remainingSimTime = currentSimulationTime - _simTimeOfLastLog;
-                float loggingBinEndTime = (_currentSample + 1) * SimulationDuration / FrameCount;
-                float simTimeAttributableToCurrentBin = Math.Min(currentSimulationTime, loggingBinEndTime) - _simTimeOfLastLog;
+                double remainingSimTime = currentSimulationTime - _simTimeOfLastLog;
+                double loggingBinEndTime = (_currentSample + 1) * SimulationDuration / FrameCount;
+                double simTimeAttributableToCurrentBin = Math.Min(currentSimulationTime, loggingBinEndTime) - _simTimeOfLastLog;
                 var firingsToAttribute = (int)Math.Ceiling(firingsRemainingToAllocate * simTimeAttributableToCurrentBin / remainingSimTime);
                 _accumulatedReactionFirings += firingsToAttribute;
                 firingsRemainingToAllocate -= firingsToAttribute;
@@ -138,7 +138,7 @@ namespace compartments.emod.perf
             MeasurementTimeTicks += _stopwatch.ElapsedTicks - startTicks;
         }
 
-        private void ValidateStepArguments(int reactionFirings, float currentSimulationTime)
+        private void ValidateStepArguments(int reactionFirings, double currentSimulationTime)
         {
             if (reactionFirings < 0)
                 throw new ArgumentException("Zero or more reactions should fire each step.", "reactionFirings");

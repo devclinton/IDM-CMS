@@ -6,32 +6,32 @@ namespace compartments.solvers
 {
     public class Gillespie : SolverBase
     {
-        protected float[] currentRates;
-        private float _a0;
+        protected double[] currentRates;
+        private double _a0;
         private Reaction _nextReaction;
 
-        public Gillespie(ModelInfo modelInfo, float duration, int repeats, int samples) : base(modelInfo, duration, repeats, samples, new ModelBuilder())
+        public Gillespie(ModelInfo modelInfo, double duration, int repeats, int samples) : base(modelInfo, duration, repeats, samples, new ModelBuilder())
         {
-            currentRates  = new float[model.Reactions.Count];
-            _a0           = 0.0f;
+            currentRates  = new double[model.Reactions.Count];
+            _a0           = 0.0;
             _nextReaction = null;
         }
 
-        protected override float CalculateProposedTau(float tauLimit)
+        protected override double CalculateProposedTau(double tauLimit)
         {
-            float actualTau = tauLimit;
+            double actualTau = tauLimit;
             _a0 = UpdateAndSumRates(model.Reactions, currentRates);
 
-            if (_a0 > 0.0f)
+            if (_a0 > 0.0)
             {
-                float r1 = rng.GenerateUniformOO();
-                float proposedTau = ((float) Math.Log(1.0f / r1) / _a0) + CurrentTime;
+                double r1 = rng.GenerateUniformOO();
+                double proposedTau = (Math.Log(1.0 / r1) / _a0) + CurrentTime;
 
                 if (proposedTau < tauLimit)
                 {
                     actualTau        = proposedTau;
-                    float r2         = rng.GenerateUniformCC();
-                    double threshold = r2 * (double)_a0;
+                    double r2        = rng.GenerateUniformCC();
+                    double threshold = r2 * _a0;
                     int mu           = GetReactionIndex(currentRates, threshold);
                     _nextReaction    = model.Reactions[mu];
                 }

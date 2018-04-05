@@ -4,14 +4,14 @@ namespace compartments.emod.expressions
 {
     public class ConstantValue : IValue
     {
-        private readonly float _value;
+        private readonly double _value;
 
-        public ConstantValue(float value)
+        public ConstantValue(double value)
         {
             _value = value;
         }
 
-        public float Value
+        public double Value
         {
             get { return _value; }
         }

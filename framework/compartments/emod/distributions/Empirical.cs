@@ -12,9 +12,9 @@ namespace compartments.emod.distributions
     public class Empirical : INumericOperator, IValue
     {
         private int _binCount;
-        private float[] _binEdges;
-        private float[] _probabilities;
-        private float _sum;
+        private double[] _binEdges;
+        private double[] _probabilities;
+        private double _sum;
         private readonly RandomVariateGenerator _rng;
 
         private Empirical()
@@ -78,11 +78,11 @@ namespace compartments.emod.distributions
                                         if (edgeValues.Length != (empirical.BinCount + 1))
                                             throw new ArgumentException("Incorrect number of bin edges in data file.");
 
-                                        var edges = new float[empirical.BinCount + 1];
+                                        var edges = new double[empirical.BinCount + 1];
 
                                         for (int iEdge = 0; iEdge <= empirical.BinCount; iEdge++)
                                         {
-                                            edges[iEdge] = float.Parse(edgeValues[iEdge]);
+                                            edges[iEdge] = double.Parse(edgeValues[iEdge]);
                                         }
 
                                         empirical.BinEdges = edges;
@@ -92,7 +92,7 @@ namespace compartments.emod.distributions
                                     break;
 
                                 case Stage.ReadProbabilities:
-                                    empirical[binIndex] = float.Parse(input);
+                                    empirical[binIndex] = double.Parse(input);
                                     empirical._sum += empirical[binIndex];
                                     binIndex++;
                                     if (binIndex >= empirical.BinCount)
@@ -126,13 +126,13 @@ namespace compartments.emod.distributions
                 if (value != _binCount)
                 {
                     _binCount      = value;
-                    _binEdges      = new float[_binCount + 1];
-                    _probabilities = new float[_binCount];
+                    _binEdges      = new double[_binCount + 1];
+                    _probabilities = new double[_binCount];
                 }
             }
         }
 
-        public float[] BinEdges
+        public double[] BinEdges
         {
             get { return _binEdges; }
             private set
@@ -144,20 +144,20 @@ namespace compartments.emod.distributions
             }
         }
 
-        public float this[int index]
+        public double this[int index]
         {
             get { return _probabilities[index]; }
             private set { _probabilities[index] = value; }
         }
 
-        public float Value
+        public double Value
         {
             get
             {
-                float retval = BinEdges[0];
-                float u = _rng.GenerateUniformOO() * _sum;
+                double retval = BinEdges[0];
+                double u = _rng.GenerateUniformOO() * _sum;
 
-                for (int i = 0; (i < _binCount) && (u > 0.0f); i++)
+                for (int i = 0; (i < _binCount) && (u > 0.0); i++)
                 {
                     if (u <= _probabilities[i])
                     {

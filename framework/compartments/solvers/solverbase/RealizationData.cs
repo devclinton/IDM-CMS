@@ -53,10 +53,10 @@ namespace compartments.solvers.solverbase
         public int ObservablesCount { get { return ObservableNames.Length; } }
         public string[] ObservableNames;
         public string[] ChannelTitles;
-        public float[] SampleTimes;
-        public float[][] ChannelData;
+        public double[] SampleTimes;
+        public double[][] ChannelData;
 
-        public RealizationData(string version, string description, int runCount, int sampleCount, string[] observableNames, float[] sampleTimes, bool includeChannelTitles)
+        public RealizationData(string version, string description, int runCount, int sampleCount, string[] observableNames, double[] sampleTimes, bool includeChannelTitles)
         {
             ValidateArguments(version, description, runCount, sampleCount, observableNames);
 
@@ -67,7 +67,7 @@ namespace compartments.solvers.solverbase
             ObservableNames  = observableNames;
             ChannelTitles    = includeChannelTitles ? ConstructChannelTitles(runCount, observableNames) : null;
             SampleTimes      = sampleTimes;
-            ChannelData      = new float[ObservablesCount * runCount][];
+            ChannelData      = new double[ObservablesCount * runCount][];
         }
 
         private string[] ConstructChannelTitles(int runCount, IEnumerable<string> observableNames)

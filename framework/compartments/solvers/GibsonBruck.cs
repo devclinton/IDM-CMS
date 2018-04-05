@@ -9,26 +9,26 @@ namespace compartments.solvers
 {
     public class GibsonBruck : SolverBase
     {
-        private float _a0;
-        private readonly Dictionary<Reaction, float> _currentRates;
-        private readonly Dictionary<Reaction, float> _currentTaus;
+        private double _a0;
+        private readonly Dictionary<Reaction, double> _currentRates;
+        private readonly Dictionary<Reaction, double> _currentTaus;
         private readonly Dictionary<Reaction, List<Reaction>> _dependencyGraph;
         private readonly PriorityQueue<Reaction> _pq;
         private Reaction _nextReaction;
 
-        public GibsonBruck(ModelInfo modelInfo, float duration, int repeats, int samples) : base(modelInfo, duration, repeats, samples)
+        public GibsonBruck(ModelInfo modelInfo, double duration, int repeats, int samples) : base(modelInfo, duration, repeats, samples)
         {
             _pq = new PriorityQueue<Reaction>(model.Reactions.Count);
-            _a0 = 0.0f;
+            _a0 = 0.0;
 
-            _currentRates = new Dictionary<Reaction, float>(model.Reactions.Count);
-            _currentTaus  = new Dictionary<Reaction, float>(model.Reactions.Count);
+            _currentRates = new Dictionary<Reaction, double>(model.Reactions.Count);
+            _currentTaus  = new Dictionary<Reaction, double>(model.Reactions.Count);
             _nextReaction = null;
 
             foreach (Reaction r in model.Reactions)
             {
-                _currentRates.Add(r, 0.0f);
-                _currentTaus.Add(r, 0.0f);
+                _currentRates.Add(r, 0.0);
+                _currentTaus.Add(r, 0.0);
             }
 
             // Create Dependency Graph outside of solver loop
@@ -49,15 +49,15 @@ namespace compartments.solvers
             }
         }
 
-        private float InitializeReactionRatesAndTaus(IEnumerable<Reaction> reactions, IDictionary<Reaction, float> reactionRates, IDictionary<Reaction, float> currentTaus)
+        private double InitializeReactionRatesAndTaus(IEnumerable<Reaction> reactions, IDictionary<Reaction, double> reactionRates, IDictionary<Reaction, double> currentTaus)
         {
-            float a0 = 0.0f;
+            double a0 = 0.0;
 
             foreach (Reaction r in reactions)
             {
-                float aj = r.Rate;
+                double aj = r.Rate;
 
-                if (float.IsNaN(aj))
+                if (double.IsNaN(aj))
                 {
                     var message = $"Reaction propensity evaluated to NaN ('{r.Name}')";
                     Console.Error.WriteLine(message);
@@ -71,7 +71,7 @@ namespace compartments.solvers
                     throw new ApplicationException(message);
                 }
 
-                if (float.IsInfinity(aj))
+                if (double.IsInfinity(aj))
                 {
                     var message = $"Reaction propensity evaluated to infinity ('{r.Name}')";
                     Console.Error.WriteLine(message);
@@ -81,15 +81,15 @@ namespace compartments.solvers
                 a0 += aj;
                 reactionRates[r] = aj;
 
-                float tau;
-                if (aj > 0.0f)
+                double tau;
+                if (aj > 0.0)
                 {
-                    float u1 = rng.GenerateUniformOO();
-                    tau = (float)Math.Log(1.0f / u1) / aj;
+                    double u1 = rng.GenerateUniformOO();
+                    tau = Math.Log(1.0 / u1) / aj;
                 }
                 else
                 {
-                    tau = float.PositiveInfinity;
+                    tau = double.PositiveInfinity;
                 }
 
                 currentTaus[r] = tau;
@@ -98,13 +98,13 @@ namespace compartments.solvers
             return a0;
         }
 
-        protected override float CalculateProposedTau(float tauLimit)
+        protected override double CalculateProposedTau(double tauLimit)
         {
-            float actualTau = tauLimit;
+            double actualTau = tauLimit;
 
-            if (_a0 > 0.0f)
+            if (_a0 > 0.0)
             {
-                float nextTau;
+                double nextTau;
 
                 _pq.Top(out nextTau, out _nextReaction);
 
@@ -127,20 +127,20 @@ namespace compartments.solvers
             {
                 _a0 -= _currentRates[_nextReaction];
                 FireReaction(_nextReaction);
-                float aj = _nextReaction.Rate;
+                double aj = _nextReaction.Rate;
                 _a0 += aj;
                 _currentRates[_nextReaction] = aj;
 
-                float newTau;
+                double newTau;
 
-                if (aj == 0.0f)
+                if (aj == 0.0)
                 {
-                    newTau = float.PositiveInfinity;
+                    newTau = double.PositiveInfinity;
                 }
                 else
                 {
-                    float u1 = rng.GenerateUniformOO();
-                    newTau = (float)Math.Log(1.0f / u1) / aj + CurrentTime;
+                    double u1 = rng.GenerateUniformOO();
+                    newTau = Math.Log(1.0 / u1) / aj + CurrentTime;
                 }
 
                 _currentTaus[_nextReaction] = newTau;
@@ -150,27 +150,27 @@ namespace compartments.solvers
 
                 foreach (Reaction react in _dependencyGraph[_nextReaction])
                 {
-                    float ajOld = _currentRates[react];
+                    double ajOld = _currentRates[react];
                     _a0 -= ajOld;
 
-                    float ajNew = react.Rate;
+                    double ajNew = react.Rate;
                     _a0 += ajNew;
                     _currentRates[react] = ajNew;
 
-                    float updatedTau;
+                    double updatedTau;
 
-                    if (ajNew == 0.0f)
+                    if (ajNew == 0.0)
                     {
-                        updatedTau = float.PositiveInfinity;
+                        updatedTau = double.PositiveInfinity;
                     }
-                    else if (ajOld == 0.0f)
+                    else if (ajOld == 0.0)
                     {
-                        float u1 = rng.GenerateUniformOO();
-                        updatedTau = (float)Math.Log(1.0f / u1) / ajNew + CurrentTime;
+                        double u1 = rng.GenerateUniformOO();
+                        updatedTau = Math.Log(1.0 / u1) / ajNew + CurrentTime;
                     }
                     else
                     {
-                        float currentTau = _currentTaus[react];
+                        double currentTau = _currentTaus[react];
                         updatedTau = ajOld / ajNew * (currentTau - CurrentTime) + CurrentTime;
                     }
 

@@ -18,7 +18,7 @@ namespace compartments.emod.perf
         }
 
         public bool Enabled { get; protected set; }
-        public float SimulationDuration { get; protected set; }
+        public double SimulationDuration { get; protected set; }
         public int LogCount { get; protected set; }
         public int HistogramBins { get; protected set; }
         public bool RecordRealizationCpuTime { get; protected set; }
@@ -45,9 +45,9 @@ namespace compartments.emod.perf
             }
         }
 
-        public PerformanceMeasurementConfigurationParameters(Configuration config, float duration)
+        public PerformanceMeasurementConfigurationParameters(Configuration config, double duration)
         {
-            if (duration <= 0.0f)
+            if (duration <= 0.0)
             {
                 throw new ArgumentException("Duration must be > 0", "duration");
             }
@@ -72,7 +72,7 @@ namespace compartments.emod.perf
         {
             if (Enabled)
             {
-                if (SimulationDuration <= 0.0f)
+                if (SimulationDuration <= 0.0)
                 {
                     throw new PerformanceConfigurationException(
                         String.Format("SimulationDuration should be > 0 (actual - {0}).", SimulationDuration),

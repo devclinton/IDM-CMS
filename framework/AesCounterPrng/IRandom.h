@@ -33,7 +33,6 @@ inline float FloatFromBits(uint32_t bits) {
     return t.f;
 }
 
-
 inline double DoubleFromBits(uint64_t bits) {
     union { double d; uint64_t u; } t;
 

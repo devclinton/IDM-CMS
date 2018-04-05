@@ -5,9 +5,9 @@ namespace compartments.emod.expressions
 {
     public class Constant : INumericOperator
     {
-        readonly float _constant;
+        readonly double _constant;
 
-        public Constant(float value) { _constant = value; }
+        public Constant(double value) { _constant = value; }
 
         public IValue ResolveReferences(IDictionary<string, IValue> map)
         {

@@ -119,17 +119,17 @@ namespace cmsunittests
             var modelInfo = EmodlLoader.LoadEMODLFile("resources\\sir.emodl");
             const int repeats = 128;
             const int samples = 100;
-            var solver = SolverFactory.CreateSolver("SSA", modelInfo, repeats, 548.0f, samples);
+            var solver = SolverFactory.CreateSolver("SSA", modelInfo, repeats, 548.0, samples);
             solver.Solve();
             var tempFilename = Path.GetTempFileName();
             var trajectoryData = solver.GetTrajectoryData();
-            var means = new float[3][];
-            var speciesMin = new[] {float.MaxValue, float.MaxValue, float.MaxValue};
-            var speciesMax = new float[3];
+            var means = new double[3][];
+            var speciesMin = new[] { double.MaxValue, double.MaxValue, double.MaxValue};
+            var speciesMax = new double[3];
 
             for (int species = 0; species < 3; species++)
             {
-                means[species] = new float[samples];
+                means[species] = new double[samples];
                 for (int trajectory = 0; trajectory < repeats; trajectory++)
                 {
                     for (int sample = 0; sample < samples; sample++)
@@ -147,15 +147,15 @@ namespace cmsunittests
                 }
             }
 
-            const float minSmin = 19.0f;
-            const float maxSmin = 27.0f;
-            const float maxS    = 990.0f;
-            const float minI    = 10.0f;
-            const float minImax = 551.0f;
-            const float maxImax = 571.0f;
-            const float minR    = 0.0f;
-            const float minRmax = 859.0f;
-            const float maxRmax = 879.0f;
+            const double minSmin = 19.0;
+            const double maxSmin = 27.0;
+            const double maxS    = 990.0;
+            const double minI    = 10.0;
+            const double minImax = 551.0;
+            const double maxImax = 571.0;
+            const double minR    = 0.0;
+            const double minRmax = 859.0;
+            const double maxRmax = 879.0;
 
             Console.WriteLine("Susceptible: min = {0}, max = {1} (limits- {2} <= min <= {3}, max == {4})",
                 speciesMin[0], speciesMax[0], minSmin, maxSmin, maxS);

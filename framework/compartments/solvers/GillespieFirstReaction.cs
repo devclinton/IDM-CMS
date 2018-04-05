@@ -6,33 +6,33 @@ namespace compartments.solvers
 {
     public class GillespieFirstReaction : SolverBase
     {
-        protected float[] currentRates;
+        protected double[] currentRates;
         private int _reactionIndex;
         private Reaction _selectedReaction;
 
-        public GillespieFirstReaction(ModelInfo modelInfo, float duration, int repeats, int samples) :
+        public GillespieFirstReaction(ModelInfo modelInfo, double duration, int repeats, int samples) :
             base(modelInfo, duration, repeats, samples)
         {
-            currentRates = new float[model.Reactions.Count];
+            currentRates = new double[model.Reactions.Count];
             _selectedReaction = null;
         }
 
-        protected override float CalculateProposedTau(float tauLimit)
+        protected override double CalculateProposedTau(double tauLimit)
         {
-            float actualTau = tauLimit;
-            float a0 = UpdateAndSumRates(model.Reactions, currentRates);
+            double actualTau = tauLimit;
+            double a0 = UpdateAndSumRates(model.Reactions, currentRates);
 
-            if (a0 > 0.0f)
+            if (a0 > 0.0)
             {
-                float minDelta = float.MaxValue;
+                double minDelta = double.MaxValue;
 
                 for (int j = 0; j < model.Reactions.Count; j++)
                 {
-                    if (currentRates[j] > 0.0f)
+                    if (currentRates[j] > 0.0)
                     {
-                        float randomTemp = rng.GenerateUniformOO();
+                        double randomTemp = rng.GenerateUniformOO();
 
-                        float proposedDelta = (float)Math.Log(1.0f / randomTemp) / currentRates[j];
+                        double proposedDelta = Math.Log(1.0 / randomTemp) / currentRates[j];
 
                         if (proposedDelta < minDelta)
                         {
@@ -42,7 +42,7 @@ namespace compartments.solvers
                     }
                 }
 
-                float proposedTau = CurrentTime + minDelta;
+                double proposedTau = CurrentTime + minDelta;
                 if (proposedTau < actualTau)
                 {
                     actualTau         = proposedTau;

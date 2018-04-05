@@ -272,6 +272,20 @@ namespace cmsunittests
             Console.WriteLine("PASSED GetParameterWithDefault(missing, 2.7182817)");
         }
 
+        [Test, Description("Configuration.GetParameterWithDefault(present, double)")]
+        public void TestExistingDoubleParameter()
+        {
+            Expect(Configuration.CurrentConfiguration.GetParameterWithDefault("floatingpoint", 2.7182817) == 3.14159265);
+            Console.WriteLine("PASSED GetParameterWithDefault(present, 2.7182817)");
+        }
+
+        [Test, Description("Configuration.GetParameterWithDefault(missing, double)")]
+        public void TestMissingDoubleParameter()
+        {
+            Expect(Configuration.CurrentConfiguration.GetParameterWithDefault("missing", 2.7182817) == 2.7182817);
+            Console.WriteLine("PASSED GetParameterWithDefault(missing, 2.7182817)");
+        }
+
         [Test, Description("Configuration.GetParameterWithDefault(present, string)")]
         public void TestExistingStringParameter()
         {
@@ -522,6 +536,20 @@ namespace cmsunittests
         public void RootTestMissingFloatParameter()
         {
             Expect(root.GetParameterWithDefault("missing", 2.7182817f) == 2.7182817f);
+            Console.WriteLine("PASSED root GetParameterWithDefault(missing, 2.7182817)");
+        }
+
+        [Test, Description("Root.GetParameterWithDefault(present, double)")]
+        public void RootTestExistingDoubleParameter()
+        {
+            Expect(root.GetParameterWithDefault("floatingpoint", 2.7182817) == 3.14159265);
+            Console.WriteLine("PASSED root GetParameterWithDefault(present, 2.7182817)");
+        }
+
+        [Test, Description("Root.GetParameterWithDefault(missing, double)")]
+        public void RootTestMissingDoubleParameter()
+        {
+            Expect(root.GetParameterWithDefault("missing", 2.7182817) == 2.7182817);
             Console.WriteLine("PASSED root GetParameterWithDefault(missing, 2.7182817)");
         }
 

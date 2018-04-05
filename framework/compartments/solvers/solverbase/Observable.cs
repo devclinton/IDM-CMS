@@ -17,7 +17,7 @@ namespace compartments.solvers.solverbase
 
         public string Name { get { return _info.Name; } }
 
-        public float Value
+        public double Value
         {
             get { return _expression.Value; }
         }

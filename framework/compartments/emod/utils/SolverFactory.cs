@@ -6,7 +6,7 @@ namespace compartments.emod.utils
 {
     public class SolverFactory
     {
-        public static ISolver CreateSolver(string solverName, ModelInfo model, int repeats, float duration, int samples)
+        public static ISolver CreateSolver(string solverName, ModelInfo model, int repeats, double duration, int samples)
         {
             ISolver solver;
 

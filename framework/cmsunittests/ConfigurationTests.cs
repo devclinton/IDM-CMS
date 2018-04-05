@@ -50,9 +50,9 @@ namespace cmsunittests
             Assert.AreEqual(0.0, values[0]);
             Assert.AreEqual(1.0, values[1]);
             // The current JSON parser reads numeric values as floats.
-            Assert.AreEqual((double)2.7182818284590452353602874713527f, values[2]);
-            Assert.AreEqual((double)2.82842712474619f, values[3]);
-            Assert.AreEqual((double)3.14159265f, values[4]);
+            Assert.AreEqual((double)2.7182818284590452353602874713527, values[2]);
+            Assert.AreEqual((double)2.82842712474619, values[3]);
+            Assert.AreEqual((double)3.14159265, values[4]);
         }
 
         [Test, Description("(double []) GetParameterWithDefault() - use default")]

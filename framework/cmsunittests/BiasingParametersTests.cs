@@ -39,9 +39,9 @@ namespace cmsunittests
         public void BiasingParametersRareEventSpecThresholds()
         {
             var rareEventSpec = new BiasingParameters.RareEventSpec();
-            rareEventSpec.Thresholds.Add(42.0f);
+            rareEventSpec.Thresholds.Add(42.0);
             Assert.AreEqual(1, rareEventSpec.IntermediateRareEventCount);
-            Assert.AreEqual(42.0f, rareEventSpec.Thresholds[0]);
+            Assert.AreEqual(42.0, rareEventSpec.Thresholds[0]);
         }
 
         [Test]
@@ -116,8 +116,8 @@ namespace cmsunittests
         {
             var reactionInfo = new BiasingParameters.ReactionInfo();
             const int binCount = 42;
-            const float e = (float) Math.E;
-            const float pi = (float) Math.PI;
+            const double e = Math.E;
+            const double pi = Math.PI;
             var rareEventInfo = new BiasingParameters.RareEventInfo {BinCount = binCount};
             rareEventInfo.Gammas[0] = e;
             rareEventInfo.Thresholds[1] = pi;

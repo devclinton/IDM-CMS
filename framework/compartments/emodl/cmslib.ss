@@ -14,23 +14,23 @@
 (define *loglevel* 1)
 
 (define (set-loglevel level)
-	(set! *loglevel* level)
+    (set! *loglevel* level)
 )
 
 (define (do-writelog level contents)
-	(if (>= *loglevel* level)
-		(begin
-			(for-each display contents)
-			(newline)
-		)
-	)
+    (if (>= *loglevel* level)
+        (begin
+            (for-each display contents)
+            (newline)
+        )
+    )
 )
 
 (define-syntax writelog
-	(syntax-rules ()
-		[(_ contents)       (do-writelog 0     contents)]
-		[(_ level contents) (do-writelog level contents)]
-	)
+    (syntax-rules ()
+        [(_ contents)       (do-writelog 0     contents)]
+        [(_ level contents) (do-writelog level contents)]
+    )
 )
 
 (define *model*)
@@ -50,7 +50,7 @@
     (clr-call ModelInfo get_Name *model*))
 
 (define (start-model name)
-	(writelog `("Parsing model '" ,name "'..."))
+    (writelog `("Parsing model '" ,name "'..."))
     ;(display "Parsing model ") (display name) (newline)
     (set! *builder* (clr-new ModelInfo+ModelBuilder name))
     (set! *model* (clr-call ModelInfo+ModelBuilder get_Model *builder*))
@@ -62,12 +62,12 @@
 )
 
 (define (end-model)
-	(writelog `("...finished parsing '" ,(get-model-name) "'."))
+    (writelog `("...finished parsing '" ,(get-model-name) "'."))
     (clr-static-field-set! EmodlLoader modelInfo *model*))
 
 (define (def-locale name)
     (clr-call ModelInfo+ModelBuilder AddLocale *builder* (clr-new LocaleInfo (symbol->string name)))
-	(writelog 1 '("Added locale '" name "'."))
+    (writelog 1 '("Added locale '" name "'."))
 )
 
 (define-syntax locale
@@ -77,10 +77,10 @@
 )
 
 (define (set-locale! name)
-	(let ((locale-name (symbol->string name)))
-		(set! *current-locale* (clr-call ModelInfo GetLocaleByName *model* locale-name))
-		(writelog 1 `("Current locale: " ,locale-name))
-	)
+    (let ((locale-name (symbol->string name)))
+        (set! *current-locale* (clr-call ModelInfo GetLocaleByName *model* locale-name))
+        (writelog 1 `("Current locale: " ,locale-name))
+    )
 )
 
 (define-syntax set-locale
@@ -90,12 +90,12 @@
 )
 
 (define (def-parameter symbol expression)
-	(writelog 2 `("def-parameter " ,symbol " " ,expression))
+    (writelog 2 `("def-parameter " ,symbol " " ,expression))
     (let* ((value (real->flonum (if (number? expression) expression (eval expression (environment '(rnrs))))))
-           (new-param (clr-new ParameterInfo (symbol->string symbol) (->single value))))
+           (new-param (clr-new ParameterInfo (symbol->string symbol) (->double value))))
 
        (clr-call ModelInfo+ModelBuilder AddParameter *builder* new-param)
-	   (writelog 1 `("New parameter: " ,symbol " = " ,value))
+       (writelog 1 `("New parameter: " ,symbol " = " ,value))
        value
     )
 )
@@ -115,7 +115,7 @@
 (define (def-anon-expression expression)
     (let ((new-net (clr-new NumericExpressionTree (parse-expression expression))))
         (clr-call ModelInfo+ModelBuilder AddExpression (get-builder) new-net)
-		(writelog 2 `("New anonymous expression: " ,expression))
+        (writelog 2 `("New anonymous expression: " ,expression))
         new-net
     )
 )
@@ -144,12 +144,12 @@
 
 (define (def-time-event name time interval actions)
     (let* ((event-name (if (symbol? name) (symbol->string name) name))
-           (event-time (->single (real->flonum (if (number? time) time (eval time (environment '(rnrs)))))))
-           (event-interval (->single (real->flonum (if (number? interval) interval (eval interval (environment '(rnrs)))))))
+           (event-time (->double (real->flonum (if (number? time) time (eval time (environment '(rnrs)))))))
+           (event-interval (->double (real->flonum (if (number? interval) interval (eval interval (environment '(rnrs)))))))
            (event-builder (clr-new ScheduledEventInfo+Builder event-name))
            )
 
-		(writelog 2 `("(time-event " ,name " " ,time " " ,interval " " ,actions ")"))
+        (writelog 2 `("(time-event " ,name " " ,time " " ,interval " " ,actions ")"))
            
         (clr-call ScheduledEventInfo+Builder SetTime event-builder event-time)
         (clr-call ScheduledEventInfo+Builder SetInterval event-builder event-interval)
@@ -211,13 +211,13 @@
 ;
 ;        (clr-call ModelInfo+ModelBuilder AddSpecies *builder* species)
 ;    )
-	(let* ((new-net (def-anon-expression initial))
-		(species (clr-new SpeciesDescription (symbol->string symbol) new-net (get-locale))))
-		;(species (clr-new SpeciesDescription (symbol->string symbol) 0 (get-locale))))
-		;(writelog 2 '("Calling ModeInfo+ModelBuilder.AddSpecies()..."))
-		(clr-call ModelInfo+ModelBuilder AddSpecies *builder* species)
-		(writelog 1 `("New species: '" ,(symbol->string symbol) "'"))
-	)
+    (let* ((new-net (def-anon-expression initial))
+        (species (clr-new SpeciesDescription (symbol->string symbol) new-net (get-locale))))
+        ;(species (clr-new SpeciesDescription (symbol->string symbol) 0 (get-locale))))
+        ;(writelog 2 '("Calling ModeInfo+ModelBuilder.AddSpecies()..."))
+        (clr-call ModelInfo+ModelBuilder AddSpecies *builder* species)
+        (writelog 1 `("New species: '" ,(symbol->string symbol) "'"))
+    )
 )
 
 (define-syntax species

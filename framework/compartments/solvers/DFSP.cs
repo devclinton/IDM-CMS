@@ -14,21 +14,21 @@ namespace compartments.solvers
          DFSP : TransportSSA : SolverBase 
          **************************************************************************************************/
 
-        protected float[][][]           dictionary;     // a set of cumulative distribution functions
-                                                        // (number of nodes) x (possible node values) x (number of neighbors+1)
-                                                        // jagged array since (number of neighbors+1) varies depending on the node index
-        protected int                   UMax;
+        protected double[][][] dictionary;     // a set of cumulative distribution functions
+                                               // (number of nodes) x (possible node values) x (number of neighbors+1)
+                                               // jagged array since (number of neighbors+1) varies depending on the node index
+        protected int          UMax;
 
         private const int MaximumValueForMultinomial = 150;
         private const int DefaultValueForU = 120;
 
-        public DFSP(ModelInfo modelInfo, float duration, int repeats, int samples)
+        public DFSP(ModelInfo modelInfo, double duration, int repeats, int samples)
                : base(modelInfo, duration, repeats, samples)
         {
             // SolverBase constructor has been executed at this point
             // ISSA constructor has been executed at this point
 
-            dictionary = new float[model.Species.Count][][];
+            dictionary = new double[model.Species.Count][][];
 
             Configuration config = Configuration.CurrentConfiguration;
             UMax = Math.Min(config.GetParameterWithDefault("dfsp.umax", DefaultValueForU), MaximumValueForMultinomial);
@@ -36,14 +36,14 @@ namespace compartments.solvers
 
             for (int iSpecies = 0; iSpecies < model.Species.Count; ++iSpecies)
             {
-                dictionary[iSpecies] = new float[UMax][];
+                dictionary[iSpecies] = new double[UMax][];
             }
 
             for (int iSpecies = 0; iSpecies < model.Species.Count; ++iSpecies)
             {
                 for (int u = 0; u < UMax; ++u)
                 {
-                    dictionary[iSpecies][u] = new float[kernels[iSpecies].Length];
+                    dictionary[iSpecies][u] = new double[kernels[iSpecies].Length];
                 }
             }
 
@@ -55,7 +55,7 @@ namespace compartments.solvers
         {
             for (int iSpecies = 0; iSpecies < model.Species.Count; ++iSpecies)
             {
-                float[] p           = kernels[iSpecies];
+                double[] p           = kernels[iSpecies];
                 int numberOfNodes   = kernels[iSpecies].Length;
                 
                 for (int u = 1; u <= UMax; ++u)
@@ -68,7 +68,7 @@ namespace compartments.solvers
                         x[z]      += 1;
 
                         // evaluate the probability of the state
-                        float probability = EvaluateMultinomial(u, p, x);
+                        double probability = EvaluateMultinomial(u, p, x);
 
                         // save the state & its probability in a lookup table 
                         dictionary[iSpecies][u-1][z] = probability;
@@ -103,7 +103,7 @@ namespace compartments.solvers
 
         // the cumulative distribution function (cdf) is already essentially sorted in that the first 
         // element - which represents the current node - has the largest probability
-        protected int InvertCumulativeDistribution(float uniformRandomNumber, float[] cdf)
+        protected int InvertCumulativeDistribution(double uniformRandomNumber, double[] cdf)
         {
             int mu = 0;
 
@@ -141,7 +141,7 @@ namespace compartments.solvers
                 {
                     int inputCount = Math.Min(currentCount, UMax);
 
-                    float uniformRandomNumber = rng.GenerateUniformOO();
+                    double uniformRandomNumber = rng.GenerateUniformOO();
                     int mu = InvertCumulativeDistribution(uniformRandomNumber, dictionary[iSpecies][inputCount - 1]);
 
                     lambda[speciesIndices[iSpecies][0]]     -= 1;
@@ -170,8 +170,8 @@ namespace compartments.solvers
             return f;
         }
 
-        // Using double precision for arithmetic, then typecast the result - which is in [0,1] - to a float
-        protected float EvaluateMultinomial(int L, float[] p, int[] x)
+        // Using double precision for arithmetic, then typecast the result - which is in [0,1] - to a double
+        protected double EvaluateMultinomial(int L, double[] p, int[] x)
         {
             double numerator = 1.0;
             for (int i = 0; i < x.Length; ++i)
@@ -187,7 +187,7 @@ namespace compartments.solvers
 
             double probability = Factorial(L) * numerator / denominator;
 
-            return ((float)probability);
+            return (probability);
         }
 
         public override string ToString()

@@ -6,10 +6,10 @@ namespace distlib.hidden
     public class AesCounter
     {
         private readonly IntPtr _nativeObject;
-        private const int CacheCount = 262144;  // 256K floats/uints is 1MB
-        private readonly float[] _floatCache;
-        private int _floatCacheIndex;
-        private readonly uint[] _bitCache;
+        private const int CacheCount = 131072; // 128K doubles is 1MB /* 262144;  // 256K floats/uints is 1MB */
+        private readonly double[] _doubleCache;
+        private int _doubleCacheIndex;
+        private readonly UInt64[] _bitCache;
         private int _bitCacheIndex;
 
         [DllImport("PrngLib.dll")]
@@ -19,47 +19,47 @@ namespace distlib.hidden
         private static extern IntPtr CreateAesCounterPrng(ulong seed);
 
         [DllImport("PrngLib.dll")]
-        private static extern void GetFloats(IntPtr aesPrng, float[] floats, uint cFloats);
+        private static extern void GetDoubles(IntPtr aesPrng, double[] doubles, uint cDoubles);
 
         [DllImport("PrngLib.dll")]
-        private static extern void GetInts(IntPtr aesPrng, uint[] uints, uint count);
+        private static extern void GetLongs(IntPtr aesPrng, UInt64[] uints, uint count);
 
         public AesCounter(uint generatorSeed, uint coreIndex)
         {
             if (!IsSupported)
                 throw new ApplicationException("CPU doesn't support AES instruction set.");
 
-            _floatCache      = new float[CacheCount];
-            _floatCacheIndex = 0;
-            _bitCache        = new uint[CacheCount];
-            _bitCacheIndex   = 0;
-            var longSeed     = ((ulong) generatorSeed << 32) + coreIndex;
-            _nativeObject    = CreateAesCounterPrng(longSeed);
+            _doubleCache      = new double[CacheCount];
+            _doubleCacheIndex = 0;
+            _bitCache         = new UInt64[CacheCount];
+            _bitCacheIndex    = 0;
+            var longSeed      = ((ulong) generatorSeed << 32) + coreIndex;
+            _nativeObject     = CreateAesCounterPrng(longSeed);
 
             if (_nativeObject == IntPtr.Zero)
                 throw new ApplicationException("Couldn't instantiate AesCounter pseudo-random number generator.");
         }
 
-        private void FillFloatCache()
+        private void FillDoubleCache()
         {
-            GetFloats(_nativeObject, _floatCache, CacheCount);
-            _floatCacheIndex = CacheCount;
+            GetDoubles(_nativeObject, _doubleCache, CacheCount);
+            _doubleCacheIndex = CacheCount;
         }
 
-        public float NextVariate()
+        public double NextVariate()
         {
-            if (_floatCacheIndex == 0) FillFloatCache();
+            if (_doubleCacheIndex == 0) FillDoubleCache();
 
-            return _floatCache[--_floatCacheIndex];
+            return _doubleCache[--_doubleCacheIndex];
         }
 
         private void FillBitCache()
         {
-            GetInts(_nativeObject, _bitCache, CacheCount);
+            GetLongs(_nativeObject, _bitCache, CacheCount);
             _bitCacheIndex = CacheCount;
         }
 
-        public uint Next32Bits()
+        public UInt64 Next64Bits()
         {
             if (_bitCacheIndex == 0) FillBitCache();
 

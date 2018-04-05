@@ -13,10 +13,10 @@ namespace cmsunittests
     [TestFixture, Description("Model representation tests")]
     class ModelInfoTests : AssertionHelper
     {
-        private static readonly Constant Two = new Constant(2.0f);
-        private static readonly Constant Three = new Constant(3.0f);
-        private static readonly Constant Ten = new Constant(10.0f);
-        private static readonly Constant TwentyOne = new Constant(21.0f);
+        private static readonly Constant Two = new Constant(2.0);
+        private static readonly Constant Three = new Constant(3.0);
+        private static readonly Constant Ten = new Constant(10.0);
+        private static readonly Constant TwentyOne = new Constant(21.0);
 
         [Test]
         public void BooleanExpressionTreeTest()
@@ -161,7 +161,7 @@ namespace cmsunittests
             builder.AddObservable(observable);
 
             const string parameterName = "test parameter";
-            var parameter = new ParameterInfo(parameterName, 3.14159265f);
+            var parameter = new ParameterInfo(parameterName, 3.14159265);
             builder.AddParameter(parameter);
 
             const string predicateName = "test predicate";
@@ -248,7 +248,7 @@ namespace cmsunittests
             Console.WriteLine("NumericExpressionTreeTest: test expression and ResolveReferences()...");
             IDictionary<string, IValue> nmap = new Dictionary<string, IValue>();
             IValue value = net.ResolveReferences(nmap);
-            Expect(value.Value == 42.0f);
+            Expect(value.Value == 42.0);
             Console.WriteLine("NumericExpressionTreeTest: testing map size (1)...");
             Expect(nmap.Count == 1);
             Console.WriteLine("NumericExpressionTreeTest: testing map contents...");
@@ -286,17 +286,17 @@ namespace cmsunittests
         public void ParameterInfoTest()
         {
             const string name = "param";
-            var parameter = new ParameterInfo(name, 42.0f);
+            var parameter = new ParameterInfo(name, 42.0);
 
             Console.Write("Created new parameter: ");
             Console.WriteLine(parameter);
             Console.WriteLine("ParameterInfoTest: testing Name property...");
             Expect(parameter.Name == name);
             Console.WriteLine("ParameterInfoTest: testing Value property (get)...");
-            Expect(parameter.Value == 42.0f);
+            Expect(parameter.Value == 42.0);
             Console.WriteLine("ParameterInfoTest: testing Value property (set)...");
-            parameter.Value = 2.82842712475f;
-            Expect(parameter.Value == 2.82842712475f);
+            parameter.Value = 2.82842712475;
+            Expect(parameter.Value == 2.82842712475);
         }
 
         [Test]
@@ -331,7 +331,7 @@ namespace cmsunittests
             Console.WriteLine("Checking !reaction.HasDelay (before calling builder.SetDelay())...");
             Expect(!reaction.HasDelay);
 
-            var delay = new NumericExpressionTree(string.Empty, new Constant(3.14159265f));
+            var delay = new NumericExpressionTree(string.Empty, new Constant(3.14159265));
             builder.SetDelay(delay);
 
             Console.WriteLine("Checking reaction.HasDelay (after calling builder.SetDelay())...");

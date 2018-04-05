@@ -27,7 +27,7 @@ namespace compartments.solvers
             _intermediateGamma = Enumerable.Repeat(1.0, _numReactions).ToArray();
             _gammaNum = new double[_numReactions];
             _gammaDenom = new double[_numReactions];
-            IntermediateRareEvent = -1.0f;
+            IntermediateRareEvent = -1.0;
         }
 
         public double[] IntermediateGamma
@@ -45,7 +45,7 @@ namespace compartments.solvers
             }
         }
 
-        public float IntermediateRareEvent { get; set; }
+        public double IntermediateRareEvent { get; set; }
 
         public void SetIntermediateGamma()
         {
@@ -130,7 +130,7 @@ namespace compartments.solvers
             for (int i = 0; i < _numReactions; i++)
             {
                 cummulativeSum += _predilectionRates[i];
-                if ((threshold <= cummulativeSum) && (_predilectionRates[i] > 0.0f))
+                if ((threshold <= cummulativeSum) && (_predilectionRates[i] > 0.0))
                 {
                     mu = i;
                     break;
@@ -145,13 +145,13 @@ namespace compartments.solvers
     public class dwSSA : SolverBase
     {
         private int _crossEntropyRuns;
-        private float _crossEntropyThreshold;
+        private double _crossEntropyThreshold;
         private readonly int _crossEntropyMinDataSize;
 
         private readonly double[] _gamma;
         private readonly string _reExpressionName;
         private readonly string _reValName;
-        private float _rareEventValue;
+        private double _rareEventValue;
         private IBoolean _rareEventTest;
         private readonly Expression _reExpression;
         private int _rareEventType;
@@ -164,7 +164,7 @@ namespace compartments.solvers
         // file for writing dwSSA results
         private readonly string _outputFileName;
 
-        public dwSSA(ModelInfo modelInfo, float duration, int repeats, int samples)
+        public dwSSA(ModelInfo modelInfo, double duration, int repeats, int samples)
             : base(modelInfo, duration, repeats, samples)
         {
             Configuration config = Configuration.CurrentConfiguration;
@@ -175,13 +175,13 @@ namespace compartments.solvers
             _runningVariance = 0.0;
 
             _crossEntropyRuns = config.GetParameterWithDefault("dwSSA.crossEntropyRuns", 100000);
-            _crossEntropyThreshold = config.GetParameterWithDefault("dwSSA.crossEntropyThreshold", 0.01f);
+            _crossEntropyThreshold = config.GetParameterWithDefault("dwSSA.crossEntropyThreshold", 0.01);
             _crossEntropyMinDataSize = config.GetParameterWithDefault("dwSSA.crossEntropyMinDataSize", 200);
             _reExpressionName = config.GetParameterWithDefault("dwSSA.reExpressionName", "reExpression");
             _reValName = config.GetParameterWithDefault("dwSSA.reValName", "reVal");
 
             _reExpression = model.Expressions.FirstOrDefault(e => e.Name == _reExpressionName);
-            _rareEventValue = 0.0f;
+            _rareEventValue = 0.0;
             _rareEventTest = new EqualTo(_reExpression, new ConstantValue(_rareEventValue));
 
             _gamma = config.GetParameterWithDefault("dwSSA.gamma", new double[_reactions.NumReactions]);
@@ -222,7 +222,7 @@ namespace compartments.solvers
             if (_crossEntropyRuns < 5000)
                 throw new ApplicationException("crossEntropyRuns must be greater than 5000 (default value = 100,000).");
 
-            if (_crossEntropyThreshold > 1.0f || _crossEntropyThreshold < 0.0f)
+            if (_crossEntropyThreshold > 1.0 || _crossEntropyThreshold < 0.0)
                 throw new ApplicationException("crossEntropyThreshold must be between 0 and 1 (default is 0.01).");
 
             if (_crossEntropyMinDataSize < 100)
@@ -241,7 +241,7 @@ namespace compartments.solvers
             _rareEventType = _reExpression.Value < _rareEventValue ? 1 : -1;
         }
 
-        protected override float CalculateProposedTau(float tauLimit)
+        protected override double CalculateProposedTau(double tauLimit)
         {
             throw new ApplicationException("dwSSA doesn't use CalculateProposedTau().");
         }
@@ -283,7 +283,7 @@ namespace compartments.solvers
 
         private int SelectAndFireReaction(double b0)
         {
-            float r2 = rng.GenerateUniformOO();
+            double r2 = rng.GenerateUniformOO();
             double threshhold = r2 * b0;
             int mu = _reactions.SelectReaction(threshhold);
             _reactions.FireReaction(mu);
@@ -303,9 +303,9 @@ namespace compartments.solvers
 
             if (b0 > 0.0)
             {
-                float r = rng.GenerateUniformOO();
+                double r = rng.GenerateUniformOO();
                 double tau = Math.Log(1.0 / r) / b0;
-                CurrentTime += (float)tau;
+                CurrentTime += tau;
 
                 if (CurrentTime < duration)
                 {
@@ -314,7 +314,9 @@ namespace compartments.solvers
                 }
             }
             else
+            {
                 CurrentTime = duration;
+            }
         }
 
         protected virtual void StepOnce(ref double weight, double[] tempGamma, ref int[] tempN, ref double[] tempLambda)
@@ -324,9 +326,9 @@ namespace compartments.solvers
 
             if (b0 > 0.0)
             {
-                float r = rng.GenerateUniformOO();
+                double r = rng.GenerateUniformOO();
                 double tau = Math.Log(1.0 / r) / b0;
-                CurrentTime += (float)tau;
+                CurrentTime += tau;
 
                 if (CurrentTime < duration)
                 {
@@ -347,19 +349,19 @@ namespace compartments.solvers
         private void RunCrossEntropy()
         {
             int iter = 1;
-            float intermediateRareEvent = _rareEventType == 1 ? 0.0f : _reExpression.Value;
+            double intermediateRareEvent = _rareEventType == 1 ? 0.0 : _reExpression.Value;
             var gammaInfo = new GammaInfo(_reactions.NumReactions) {IntermediateRareEvent = intermediateRareEvent};
 
             using (StreamWriter output = File.AppendText(modelInfo.Name + "_dwSSA_CEinfo.txt"))
             {
-                while (Math.Abs(intermediateRareEvent - _rareEventValue) > float.Epsilon)
+                while (Math.Abs(intermediateRareEvent - _rareEventValue) > double.Epsilon)
                 {
                     Console.WriteLine("\nCross Entropy iteration " + iter + ":");
                     output.WriteLine("\nCross Entropy iteration " + iter + ":");
                     output.Flush();
 
                     gammaInfo = CrossEntropy1(gammaInfo);
-                    bool rareEventFlag = (Math.Abs(gammaInfo.IntermediateRareEvent - _rareEventValue) <= float.Epsilon);
+                    bool rareEventFlag = (Math.Abs(gammaInfo.IntermediateRareEvent - _rareEventValue) <= double.Epsilon);
                     intermediateRareEvent = gammaInfo.IntermediateRareEvent;
 
                     output.WriteLine("   Intermediate rare event: " + intermediateRareEvent);
@@ -400,13 +402,13 @@ namespace compartments.solvers
 
         private GammaInfo CrossEntropy1(GammaInfo gammaInfo)
         {
-            var maxRareEventValue = new float[_crossEntropyRuns];
+            var maxRareEventValue = new double[_crossEntropyRuns];
             int counter = 0;
 
             for (int i = 0; i < _crossEntropyRuns; i++)
             {
                 StartRealization();
-                float currentMin = _rareEventType * (_rareEventValue - _reExpression.Value);
+                double currentMin = _rareEventType * (_rareEventValue - _reExpression.Value);
                 var n = new int[_reactions.NumReactions];
                 var lambda = new double[_reactions.NumReactions];
                 double weight = 1.0;
@@ -421,7 +423,7 @@ namespace compartments.solvers
                     }
 
                     StepOnce(ref weight, gammaInfo.IntermediateGamma, ref n, ref lambda);
-                    float tempMin = _rareEventType * (_rareEventValue - _reExpression.Value);
+                    double tempMin = _rareEventType * (_rareEventValue - _reExpression.Value);
                     currentMin = Math.Min(currentMin, tempMin);
                 }
 
@@ -429,8 +431,8 @@ namespace compartments.solvers
             }
 
             Array.Sort(maxRareEventValue);
-            float ireComp = maxRareEventValue[(int)Math.Ceiling(_crossEntropyRuns * _crossEntropyThreshold)];
-            float pastIntermediateRareEvent = gammaInfo.IntermediateRareEvent;
+            double ireComp = maxRareEventValue[(int)Math.Ceiling(_crossEntropyRuns * _crossEntropyThreshold)];
+            double pastIntermediateRareEvent = gammaInfo.IntermediateRareEvent;
             gammaInfo.IntermediateRareEvent = ireComp < 0 ? _rareEventValue : _rareEventType * (_rareEventValue - ireComp);
 
             if (gammaInfo.IntermediateRareEvent >= _rareEventValue && counter >= (int)(_crossEntropyRuns * _crossEntropyThreshold))
@@ -450,7 +452,7 @@ namespace compartments.solvers
             var cetCriteria = (pastIntermediateRareEvent - gammaInfo.IntermediateRareEvent) * _rareEventType;
             if (cetCriteria > 0)
             {
-                _crossEntropyThreshold *= 0.8f;
+                _crossEntropyThreshold *= 0.8;
                 Console.WriteLine("Cross entropy threshold changed to : " + _crossEntropyThreshold);
                 Console.WriteLine("CETC: {0}   pire: {1}   ire:{2} ", cetCriteria, pastIntermediateRareEvent, gammaInfo.IntermediateRareEvent);
 

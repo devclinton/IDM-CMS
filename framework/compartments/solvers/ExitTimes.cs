@@ -27,46 +27,46 @@ namespace compartments.solvers
 
     public class ExitTimes : SolverBase
     {
-        protected float[]           currentRates;
-        protected List<float>       lambda;
-        protected List<List<float>> lambdaLists;
+        protected double[]           currentRates;
+        protected List<double>       lambda;
+        protected List<List<double>> lambdaLists;
 
-        private readonly float      _epsilon;
+        private readonly double _epsilon;
         private readonly string     _eventName;
         private readonly bool       _verbose;
         private readonly bool       _testing;
         private readonly bool       _convergenceTest;
-        private readonly float      _efficiencyCutoff;
+        private readonly double _efficiencyCutoff;
 
-        private float               expectedVariance;
-        private float               expectedTime;
+        private double              expectedVariance;
+        private double              expectedTime;
         private int                 sampleNumber;
-        private List<float>         exitTimes;
-        private float               numberOfGammaRNs; 
+        private List<double>         exitTimes;
+        private double numberOfGammaRNs; 
         private Predicate           targetCondition;
         private bool                eventAchieved;
 
         private DistributionSampler _distributionSampler;
 
-        public ExitTimes(ModelInfo modelInfo, float duration, int repeats, int samples)
+        public ExitTimes(ModelInfo modelInfo, double duration, int repeats, int samples)
             : base(modelInfo, duration, repeats, samples, new ModelBuilder())
         {
-            currentRates    = new float[model.Reactions.Count];
-            lambda          = new List<float>();
-            lambdaLists     = new List<List<float>>();
-            exitTimes       = new List<float>(); 
-            numberOfGammaRNs= 0.0f;
+            currentRates    = new double[model.Reactions.Count];
+            lambda          = new List<double>();
+            lambdaLists     = new List<List<double>>();
+            exitTimes       = new List<double>(); 
+            numberOfGammaRNs= 0.0;
 
             _distributionSampler = RandLibSampler.CreateRandLibSampler(rng);
 
             Configuration config = Configuration.CurrentConfiguration;
 
-            _epsilon            = Math.Min(config.GetParameterWithDefault("et.epsilon", 0.5f), 1.0f);
+            _epsilon            = Math.Min(config.GetParameterWithDefault("et.epsilon", 0.5), 1.0);
             _eventName          = config.GetParameterWithDefault("et.eventName", "exitTimeEvent");
             _verbose            = config.GetParameterWithDefault("et.verbose", false);
             _testing            = config.GetParameterWithDefault("et.testing", false);
             _convergenceTest    = config.GetParameterWithDefault("et.convergence", false);
-            _efficiencyCutoff   = config.GetParameterWithDefault("et.efficiencyCutoff", 0.2f);
+            _efficiencyCutoff   = config.GetParameterWithDefault("et.efficiencyCutoff", 0.2);
 
             targetCondition    = model.Predicates.First(s => s.Name == _eventName);
 
@@ -83,8 +83,8 @@ namespace compartments.solvers
         protected void InitializeExitTimeVariables()
         {
             // expectation and variance of time
-            expectedTime       = 0.0f;
-            expectedVariance   = 0.0f;
+            expectedTime       = 0.0;
+            expectedVariance   = 0.0;
 
             lambda.Clear(); // set of propensities
 
@@ -145,11 +145,11 @@ namespace compartments.solvers
                 PartitionLambda();
                 numberOfGammaRNs = lambdaLists.Count;
 
-                if (_epsilon != 0.0f)
+                if (_epsilon != 0.0)
                 {
                     for (int n = 0; n < N; ++n)
                     {
-                        float exitTimeSample = SampleTime();
+                        double exitTimeSample = SampleTime();
                         exitTimes.Add(exitTimeSample);
                     }
                 }
@@ -157,7 +157,7 @@ namespace compartments.solvers
                 {
                     for (int n = 0; n < N; ++n)
                     {
-                        float exitTimeSample = SampleTimeExponential();
+                        double exitTimeSample = SampleTimeExponential();
                         exitTimes.Add(exitTimeSample);
                     }
                 }
@@ -205,12 +205,12 @@ namespace compartments.solvers
 
                 PartitionLambda(); // lambda.Count = 0 after this function call
 
-                numberOfGammaRNs += (float)(lambdaLists.Count); // update the mean number of gamma random numbers
+                numberOfGammaRNs += (double)(lambdaLists.Count); // update the mean number of gamma random numbers
 
-                float rho = ((float)lambdaLists.Count) / ((float)lengthOfLambda);
+                double rho = ((double)lambdaLists.Count) / ((double)lengthOfLambda);
 
 
-                float exitTimeSample;
+                double exitTimeSample;
                 if (rho <= _efficiencyCutoff)
                 {
                     exitTimeSample = SampleTime();  // sample the gamma distributions
@@ -233,8 +233,8 @@ namespace compartments.solvers
                     Console.WriteLine("E[t] = {0} \n", expectedTime);
                     Console.WriteLine("Sqrt(Var[t]) = {0} \n\n", Math.Sqrt(expectedVariance));
                     int N = (int)Math.Pow(10, 6);
-                    float mean = ComputeMean(N);
-                    float standardDeviation = ComputeStandardDeviation(mean, N);
+                    double mean = ComputeMean(N);
+                    double standardDeviation = ComputeStandardDeviation(mean, N);
                 }
             }
             // else -> nothing to do, uninterested in result
@@ -244,19 +244,19 @@ namespace compartments.solvers
         // SSA without time
         protected override void StepOnce()
         {
-            float a0 = UpdateRates();
+            double a0 = UpdateRates();
 
-            if (a0 > 0.0f)
+            if (a0 > 0.0)
             {
-                float r = rng.GenerateUniformCC();
+                double r = rng.GenerateUniformCC();
 
-                float ExpectationOfTau  = (1.0f / a0);
+                double ExpectationOfTau  = (1.0 / a0);
                 CurrentTime             += ExpectationOfTau;
 
                 expectedTime     += ExpectationOfTau;                        // E[tau] = 1 / lambda
                 expectedVariance += (ExpectationOfTau * ExpectationOfTau);   // Var[tau] = 1 / lambda^2
 
-                float threshold = r * a0;
+                double threshold = r * a0;
 
                 int mu = SelectReaction(threshold);
                 FireReaction(model.Reactions[mu]);
@@ -270,7 +270,7 @@ namespace compartments.solvers
             }
         }
 
-        protected override float CalculateProposedTau(float tauLimit)
+        protected override double CalculateProposedTau(double tauLimit)
         {
             throw new NotImplementedException("The ExitTimes solver doesn't keep track of simulation time during a realization.");
         }
@@ -281,13 +281,13 @@ namespace compartments.solvers
         }
 
         // ssa method
-        protected float UpdateRates()
+        protected double UpdateRates()
         {
-            float a0 = 0.0f;
+            double a0 = 0.0;
             int index = 0;
             foreach (Reaction r in model.Reactions)
             {
-                float av = r.Rate;
+                double av = r.Rate;
                 currentRates[index++] = av;
                 a0 += av;
             }
@@ -296,7 +296,7 @@ namespace compartments.solvers
         }
 
         // ssa method
-        protected int SelectReaction(float threshold)
+        protected int SelectReaction(double threshold)
         {
             int mu = 0;
 
@@ -306,7 +306,7 @@ namespace compartments.solvers
             for (int i = 0; i < model.Reactions.Count; i++)
             {
                 threshold -= currentRates[i];
-                if (threshold <= 0.0f)
+                if (threshold <= 0.0)
                 {
                     mu = i;
                     break;
@@ -337,7 +337,7 @@ namespace compartments.solvers
 
             while (lambda.Count > 0)
             {
-                float x = lambda[0] - lambda[0] * _epsilon;
+                double x = lambda[0] - lambda[0] * _epsilon;
 
                 if (_verbose)
                 { Console.WriteLine("\n x: {0}\n", x); }
@@ -376,20 +376,20 @@ namespace compartments.solvers
         }
 
         // the summation of gamma distributed random variables
-        protected float SampleTime()
+        protected double SampleTime()
         {
-            float tau = 0.0f;
+            double tau = 0.0;
 
             for (int i = 0; i < lambdaLists.Count; ++i)
             {
-                List<float> lambdaSublist = lambdaLists[i];
+                List<double> lambdaSublist = lambdaLists[i];
                 int n = lambdaSublist.Count;
 
-                float theta = 0.0f;
+                double theta = 0.0;
 
                 for (int j = 0; j < n; ++j)
                 {
-                    theta += 1.0f / lambdaSublist[j];
+                    theta += 1.0 / lambdaSublist[j];
                 }
                 theta /= n;
 
@@ -401,18 +401,18 @@ namespace compartments.solvers
         }
 
         // no additional error, used if rho (the ratio of gamma r.v.s to exponential r.v.s is large)
-        protected float SampleTimeExponential()
+        protected double SampleTimeExponential()
         {
-            float tau = 0.0f;
+            double tau = 0.0;
 
             for (int i = 0; i < lambdaLists.Count; ++i)
             {
-                List<float> lambdaSublist = lambdaLists[i];
+                List<double> lambdaSublist = lambdaLists[i];
                 int n = lambdaSublist.Count;
 
                 for (int j = 0; j < n; ++j)
                 {
-                    tau += _distributionSampler.GenerateExponential(1.0f / lambdaSublist[j]);
+                    tau += _distributionSampler.GenerateExponential(1.0 / lambdaSublist[j]);
                 }
             }
 
@@ -420,14 +420,14 @@ namespace compartments.solvers
         }
 
         // used if _testing flag is true
-        protected float ComputeMean(int N)
+        protected double ComputeMean(int N)
         {
-            float mean = 0.0f;
+            double mean = 0.0;
             for (int i = 0; i < N; ++i)
             {
                 mean += SampleTime(); // gamma
             }
-            mean /= ((float)N);
+            mean /= ((double)N);
 
             Console.WriteLine("\n <Gamma>_tf = {0} \n", mean);
 
@@ -435,21 +435,21 @@ namespace compartments.solvers
         }
 
         // used if _testing flag is true
-        protected float ComputeStandardDeviation(float mean, int N)
+        protected double ComputeStandardDeviation(double mean, int N)
         {
-            float variance = 0.0f;
-            float standardDeviation = 0.0f;
-            float x;
+            double variance = 0.0;
+            double standardDeviation = 0.0;
+            double x;
 
             for (int i = 0; i < N; ++i)
             {
                 x = SampleTime(); // gamma
 
-                variance += (float)Math.Pow(x - mean, 2.0);
+                variance += Math.Pow(x - mean, 2.0);
             }
-            variance /= ((float)N);
+            variance /= ((double)N);
 
-            standardDeviation = (float)Math.Sqrt(variance);
+            standardDeviation = Math.Sqrt(variance);
 
             Console.WriteLine("\n Sqrt(<Gamma^2>_tf) = {0} \n", standardDeviation);
 
@@ -459,7 +459,7 @@ namespace compartments.solvers
         // outputs all of the exit times
         public override void OutputData(string prefix)
         {
-            float probabilityOfSuccess = ((float)(exitTimes.Count) / (float)SamplingParams.RealizationCount);
+            double probabilityOfSuccess = ((double)(exitTimes.Count) / (double)SamplingParams.RealizationCount);
 
             string filename;
 
@@ -470,7 +470,7 @@ namespace compartments.solvers
             else
             {
                 filename = prefix + "ExitTimes" + _epsilon.ToString() + ".txt";
-                numberOfGammaRNs /= ((float)(exitTimes.Count));
+                numberOfGammaRNs /= ((double)(exitTimes.Count));
             }
 
             using (var output = new StreamWriter(filename))

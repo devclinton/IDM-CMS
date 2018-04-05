@@ -21,7 +21,7 @@
     (clr-new SymbolReference (symbol->string symbol)))
 
 (define (new-constant expression)
-    (clr-new Constant (->single (real->flonum expression))))
+    (clr-new Constant (->double (real->flonum expression))))
 
 (define (parse-expression expression)
     (cond
@@ -91,9 +91,9 @@
         ((pow) (new-binary PowerOperator    (parse-expression (cadr expression)) (parse-expression (caddr expression))))
         ((min) (new-binary MinimumOperator  (parse-expression (cadr expression)) (parse-expression (caddr expression))))
         ((max) (new-binary MaximumOperator  (parse-expression (cadr expression)) (parse-expression (caddr expression))))
-        ((uniform)  (clr-new Uniform (->single (cadr expression)) (->single (caddr expression))))
-        ((normal)   (clr-new Normal  (->single (cadr expression)) (->single (caddr expression))))
-        ((gaussian) (clr-new Normal  (->single (cadr expression)) (->single (caddr expression))))
+        ((uniform)  (clr-new Uniform (->double (cadr expression)) (->double (caddr expression))))
+        ((normal)   (clr-new Normal  (->double (cadr expression)) (->double (caddr expression))))
+        ((gaussian) (clr-new Normal  (->double (cadr expression)) (->double (caddr expression))))
         (else (error parse-binary "Invalid operation: " (car expression))))
     )
 

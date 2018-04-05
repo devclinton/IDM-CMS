@@ -25,7 +25,7 @@ namespace distlib.randomvariates
             return generator;
         }
 
-        public float GenerateUniformOO()
+        public double GenerateUniformOO()
         {
             double next;
 
@@ -35,22 +35,22 @@ namespace distlib.randomvariates
                 next = _random.NextDouble();
             } while (next == 0.0);
 
-            return (float)next;
+            return next;
         }
 
-        public float GenerateUniformOC()
+        public double GenerateUniformOC()
         {
-            return (float)_random.Next(1, 0x01000001) / 0x01000000;
+            return (double)_random.Next(1, 0x01000001) / 0x01000000;
         }
 
-        public float GenerateUniformCO()
+        public double GenerateUniformCO()
         {
-            return (float)_random.Next(0, 0x01000000) / 0x01000000;
+            return (double)_random.Next(0, 0x01000000) / 0x01000000;
         }
 
-        public float GenerateUniformCC()
+        public double GenerateUniformCC()
         {
-            return (float)_random.Next(0, 0x01000001) / 0x01000000;
+            return (double)_random.Next(0, 0x01000001) / 0x01000000;
         }
 
         public override string ToString()

@@ -8,11 +8,11 @@ namespace compartments.emod.distributions
 {
     public class Uniform : INumericOperator, IValue
     {
-        private readonly float _min;
-        private readonly float _max;
+        private readonly double _min;
+        private readonly double _max;
         private readonly RandomVariateGenerator _rng;
 
-        public Uniform(float minimum, float maximum)
+        public Uniform(double minimum, double maximum)
         {
             if (minimum > maximum)
                 throw new ArgumentException("Minimum must be <= maxmimum.", "minimum");
@@ -22,7 +22,7 @@ namespace compartments.emod.distributions
             _rng = RNGFactory.GetRNG();
         }
 
-        public float Value
+        public double Value
         {
             get { return _min + (_rng.GenerateUniformOO() * (_max - _min)); }
         }

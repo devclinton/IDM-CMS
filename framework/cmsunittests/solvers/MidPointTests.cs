@@ -24,12 +24,12 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\testmodel.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new MidPoint(modelInfo, duration, repeats, samples);
 
-            Assert.AreEqual(0.01f, ReflectionUtility.GetHiddenField<float>("epsilon", solver));
+            Assert.AreEqual(0.01, ReflectionUtility.GetHiddenField<double>("epsilon", solver));
             Assert.AreEqual(2, ReflectionUtility.GetHiddenField<int>("nc", solver));
             Assert.AreEqual(10, ReflectionUtility.GetHiddenField<int>("multiple", solver));
             Assert.AreEqual(100, ReflectionUtility.GetHiddenField<int>("SSAruns", solver));
@@ -45,12 +45,12 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo  = EmodlLoader.LoadEMODLFile("resources\\testmodel.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats    = 42;
             const int samples    = 100;
             var solver           = new MidPoint(modelInfo, duration, repeats, samples);
 
-            Assert.AreEqual(0.02f, ReflectionUtility.GetHiddenField<float>("epsilon", solver));
+            Assert.AreEqual(0.02, ReflectionUtility.GetHiddenField<double>("epsilon", solver));
             Assert.AreEqual(3, ReflectionUtility.GetHiddenField<int>("nc", solver));
             Assert.AreEqual(8, ReflectionUtility.GetHiddenField<int>("multiple", solver));
             Assert.AreEqual(50, ReflectionUtility.GetHiddenField<int>("SSAruns", solver));
@@ -65,7 +65,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
 
@@ -131,44 +131,44 @@ namespace cmsunittests.solvers
             SpeciesDescription info3;
             SpeciesMP product1;
             CreateSpeciesInfoAndSpecies("product1", 90, out info3, out product1);
-            float rate = 1;
+            double rate = 1.0;
 
             Reaction reaction = CreateReaction(info1, reactant1, info2, reactant2, info3, product1,rate);
 
             MidPoint solver = InstantiateSolver();
 
             // Partial, exploratory leap
-            solver.FireReaction(reaction, 0.25f);
-            Assert.AreEqual(9.75f, reactant1.Value);
-            Assert.AreEqual(39.75f, reactant2.Value);
-            Assert.AreEqual(90.25f, product1.Value);
+            solver.FireReaction(reaction, 0.25);
+            Assert.AreEqual(9.75, reactant1.Value);
+            Assert.AreEqual(39.75, reactant2.Value);
+            Assert.AreEqual(90.25, product1.Value);
 
             // Finish leap
-            solver.FireReaction(reaction, 0.75f);
+            solver.FireReaction(reaction, 0.75);
             Assert.AreEqual(9, reactant1.Count);
             Assert.AreEqual(39, reactant2.Count);
             Assert.AreEqual(91, product1.Count);
 
             // Partial, exploratory leap
-            solver.FireReaction(reaction, 4.5f);
-            Assert.AreEqual(4.5f, reactant1.Value);
-            Assert.AreEqual(34.5f, reactant2.Value);
-            Assert.AreEqual(95.5f, product1.Value);
+            solver.FireReaction(reaction, 4.5);
+            Assert.AreEqual(4.5, reactant1.Value);
+            Assert.AreEqual(34.5, reactant2.Value);
+            Assert.AreEqual(95.5, product1.Value);
 
             // Undo part of the leap
-            solver.FireReaction(reaction, -1.5f);
+            solver.FireReaction(reaction, -1.5);
             Assert.AreEqual(6, reactant1.Count);
             Assert.AreEqual(36, reactant2.Count);
             Assert.AreEqual(94, product1.Count);
 
             // Test using a fractional number that can not be exactly represented by a binary/floating point
 
-            var change = (float) (1.0/3.0);
+            var change = (1.0 / 3.0);
 
             solver.FireReaction(reaction, change);
-            Assert.AreEqual(5.66666651f, reactant1.Value);
-            Assert.AreEqual(35.66666651f, reactant2.Value);
-            Assert.AreEqual(94.3333359f, product1.Value);
+            Assert.AreEqual(5.666666666666667, reactant1.Value);
+            Assert.AreEqual(35.666666666666664, reactant2.Value);
+            Assert.AreEqual(94.333333333333329, product1.Value);
 
         }
 
@@ -179,7 +179,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\testmodel.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new MidPoint(modelInfo, duration, repeats, samples);
@@ -194,18 +194,18 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\testmodelMidPoint.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new MidPoint(modelInfo, duration, repeats, samples);
 
             //Inputs for the method
             // Tau Step
-            float tau1 = 0.0f;
-            var tau2 = (1.0f/200.0f);
+            double tau1 = 0.0;
+            var tau2 = (1.0 / 200.0);
             
             //Need a list of reactions
-            var currentRates = ReflectionUtility.GetHiddenField<float[]>("_currentRates", solver);
+            var currentRates = ReflectionUtility.GetHiddenField<double[]>("_currentRates", solver);
             var nonCriticalReaction = new List<Reaction>();
 
             //Find Hidden Method to in order to initialize the population of each of the species
@@ -239,9 +239,9 @@ namespace cmsunittests.solvers
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
             fireNonCriticalReactionsMethod.Invoke(solver, inputArray2);
 
-            Assert.AreEqual(383.0f, model.Species[0].Value);
-            Assert.AreEqual(183.0f, model.Species[1].Value);
-            Assert.AreEqual(917.0f, model.Species[2].Value);
+            Assert.AreEqual(378.0, model.Species[0].Value);
+            Assert.AreEqual(178.0, model.Species[1].Value);
+            Assert.AreEqual(922.0, model.Species[2].Value);
            
             resetModelStateMethod.Invoke(solver, null);
             object[] inputArray3 = new object[2];
@@ -251,9 +251,9 @@ namespace cmsunittests.solvers
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
             fireNonCriticalReactionsMethod.Invoke(solver, inputArray2);
             
-            Assert.AreEqual(383.0f, model.Species[0].Value);
-            Assert.AreEqual(183.0f, model.Species[1].Value);
-            Assert.AreEqual(917.0f, model.Species[2].Value);
+            Assert.AreEqual(378.0, model.Species[0].Value);
+            Assert.AreEqual(178.0, model.Species[1].Value);
+            Assert.AreEqual(922.0, model.Species[2].Value);
         }
 
         private static void CreateSpeciesInfoAndSpecies(string speciesName, int initialPopulation, out SpeciesDescription info, out SpeciesMP species)
@@ -265,7 +265,7 @@ namespace cmsunittests.solvers
 
         private static Reaction CreateReaction(SpeciesDescription info1, SpeciesMP reactant1,
                                                SpeciesDescription info2, SpeciesMP reactant2,
-                                               SpeciesDescription info3, SpeciesMP product1, float rate)
+                                               SpeciesDescription info3, SpeciesMP product1, double rate)
         {
             var builder = new ReactionInfo.ReactionBuilder("theReaction");
             builder.AddReactant(info1);
@@ -286,7 +286,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodel.emodl");
-            var solver = new MidPoint(modelInfo, 6.28318531f, 42, 100);
+            var solver = new MidPoint(modelInfo, 6.28318531, 42, 100);
             return solver;
         }
     }

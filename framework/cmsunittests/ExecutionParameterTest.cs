@@ -12,7 +12,7 @@ namespace cmsunittests
         {
             var ep = new ExecutionParameters();
             Assert.AreEqual(string.Empty, ep.ConfigFileName);
-            Assert.AreEqual(100.0f, ep.Duration);
+            Assert.AreEqual(100.0, ep.Duration);
             Assert.AreEqual(string.Empty, ep.ModelFileName);
             Assert.AreEqual(1, ep.Repeats);
             Assert.AreEqual(100, ep.Samples);

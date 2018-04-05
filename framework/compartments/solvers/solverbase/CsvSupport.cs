@@ -71,7 +71,7 @@ namespace compartments.solvers.solverbase
             output.Write("{0},", header);
         }
 
-        private static void WriteRowData(IEnumerable<float> data, TextWriter output)
+        private static void WriteRowData(IEnumerable<double> data, TextWriter output)
         {
             bool first = true;
             foreach (var value in data)
@@ -93,7 +93,7 @@ namespace compartments.solvers.solverbase
 
             foreach (Observable o in trajectories.Keys)
             {
-                float[][] observableTrajectories = trajectories[o];
+                double[][] observableTrajectories = trajectories[o];
                 var header = new StringBuilder();
                 for (int runIndex = 0; runIndex < observableTrajectories.Length; runIndex++)
                 {

@@ -128,7 +128,7 @@ namespace compartments
         }
 
         // ReSharper disable MemberCanBePrivate.Global
-        public static void RunModel(ModelInfo model, String solverName, float duration, int repeats, int samples)
+        public static void RunModel(ModelInfo model, String solverName, double duration, int repeats, int samples)
         // ReSharper restore MemberCanBePrivate.Global
         {
             Console.WriteLine("Starting simulation...");
@@ -143,7 +143,7 @@ namespace compartments
         }
 
         // ReSharper disable UnusedMember.Global
-        public static SimulationResults ExecuteModel(ModelInfo model, String solverName, float duration, int repeats, int samples)
+        public static SimulationResults ExecuteModel(ModelInfo model, String solverName, double duration, int repeats, int samples)
         // ReSharper restore UnusedMember.Global
         {
             Console.WriteLine("Starting simulation...");
@@ -167,13 +167,13 @@ namespace compartments
             Samples          = 100;
             Repeats          = 1;
             ModelFileName    = String.Empty;
-            Duration         = 100.0f;
+            Duration         = 100.0;
             ConfigFileName   = String.Empty;
             WriteModelFile   = false;
         }
 
         public string ConfigFileName { get; set; }
-        public float Duration { get; set; }
+        public double Duration { get; set; }
         public string ModelFileName { get; set; }
         public int Repeats { get; set; }
         public int Samples { get; set; }

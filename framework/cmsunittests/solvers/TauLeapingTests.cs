@@ -23,19 +23,19 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodel.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
 
-            Assert.AreEqual(0.001f, ReflectionUtility.GetHiddenField<float>("epsilon", solver));
+            Assert.AreEqual(0.001, ReflectionUtility.GetHiddenField<double>("epsilon", solver));
             Assert.AreEqual(2, ReflectionUtility.GetHiddenField<int>("nc", solver));
             Assert.AreEqual(10, ReflectionUtility.GetHiddenField<int>("multiple", solver));
             Assert.AreEqual(100, ReflectionUtility.GetHiddenField<int>("SSAruns", solver));
             string regimeName = ReflectionUtility.GetSolverRegimeName(solver);
             Assert.AreEqual("Leaping", regimeName);
 
-            float[] currentRates = ReflectionUtility.GetHiddenField<float[]>("_currentRates", solver);
+            double[] currentRates = ReflectionUtility.GetHiddenField<double[]>("_currentRates", solver);
 
             Assert.AreEqual(15, currentRates.Length);
         }
@@ -49,17 +49,17 @@ namespace cmsunittests.solvers
             var solver = DefaultSetupForCalculateProposedTauTests(out model, out calculateProposedTauMethod, out resetModelStateMethod);
 
             ReflectionUtility.SetHiddenField("_regime", solver, 0);
-            float tauIn = 5;
+            double tauIn = 5;
             object[] inputArray1 = new object[1];
             inputArray1[0] = tauIn;
 
             var tauOut1 = calculateProposedTauMethod.Invoke(solver, inputArray1);
-            Assert.AreEqual(0.061859753f, tauOut1);
+            Assert.AreEqual(0.017758100416769496, tauOut1);
 
             ReflectionUtility.RunResetRngFactory();
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
 
-            inputArray1[0] = 0.0001f;
+            inputArray1[0] = 0.0001;
             var tauOut1B = calculateProposedTauMethod.Invoke(solver, inputArray1);
             Assert.AreEqual(inputArray1[0], tauOut1B);
         }
@@ -76,7 +76,7 @@ namespace cmsunittests.solvers
             model.Parameters[2].Value = 0;
             model.Parameters[3].Value = 0;
             object[] inputArray1 = new object[1];
-            float tauIn = 5;
+            double tauIn = 5;
             inputArray1[0] = tauIn;
             inputArray1[0] = tauIn;
 
@@ -92,7 +92,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             ReflectionUtility.RunResetRngFactory();
@@ -149,21 +149,21 @@ namespace cmsunittests.solvers
             ReflectionUtility.SetHiddenField("nc", solver, 3);
 
             var tauOut4 = calculateProposedTauMethod.Invoke(solver, inputArray1);
-            Assert.AreEqual(0.0927896276f, tauOut4);
+            Assert.AreEqual(0.026637150625154243, tauOut4);
 
             ReflectionUtility.RunResetRngFactory();
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
             ReflectionUtility.SetHiddenField("_regime", solver, 3);
-            inputArray1[0] = 0.001f;
+            inputArray1[0] = 0.001;
             var tauOut4B = calculateProposedTauMethod.Invoke(solver, inputArray1);
-            Assert.AreEqual(0.001f, tauOut4B);
+            Assert.AreEqual(0.001, tauOut4B);
 
             ReflectionUtility.RunResetRngFactory();
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
             ReflectionUtility.SetHiddenField("_regime", solver, 3);
-            inputArray1[0] = 6.29010763f;
+            inputArray1[0] = 6.29010763;
             var tauOut4C = calculateProposedTauMethod.Invoke(solver, inputArray1);
-            Assert.AreEqual(0.14998354f, tauOut4C);
+            Assert.AreEqual(0.13335417718069428, tauOut4C);
         }
 
         [Test]
@@ -181,18 +181,18 @@ namespace cmsunittests.solvers
             ReflectionUtility.SetHiddenField("_regime", solver, 3);
             model.Species[0].Count = 200;
             model.Species[1].Count = 10;
-            ReflectionUtility.SetHiddenField("epsilon", solver, 0.1f);
+            ReflectionUtility.SetHiddenField("epsilon", solver, 0.1);
             inputArray1[0] = 10;
 
             var tauOut5 = calculateProposedTauMethod.Invoke(solver, inputArray1);
-            Assert.AreEqual(0.0525641032f, tauOut5);
+            Assert.AreEqual(0.052564102564102565, tauOut5);
 
             ReflectionUtility.RunResetRngFactory();
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
             ReflectionUtility.SetHiddenField("_regime", solver, 3);
-            inputArray1[0] = 0.01f;
+            inputArray1[0] = 0.01;
             var tauOut5B = calculateProposedTauMethod.Invoke(solver, inputArray1);
-            Assert.AreEqual(0.01f, tauOut5B);
+            Assert.AreEqual(0.01, tauOut5B);
         }
 
         [Test]
@@ -211,11 +211,11 @@ namespace cmsunittests.solvers
             ReflectionUtility.SetHiddenField("_regime", solver, 3);
             model.Species[0].Count = 200;
             model.Species[1].Count = 2;
-            ReflectionUtility.SetHiddenField("epsilon", solver, 0.1f);
+            ReflectionUtility.SetHiddenField("epsilon", solver, 0.1);
             inputArray1[0] = 10;
 
             var tauOut6 = calculateProposedTauMethod.Invoke(solver, inputArray1);
-            Assert.AreEqual(0.0505025126f, tauOut6);
+            Assert.AreEqual(0.050502512562814073, tauOut6);
 
             ReflectionUtility.RunResetRngFactory();
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
@@ -223,18 +223,18 @@ namespace cmsunittests.solvers
             ReflectionUtility.SetHiddenField("_regime", solver, 3);
             model.Species[0].Count = 200;
             model.Species[1].Count = 2;
-            ReflectionUtility.SetHiddenField("epsilon", solver, 0.1f);
+            ReflectionUtility.SetHiddenField("epsilon", solver, 0.1);
             inputArray1[0] = 10;
 
             var tauOut6Test = calculateProposedTauMethod.Invoke(solver, inputArray1);
-            Assert.AreEqual(0.0505025126f, tauOut6Test);
+            Assert.AreEqual(0.050502512562814073, tauOut6Test);
 
             ReflectionUtility.RunResetRngFactory();
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
             ReflectionUtility.SetHiddenField("_regime", solver, 3);
-            inputArray1[0] = 0.01f;
+            inputArray1[0] = 0.01;
             var tauOut6B = calculateProposedTauMethod.Invoke(solver, inputArray1);
-            Assert.AreEqual(0.01f, tauOut6B);
+            Assert.AreEqual(0.01, tauOut6B);
         }
 
         [Test]
@@ -257,15 +257,15 @@ namespace cmsunittests.solvers
             ReflectionUtility.SetHiddenField("nc", solver, 10);
 
             var tauOut7 = calculateProposedTauMethod.Invoke(solver, inputArray1);
-            Assert.AreEqual(0.0824796706f, tauOut7);
+            Assert.AreEqual(0.023677467222359326, tauOut7);
 
             ReflectionUtility.RunResetRngFactory();
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
             ReflectionUtility.SetHiddenField("_regime", solver, 3);
-            inputArray1[0] = 0.001f;
+            inputArray1[0] = 0.001;
 
             var tauOut7B = calculateProposedTauMethod.Invoke(solver, inputArray1);
-            Assert.AreEqual(0.001f, tauOut7B);
+            Assert.AreEqual(0.001, tauOut7B);
         }
 
         [Test]
@@ -276,7 +276,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
@@ -312,8 +312,8 @@ namespace cmsunittests.solvers
             executeReactionsMethod.Invoke(solver, null);
             regime = ReflectionUtility.GetHiddenField<int>("_regime", solver);
             Assert.AreEqual(3, regime);
-            Assert.AreEqual(6.0f, model.Species[0].Count);
-            Assert.AreEqual(1.0f, model.Species[1].Count);
+            Assert.AreEqual(6.0, model.Species[0].Count);
+            Assert.AreEqual(1.0, model.Species[1].Count);
 
             //2.  == Regime.NonCritical
 
@@ -326,12 +326,12 @@ namespace cmsunittests.solvers
             var nonCriticalReactionsList = new List<Reaction>();
             nonCriticalReactionsList.Add(model.Reactions[0]);
             nonCriticalReactionsList.Add(model.Reactions[1]);
-            var nonCriticalRates = new float[2];
+            var nonCriticalRates = new double[2];
             nonCriticalRates[0] = model.Reactions[0].Rate;
             nonCriticalRates[1] = model.Reactions[1].Rate;
 
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
-            ReflectionUtility.SetHiddenField("_leapTau", solver, 0.01f);
+            ReflectionUtility.SetHiddenField("_leapTau", solver, 0.01);
             ReflectionUtility.SetHiddenField("_nonCriticalReactions", solver, nonCriticalReactionsList);
             ReflectionUtility.SetHiddenField("_noncriticalRates", solver, nonCriticalRates);
 
@@ -339,8 +339,8 @@ namespace cmsunittests.solvers
 
             regime = ReflectionUtility.GetHiddenField<int>("_regime", solver);
             Assert.AreEqual(3, regime);
-            Assert.AreEqual(102, model.Species[0].Count);
-            Assert.AreEqual(48, model.Species[1].Count);
+            Assert.AreEqual(103, model.Species[0].Count);
+            Assert.AreEqual(47, model.Species[1].Count);
 
             //3.  == Regime.Critical ) no noncriticalreactions
             ReflectionUtility.SetHiddenField("_regime", solver, 2);
@@ -352,7 +352,7 @@ namespace cmsunittests.solvers
             var criticalReactionsList = new List<Reaction>();
             criticalReactionsList.Add(model.Reactions[0]); 
             criticalReactionsList.Add(model.Reactions[1]);
-            var criticalRates = new float[2];
+            var criticalRates = new double[2];
             criticalRates[0] = model.Reactions[0].Rate;
             criticalRates[1] = model.Reactions[1].Rate;
 
@@ -387,8 +387,8 @@ namespace cmsunittests.solvers
             nonCriticalReactionsList = new List<Reaction>();
             criticalReactionsList.Add(model.Reactions[0]);
             nonCriticalReactionsList.Add(model.Reactions[1]);
-            criticalRates = new float[1];
-            nonCriticalRates = new float[1];
+            criticalRates = new double[1];
+            nonCriticalRates = new double[1];
             criticalRates[0] = model.Reactions[0].Rate;
             nonCriticalRates[0] = model.Reactions[1].Rate;
                     
@@ -398,7 +398,7 @@ namespace cmsunittests.solvers
 
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
             ReflectionUtility.SetHiddenField("_a0Critical", solver, a0Critical);
-            ReflectionUtility.SetHiddenField("_leapTau", solver, 0.01f);
+            ReflectionUtility.SetHiddenField("_leapTau", solver, 0.01);
             ReflectionUtility.SetHiddenField("_criticalReactions", solver, criticalReactionsList);
             ReflectionUtility.SetHiddenField("_criticalRates", solver, criticalRates);
             ReflectionUtility.SetHiddenField("_nonCriticalReactions", solver, nonCriticalReactionsList);
@@ -408,8 +408,8 @@ namespace cmsunittests.solvers
 
             regime = ReflectionUtility.GetHiddenField<int>("_regime", solver);
             Assert.AreEqual(3, regime);
-            Assert.AreEqual(101, model.Species[0].Count);
-            Assert.AreEqual(49, model.Species[1].Count);
+            Assert.AreEqual(100, model.Species[0].Count);
+            Assert.AreEqual(50, model.Species[1].Count);
 
             //4.  == Regime.AnythingElse
             ReflectionUtility.SetHiddenField("_regime", solver, 4);
@@ -432,7 +432,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
@@ -448,7 +448,7 @@ namespace cmsunittests.solvers
             MethodInfo computeJacobianMethod = ReflectionUtility.GetHiddenMethod("ComputeJacobian", solver);
 
             //Set currentRates
-            float[] currentRates = new float[2];
+            double[] currentRates = new double[2];
             currentRates[0] = model.Reactions[0].Rate;
             currentRates[1] = model.Reactions[1].Rate;
 
@@ -456,15 +456,15 @@ namespace cmsunittests.solvers
 
             //Test Function
             var jacobian = computeJacobianMethod.Invoke(solver, null);
-            float[,] check = new float[2,2];
-            check[0, 0] = 2.0f;
-            check[0, 1] = 0.0f;
-            check[1, 0] = 0.0f;
-            check[1, 1] = 1.0f;
+            double[,] check = new double[2,2];
+            check[0, 0] = 2.0;
+            check[0, 1] = 0.0;
+            check[1, 0] = 0.0;
+            check[1, 1] = 1.0;
             Assert.AreEqual(check,jacobian);
 
-            model.Parameters[2].Value = 0.0f;
-            model.Parameters[3].Value = 0.0f;
+            model.Parameters[2].Value = 0.0;
+            model.Parameters[3].Value = 0.0;
 
             currentRates[0] = model.Reactions[0].Rate;
             currentRates[1] = model.Reactions[1].Rate;
@@ -473,16 +473,16 @@ namespace cmsunittests.solvers
 
             jacobian = computeJacobianMethod.Invoke(solver, null);
 
-            check[0, 0] = 0.0f;
-            check[0, 1] = 0.0f;
-            check[1, 0] = 0.0f;
-            check[1, 1] = 0.0f;
+            check[0, 0] = 0.0;
+            check[0, 1] = 0.0;
+            check[1, 0] = 0.0;
+            check[1, 1] = 0.0;
             Assert.AreEqual(check, jacobian);
 
             resetModelStateMethod.Invoke(solver, null);
 
-            model.Parameters[2].Value = 2.0f;
-            model.Parameters[3].Value = 1.0f;
+            model.Parameters[2].Value = 2.0;
+            model.Parameters[3].Value = 1.0;
 
             model.Species[0].Count = 0;
             model.Species[1].Count = 0;
@@ -494,10 +494,10 @@ namespace cmsunittests.solvers
 
             jacobian = computeJacobianMethod.Invoke(solver, null);
 
-            check[0, 0] = 2.0f;
-            check[0, 1] = 0.0f;
-            check[1, 0] = 0.0f;
-            check[1, 1] = 1.0f;
+            check[0, 0] = 2.0;
+            check[0, 1] = 0.0;
+            check[1, 0] = 0.0;
+            check[1, 1] = 1.0;
             Assert.AreEqual(check, jacobian);
         }
 
@@ -509,7 +509,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau2.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
@@ -525,7 +525,7 @@ namespace cmsunittests.solvers
             MethodInfo computeJacobianMethod = ReflectionUtility.GetHiddenMethod("ComputeJacobian", solver);
 
             //Set currentRates
-            float[] currentRates = new float[2];
+            double[] currentRates = new double[2];
             currentRates[0] = model.Reactions[0].Rate;
             currentRates[1] = model.Reactions[1].Rate;
 
@@ -533,11 +533,11 @@ namespace cmsunittests.solvers
 
             //Test Function
             var jacobian = computeJacobianMethod.Invoke(solver, null);
-            float[,] check = new float[2, 2];
-            check[0, 0] = 4.0f;
-            check[0, 1] = 10.0f;
-            check[1, 0] = 2.0f;
-            check[1, 1] = 5.0f;
+            double[,] check = new double[2, 2];
+            check[0, 0] = 4.0;
+            check[0, 1] = 10.0;
+            check[1, 0] = 2.0;
+            check[1, 1] = 5.0;
             Assert.AreEqual(check, jacobian);
         }
 
@@ -549,7 +549,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
@@ -565,14 +565,14 @@ namespace cmsunittests.solvers
             MethodInfo computeTauMethod = ReflectionUtility.GetHiddenMethod("ComputeTau", solver);
             MethodInfo updateAndSumRatesMethod = ReflectionUtility.GetHiddenMethod("UpdateAndSumRates", solver);
 
-            var jacobian = new float[2,2];
+            var jacobian = new double[2,2];
             var subreactions = new List<Reaction>();
-            float epsilon;
+            double epsilon;
 
-            epsilon = 0.1f;
+            epsilon = 0.1;
             subreactions.Add(model.Reactions[0]);
             subreactions.Add(model.Reactions[1]);
-            var currentRates = new float[2];
+            var currentRates = new double[2];
             currentRates[0] = model.Reactions[0].Rate;
             currentRates[1] = model.Reactions[1].Rate;
             object[] inputArray = new object[2];
@@ -580,10 +580,10 @@ namespace cmsunittests.solvers
  
             var a0 = updateAndSumRatesMethod.Invoke(solver,inputArray);
 
-            jacobian[0, 0] = 2.0f;
-            jacobian[0, 1] = 0.0f;
-            jacobian[1, 0] = 0.0f;
-            jacobian[1, 1] = 1.0f;
+            jacobian[0, 0] = 2.0;
+            jacobian[0, 1] = 0.0;
+            jacobian[1, 0] = 0.0;
+            jacobian[1, 1] = 1.0;
 
             object[] inputArray2 = new object[4];
             inputArray2[0] = jacobian;
@@ -594,20 +594,20 @@ namespace cmsunittests.solvers
             //Test of one model file with two reactions.
 
             var tauOut = computeTauMethod.Invoke(solver, inputArray2);
-            Assert.AreEqual(0.0300000012f, tauOut);
+            Assert.AreEqual(0.030000000000000009, tauOut);
 
             //Test of one model file with zero in some input components.
 
-            a0 = 0.0f;
+            a0 = 0.0;
             inputArray2[2] = a0;
 
             tauOut = computeTauMethod.Invoke(solver, inputArray2);
-            Assert.AreEqual(0.0f, tauOut);
+            Assert.AreEqual(0.0, tauOut);
 
             updateAndSumRatesMethod.Invoke(solver, inputArray);
-            inputArray2[1] = 0.0f;
+            inputArray2[1] = 0.0;
             tauOut = computeTauMethod.Invoke(solver, inputArray2);
-            Assert.AreEqual(0.0f, tauOut);
+            Assert.AreEqual(0.0, tauOut);
         }
 
         [Test]
@@ -617,18 +617,18 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\testmodelMidPoint.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
 
             //Inputs for the method
             // Tau Step
-            float tau1 = 0.0f;
-            var tau2 = (1.0f / 200.0f);
+            double tau1 = 0.0;
+            var tau2 = (1.0 / 200.0);
             
             //Need a list of reactions
-            var currentRates = new float[1];
+            var currentRates = new double[1];
             var nonCriticalReaction = new List<Reaction>();
 
             //Find Hidden Method to in order to initialize the population of each of the species
@@ -664,9 +664,9 @@ namespace cmsunittests.solvers
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
             fireNonCriticalReactionsMethod.Invoke(solver, inputArray2);
 
-            Assert.AreEqual(373.0f, model.Species[0].Value);
-            Assert.AreEqual(173.0f, model.Species[1].Value);
-            Assert.AreEqual(927.0f, model.Species[2].Value);
+            Assert.AreEqual(384.0, model.Species[0].Value);
+            Assert.AreEqual(184.0, model.Species[1].Value);
+            Assert.AreEqual(916.0, model.Species[2].Value);
 
             resetModelStateMethod.Invoke(solver, null);
             object[] inputArray3 = new object[2];
@@ -676,9 +676,9 @@ namespace cmsunittests.solvers
             ReflectionUtility.SetHiddenField("_distributionSampler", solver, RandLibSampler.CreateRandLibSampler(RNGFactory.GetRNG()));
             fireNonCriticalReactionsMethod.Invoke(solver, inputArray2);
 
-            Assert.AreEqual(373.0f, model.Species[0].Value);
-            Assert.AreEqual(173.0f, model.Species[1].Value);
-            Assert.AreEqual(927.0f, model.Species[2].Value);
+            Assert.AreEqual(384.0, model.Species[0].Value);
+            Assert.AreEqual(184.0, model.Species[1].Value);
+            Assert.AreEqual(916.0, model.Species[2].Value);
         }
 
         [Test]
@@ -689,7 +689,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
@@ -775,7 +775,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau3.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
@@ -814,7 +814,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
@@ -832,7 +832,7 @@ namespace cmsunittests.solvers
             inputArray[0] = 1;
 
             var tauOut1 = gillespieTauMethod.Invoke(solver, inputArray);
-            Assert.AreEqual(0.742317021f, tauOut1);
+            Assert.That(tauOut1, Is.EqualTo(0.21309720500123394));
 
             ReflectionUtility.RunResetRngFactory();
             ReflectionUtility.SetHiddenField("rng", solver, RNGFactory.GetRNG());
@@ -840,15 +840,15 @@ namespace cmsunittests.solvers
             inputArray[0] = 100;
 
             var tauOut2 = gillespieTauMethod.Invoke(solver, inputArray);
-            Assert.AreEqual(0.00742317038f, tauOut2);
+            Assert.That(tauOut2, Is.EqualTo(0.0021309720500123394));
 
             ReflectionUtility.RunResetRngFactory();
             ReflectionUtility.SetHiddenField("rng", solver, RNGFactory.GetRNG());
 
-            inputArray[0] = 0.001f;
+            inputArray[0] = 0.001;
 
             var tauOut3 = gillespieTauMethod.Invoke(solver, inputArray);
-            Assert.AreEqual(742.316956f, tauOut3);
+            Assert.That(tauOut3, Is.EqualTo(213.09720500123393));
         }
 
         [Test]
@@ -859,7 +859,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
@@ -872,7 +872,7 @@ namespace cmsunittests.solvers
             resetModelStateMethod.Invoke(solver, null);
 
             var updateAndSumRatesMethod = ReflectionUtility.GetHiddenMethod("UpdateAndSumRates", solver);
-            var currentRates = ReflectionUtility.GetHiddenField<float[]>("_currentRates", solver);
+            var currentRates = ReflectionUtility.GetHiddenField<double[]>("_currentRates", solver);
 
             //Find the method
             var gillespieReactionMethod = ReflectionUtility.GetHiddenMethod("GillespieReaction", solver);
@@ -882,10 +882,10 @@ namespace cmsunittests.solvers
             ReflectionUtility.SetHiddenField("rng", solver, RNGFactory.GetRNG());
 
             var inputArray = new object[1];
-            inputArray[0] = 0.01f;
+            inputArray[0] = 0.01;
 
             var reactionOut = gillespieReactionMethod.Invoke(solver, inputArray);
-            Assert.AreEqual(model.Reactions[0],reactionOut);
+            Assert.That(reactionOut, Is.EqualTo(model.Reactions[0]));
 
             //Test for an actual a0 from the model file.
             ReflectionUtility.RunResetRngFactory();
@@ -900,23 +900,22 @@ namespace cmsunittests.solvers
             inputArray[0] = a0;
 
             var reactionOut2 = gillespieReactionMethod.Invoke(solver, inputArray);
-            Assert.AreEqual(model.Reactions[0], reactionOut2);
+            Assert.That(reactionOut2, Is.EqualTo(model.Reactions[0]));
 
             //Test for a changed a0 and rate parameter
 
             ReflectionUtility.RunResetRngFactory();
             ReflectionUtility.SetHiddenField("rng", solver, RNGFactory.GetRNG());
 
-            model.Parameters[3].Value = 10.0f;
-            currentRates = ReflectionUtility.GetHiddenField<float[]>("_currentRates", solver);
+            model.Parameters[3].Value = 10.0;
+            currentRates = ReflectionUtility.GetHiddenField<double[]>("_currentRates", solver);
             inputArrayForUpdate[1] = currentRates;
 
             a0 = updateAndSumRatesMethod.Invoke(solver, inputArrayForUpdate);
             inputArray[0] = a0;
 
             var reactionOut3 = gillespieReactionMethod.Invoke(solver, inputArray);
-
-            Assert.AreEqual(model.Reactions[1], reactionOut3);
+            Assert.That(reactionOut3, Is.EqualTo(model.Reactions[1]));
         }
 
         [Test]
@@ -927,7 +926,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);
@@ -940,7 +939,7 @@ namespace cmsunittests.solvers
             resetModelStateMethod.Invoke(solver, null);
 
             var updateAndSumRatesMethod = ReflectionUtility.GetHiddenMethod("UpdateAndSumRates", solver);
-            var currentRates = ReflectionUtility.GetHiddenField<float[]>("_currentRates", solver);
+            var currentRates = ReflectionUtility.GetHiddenField<double[]>("_currentRates", solver);
 
             //Find the method
             var fireCriticalReactionMethod = ReflectionUtility.GetHiddenMethod("FireCriticalReaction", solver);
@@ -951,7 +950,7 @@ namespace cmsunittests.solvers
             inputArrayForUpdate[1] = currentRates;
 
             var a0 = updateAndSumRatesMethod.Invoke(solver, inputArrayForUpdate);
-            currentRates = ReflectionUtility.GetHiddenField<float[]>("_currentRates", solver);
+            currentRates = ReflectionUtility.GetHiddenField<double[]>("_currentRates", solver);
 
             //Define inputs for method  Here there is one reaction
 
@@ -961,7 +960,7 @@ namespace cmsunittests.solvers
             var inputArray = new object[3];
             var criticalReactions = new List<Reaction>();
             criticalReactions.Add(model.Reactions[0]);
-            var criticalRates = new float[1];
+            var criticalRates = new double[1];
             criticalRates[0] = currentRates[0];
 
             inputArray[0] = criticalReactions;
@@ -983,7 +982,7 @@ namespace cmsunittests.solvers
             criticalReactions = new List<Reaction>();
             criticalReactions.Add(model.Reactions[0]);
             criticalReactions.Add(model.Reactions[1]);
-            criticalRates = new float[2];
+            criticalRates = new double[2];
             criticalRates[0] = currentRates[0];
             criticalRates[1] = currentRates[1];
 
@@ -1004,7 +1003,7 @@ namespace cmsunittests.solvers
             criticalReactions = new List<Reaction>();
             criticalReactions.Add(model.Reactions[0]);
             criticalReactions.Add(model.Reactions[1]);
-            criticalRates = new float[2];
+            criticalRates = new double[2];
             criticalRates[0] = currentRates[0];
             criticalRates[1] = currentRates[1];
 
@@ -1025,7 +1024,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             var modelInfo = EmodlLoader.LoadEMODLFile("resources//testmodelTau.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
 
@@ -1086,7 +1085,7 @@ namespace cmsunittests.solvers
             Configuration.CurrentConfiguration = Configuration.ConfigurationFromString(configString);
 
             ModelInfo modelInfo = EmodlLoader.LoadEMODLFile("resources\\testmodel.emodl");
-            const float duration = 6.28318531f;
+            const double duration = 6.28318531;
             const int repeats = 42;
             const int samples = 100;
             var solver = new TauLeaping(modelInfo, duration, repeats, samples);

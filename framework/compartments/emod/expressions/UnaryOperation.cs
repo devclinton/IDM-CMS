@@ -12,7 +12,7 @@ namespace compartments.emod.expressions
             Argument = argument;
         }
 
-        public abstract float Value { get; }
+        public abstract double Value { get; }
     }
 
     // Exp, Log, Sin, Cos, Abs, Floor, Ceil, Sqrt, Neg, HeavisideStep
@@ -23,9 +23,9 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
-            get { return (float) Math.Exp(Argument.Value); }
+            get { return Math.Exp(Argument.Value); }
         }
     }
 
@@ -35,9 +35,9 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
-            get { return (float) Math.Log(Argument.Value); }
+            get { return Math.Log(Argument.Value); }
         }
     }
 
@@ -47,9 +47,9 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
-            get { return (float) Math.Sin(Argument.Value); }
+            get { return Math.Sin(Argument.Value); }
         }
     }
 
@@ -59,9 +59,9 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
-            get { return (float) Math.Cos(Argument.Value); }
+            get { return Math.Cos(Argument.Value); }
         }
     }
 
@@ -76,7 +76,7 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
             get { return Math.Abs(Argument.Value); }
         }
@@ -88,9 +88,9 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
-            get { return (float) Math.Floor(Argument.Value); }
+            get { return Math.Floor(Argument.Value); }
         }
     }
 
@@ -100,9 +100,9 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
-            get { return (float) Math.Ceiling(Argument.Value); }
+            get { return Math.Ceiling(Argument.Value); }
         }
     }
 
@@ -112,9 +112,9 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
-            get { return (float) Math.Sqrt(Argument.Value); }
+            get { return Math.Sqrt(Argument.Value); }
         }
     }
 
@@ -124,7 +124,7 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
             get { return -Argument.Value; }
         }
@@ -136,9 +136,9 @@ namespace compartments.emod.expressions
         {
         }
 
-        public override float Value
+        public override double Value
         {
-            get { return Argument.Value >= 0.0f ? 1.0f : 0.0f; }
+            get { return Argument.Value >= 0.0 ? 1.0 : 0.0; }
         }
     }
 }

@@ -13,23 +13,23 @@ namespace compartments.solvers.solverbase
 {
     public abstract class SolverBase : ISolver
     {
-        protected internal class Trajectories : Dictionary<Observable, float[][]>
+        protected internal class Trajectories : Dictionary<Observable, double[][]>
         {
-            public float[] SampleTimes { get; private set; }
+            public double[] SampleTimes { get; private set; }
 
             public Trajectories(int sampleCount)
             {
-                SampleTimes = new float[sampleCount];
+                SampleTimes = new double[sampleCount];
             }
 
-            internal SamplingParameters RecordObservables(IEnumerable<Observable> observables, SamplingParameters samplingParams, float nextReactionTime, float duration)
+            internal SamplingParameters RecordObservables(IEnumerable<Observable> observables, SamplingParameters samplingParams, double nextReactionTime, double duration)
             {
                 if (samplingParams.SampleCount > 1)
                 {
                     if (nextReactionTime > duration)
                         throw new ArgumentException("nextReactionTime must be <= realization duration.");
 
-                    float reportTime = duration * samplingParams.CurrentSample / (samplingParams.SampleCount - 1);
+                    double reportTime = duration * samplingParams.CurrentSample / (samplingParams.SampleCount - 1);
                     while (reportTime < nextReactionTime)
                     {
                         // ReSharper disable PossibleMultipleEnumeration
@@ -44,7 +44,7 @@ namespace compartments.solvers.solverbase
                 return samplingParams;
             }
 
-            internal void RecordObservables(IEnumerable<Observable> observables, int realizationIndex, int sampleIndex, float sampleTime)
+            internal void RecordObservables(IEnumerable<Observable> observables, int realizationIndex, int sampleIndex, double sampleTime)
             {
                 SampleTimes[sampleIndex] = sampleTime;
                 foreach (var observable in observables)
@@ -91,9 +91,9 @@ namespace compartments.solvers.solverbase
 
         protected SamplingParameters SamplingParams;
 
-        protected float duration;
+        protected double duration;
 
-        private float _currentTime;
+        private double _currentTime;
         protected Trajectories trajectories;
 
         protected Stopwatch stopWatch;
@@ -108,7 +108,7 @@ namespace compartments.solvers.solverbase
         protected PerformanceMeasurements perfMeasurements;
         // ReSharper restore InconsistentNaming
 
-        protected SolverBase(ModelInfo modelInfo, float duration, int repeats, int samples, IModelBuilder modelBuilder = null)
+        protected SolverBase(ModelInfo modelInfo, double duration, int repeats, int samples, IModelBuilder modelBuilder = null)
         {
             if (modelBuilder == null)
             {
@@ -121,7 +121,7 @@ namespace compartments.solvers.solverbase
 
             rng = RNGFactory.GetRNG();
 
-            _currentTime = 0.0f;
+            _currentTime = 0.0;
 
             model = modelBuilder.BuildModel(modelInfo);
             _time = model.Parameters.First(p => p.Name == "time");
@@ -144,9 +144,9 @@ namespace compartments.solvers.solverbase
 
             foreach (Observable o in observables)
             {
-                var runs = new float[numRealizations][];
+                var runs = new double[numRealizations][];
                 for (int i = 0; i < numRealizations; i++)
-                    runs[i] = new float[numSamples];
+                    runs[i] = new double[numSamples];
                 trajectories.Add(o, runs);
             }
 
@@ -162,7 +162,7 @@ namespace compartments.solvers.solverbase
             }
         }
 
-        public float CurrentTime
+        public double CurrentTime
         {
             get { return _currentTime; }
             set
@@ -229,7 +229,7 @@ namespace compartments.solvers.solverbase
 
         protected virtual void StartRealization()
         {
-            CurrentTime = 0.0f; // use property so the time symbol is also updated
+            CurrentTime = 0.0; // use property so the time symbol is also updated
             SamplingParams.CurrentSample = 0;
             reactionsFiredInCurrentRealization = 0;
 
@@ -306,9 +306,9 @@ namespace compartments.solvers.solverbase
 
         protected virtual void StepOnce()
         {
-            float timeOfNextEvent = ExecuteScheduledEvents(duration);
+            double timeOfNextEvent = ExecuteScheduledEvents(duration);
 
-            float newTau = CalculateProposedTau(timeOfNextEvent);
+            double newTau = CalculateProposedTau(timeOfNextEvent);
 
             if (newTau > duration)
                 throw new InvalidTimeStepException();
@@ -323,17 +323,17 @@ namespace compartments.solvers.solverbase
             }
         }
 
-        private float ExecuteScheduledEvents(float tauLimit)
+        private double ExecuteScheduledEvents(double tauLimit)
         {
             if (scheduledEvents != null)
             {
                 while (scheduledEvents.First.Priority <= CurrentTime)
                 {
-                    float eventTime;
+                    double eventTime;
                     ScheduledEvent nextEvent;
                     scheduledEvents.Top(out eventTime, out nextEvent);
                     nextEvent.Fire();
-                    eventTime = nextEvent.Interval > 0 ? eventTime + nextEvent.Interval : float.PositiveInfinity;
+                    eventTime = nextEvent.Interval > 0 ? eventTime + nextEvent.Interval : double.PositiveInfinity;
                     scheduledEvents.UpdateIndex(eventTime, nextEvent);
                 }
 
@@ -343,7 +343,7 @@ namespace compartments.solvers.solverbase
             return tauLimit;
         }
 
-        protected abstract float CalculateProposedTau(float tauLimit);
+        protected abstract double CalculateProposedTau(double tauLimit);
         protected abstract void ExecuteReactions();
 
         protected virtual void UpdateTriggeredEvents()
@@ -403,16 +403,16 @@ namespace compartments.solvers.solverbase
             }
         }
 
-        protected float UpdateAndSumRates(IEnumerable<Reaction> reactions, IList<float> rates)
+        protected double UpdateAndSumRates(IEnumerable<Reaction> reactions, IList<double> rates)
         {
-            float a0  = 0.0f;
+            double a0  = 0.0;
             int index = 0;
 
             foreach (Reaction r in reactions)
             {
-                float aj = r.Rate;
+                double aj = r.Rate;
 
-                if (float.IsNaN(aj))
+                if (double.IsNaN(aj))
                 {
                     var message = $"Reaction propensity evaluated to NaN ('{r.Name}')";
                     Console.Error.WriteLine(message);
@@ -426,7 +426,7 @@ namespace compartments.solvers.solverbase
                     throw new ApplicationException(message);
                 }
 
-                if (float.IsInfinity(aj))
+                if (double.IsInfinity(aj))
                 {
                     var message = $"Reaction propensity evaluated to infinity ('{r.Name}')";
                     Console.Error.WriteLine(message);
@@ -440,7 +440,7 @@ namespace compartments.solvers.solverbase
             return a0;
         }
 
-        protected int GetReactionIndex(IList<float> rates, double threshold)
+        protected int GetReactionIndex(IList<double> rates, double threshold)
         {
             int mu = 0;
             double cummulativeSum = 0.0;
@@ -448,7 +448,7 @@ namespace compartments.solvers.solverbase
             for (int i = 0; i < rates.Count; i++)
             {
                 cummulativeSum += rates[i];
-                if ((threshold <= cummulativeSum) && (rates[i] > 0.0f))
+                if ((threshold <= cummulativeSum) && (rates[i] > 0.0))
                 {
                     mu = i;
                     break;
@@ -500,16 +500,16 @@ namespace compartments.solvers.solverbase
             return trajectories.GetTrajectoryLabels();
         }
 
-        public virtual float[][] GetTrajectoryData()
+        public virtual double[][] GetTrajectoryData()
         {
             int cObservables = trajectories.Values.Count;
             int cRuns = trajectories.Values.First().Length;
-            var data = new float[cObservables * cRuns][];
+            var data = new double[cObservables * cRuns][];
 
             int iTrajectory = 0;
             foreach (Observable o in trajectories.Keys)
             {
-                float[][] runs = trajectories[o];
+                double[][] runs = trajectories[o];
                 for (int iRun = 0; iRun < runs.Length; iRun++, iTrajectory++)
                 {
                     data[iTrajectory] = runs[iRun];

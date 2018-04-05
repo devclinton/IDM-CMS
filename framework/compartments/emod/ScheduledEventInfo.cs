@@ -19,12 +19,12 @@ namespace compartments.emod
                 _event = new ScheduledEventInfo(name);
             }
 
-            public void SetTime(float eventTime)
+            public void SetTime(double eventTime)
             {
                 _event.Time = eventTime;
             }
 
-            public void SetInterval(float interval)
+            public void SetInterval(double interval)
             {
                 _event.Interval = interval;
             }
@@ -39,12 +39,12 @@ namespace compartments.emod
 
         public ScheduledEventInfo(string name) : base(name)
         {
-            Time     = float.PositiveInfinity;
-            Interval = 0.0f;
+            Time     = double.PositiveInfinity;
+            Interval = 0.0;
         }
 
-        public float Time { get; protected set; }
-        public float Interval { get; protected set; }
+        public double Time { get; protected set; }
+        public double Interval { get; protected set; }
 
         public override string ToString()
         {

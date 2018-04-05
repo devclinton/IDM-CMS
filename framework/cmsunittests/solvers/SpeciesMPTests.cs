@@ -45,14 +45,14 @@ namespace cmsunittests.solvers
             //Test set
             species.Count = 20;
             Assert.AreEqual(20, species.Count);
-            Assert.AreEqual((float)20, species.Value);
+            Assert.AreEqual((double)20, species.Value);
 
             //Test fractional value of species.
-            species.Value = 30.2f;
-            Assert.AreEqual((int)30.2f, species.Count);
+            species.Value = 30.2;
+            Assert.AreEqual((int)30.2, species.Count);
 
             //Test get through Update.
-            species.Update(30.0f);
+            species.Update(30.0);
             Assert.AreEqual(30,species.Count);
         }
 
@@ -70,17 +70,17 @@ namespace cmsunittests.solvers
             species.Reset();
 
             //Test get
-            Assert.AreEqual((float)initialPopulation, species.Value);
+            Assert.AreEqual((double)initialPopulation, species.Value);
 
             //Test set
-            species.Value = 20.0f;
-            Assert.AreEqual(20.0f, species.Value);
-            species.Value = 21.5f;
-            Assert.AreEqual(21.5f, species.Value);
+            species.Value = 20.0;
+            Assert.AreEqual(20.0, species.Value);
+            species.Value = 21.5;
+            Assert.AreEqual(21.5, species.Value);
 
             //Test set via Update
-            species.Update(30.0f);
-            Assert.AreEqual(30.0f, species.Value);
+            species.Update(30.0);
+            Assert.AreEqual(30.0, species.Value);
         }
 
         [Test]
@@ -97,14 +97,14 @@ namespace cmsunittests.solvers
             species.Reset();
 
             //Test Update
-            species.Update(30.0f);
-            Assert.AreEqual(30.0f, species.Value);
+            species.Update(30.0);
+            Assert.AreEqual(30.0, species.Value);
 
-            species.Update(0.0f);
-            Assert.AreEqual(0.0f, species.Value);
+            species.Update(0.0);
+            Assert.AreEqual(0.0, species.Value);
 
-            species.Update(-30.0f);
-            Assert.AreEqual(-30.0f, species.Value);
+            species.Update(-30.0);
+            Assert.AreEqual(-30.0, species.Value);
         }
 
         [Test]
@@ -124,9 +124,9 @@ namespace cmsunittests.solvers
             Assert.AreEqual(initialPopulation, species.Count);
             
             int returnCount;
-            float returnValue;
+            double returnValue;
             int deltaInt = 5;
-            var deltaFloat = (float)deltaInt;
+            var deltaDouble = (double)deltaInt;
 
             returnCount = species.Increment();
             Assert.AreEqual(initialPopulation + 1, species.Count);
@@ -136,18 +136,18 @@ namespace cmsunittests.solvers
             Assert.AreEqual(initialPopulation + 6, species.Count);
             Assert.AreEqual(initialPopulation + 6, returnCount);
 
-            returnValue = species.Increment(deltaFloat);
+            returnValue = species.Increment(deltaDouble);
             Assert.AreEqual(initialPopulation + 11, species.Value);
             Assert.AreEqual(initialPopulation + 11, returnValue);
 
             deltaInt = -5;
-            deltaFloat = (float)deltaInt;
+            deltaDouble = (double)deltaInt;
 
             returnCount = ((Species)species).Increment(deltaInt);
             Assert.AreEqual(initialPopulation + 6, species.Count);
             Assert.AreEqual(initialPopulation + 6, returnCount);
 
-            returnValue = species.Increment(deltaFloat);
+            returnValue = species.Increment(deltaDouble);
             Assert.AreEqual(initialPopulation + 1, species.Value);
             Assert.AreEqual(initialPopulation + 1, returnValue); 
         }
@@ -169,9 +169,9 @@ namespace cmsunittests.solvers
             Assert.AreEqual(initialPopulation, species.Count);
 
             int returnCount;
-            float returnValue;
+            double returnValue;
             int deltaInt = 5;
-            float deltaFloat = 5.0f;
+            double deltaDouble = 5.0;
 
             returnCount = species.Decrement();
             Assert.AreEqual(initialPopulation - 1, species.Count);
@@ -181,18 +181,18 @@ namespace cmsunittests.solvers
             Assert.AreEqual(initialPopulation - 6, species.Count);
             Assert.AreEqual(initialPopulation - 6, returnCount);
 
-            returnValue = species.Decrement(deltaFloat);
+            returnValue = species.Decrement(deltaDouble);
             Assert.AreEqual(initialPopulation - 11, species.Value);
             Assert.AreEqual(initialPopulation - 11, returnValue);
 
             deltaInt = -5;
-            deltaFloat = -5.0f;
+            deltaDouble = -5.0;
 
             returnCount = ((Species)species).Decrement(deltaInt);
             Assert.AreEqual(initialPopulation - 6, species.Count);
             Assert.AreEqual(initialPopulation - 6, returnCount);
 
-            returnValue = species.Decrement(deltaFloat);
+            returnValue = species.Decrement(deltaDouble);
             Assert.AreEqual(initialPopulation - 1, species.Value);
             Assert.AreEqual(initialPopulation - 1, returnValue);
         }

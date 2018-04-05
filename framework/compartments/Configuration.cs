@@ -56,6 +56,15 @@ namespace compartments
                 throw new ArgumentException("Parameter '" + ((JProperty)p._token.Parent).Name + "' is not numeric.");
             }
 
+            public static implicit operator double(Parameter p)
+            {
+                if (p._token.Type == JTokenType.Float ||
+                    p._token.Type == JTokenType.Integer)
+                    return (double)p._token;
+
+                throw new ArgumentException("Parameter '" + ((JProperty)p._token.Parent).Name + "' is not numeric.");
+            }
+
             public double AsDouble()
             {
                 return (float)this;
@@ -213,6 +222,12 @@ namespace compartments
         {
             JToken token = GetParameter(name);
             return (token != null) ? (float)token : def;
+        }
+
+        public double GetParameterWithDefault(string name, double def)
+        {
+            JToken token = GetParameter(name);
+            return (token != null) ? (double)token : def;
         }
 
         public string GetParameterWithDefault(string name, string def)

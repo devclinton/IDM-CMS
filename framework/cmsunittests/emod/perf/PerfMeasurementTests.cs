@@ -14,7 +14,7 @@ namespace cmsunittests.emod.perf
     class PerfMeasurementTests : AssertionHelper
     {
         private const int TestRealizations = 16;
-        private const float TestDuration    = 42.0f;
+        private const double TestDuration  = 42.0;
 
         [Test]
         public void PerfMeasurementConfigParamsCtorDefaults()
@@ -77,7 +77,7 @@ namespace cmsunittests.emod.perf
         {
             var config = Configuration.ConfigurationFromString("{}");
             #pragma warning disable 168
-            var unused = new PerformanceMeasurementConfigurationParameters(config, -2.0f);
+            var unused = new PerformanceMeasurementConfigurationParameters(config, -2.0);
             #pragma warning restore 168
         }
 
@@ -85,7 +85,7 @@ namespace cmsunittests.emod.perf
         [ExpectedException(typeof(PerformanceMeasurementConfigurationParameters.PerformanceConfigurationException), ExpectedMessage = "should be > 0", MatchType = MessageMatch.Contains)]
         public void PerfMeasurementConfigParamsBadDurationInConfig()
         {
-            string configString = BuildPerformanceMeasurementConfigurationString(simulationDuration: -2.0f);
+            string configString = BuildPerformanceMeasurementConfigurationString(simulationDuration: -2.0);
             var config = Configuration.ConfigurationFromString(configString);
             #pragma warning disable 168
             var unused= new PerformanceMeasurementConfigurationParameters(config, TestDuration);
@@ -143,7 +143,7 @@ namespace cmsunittests.emod.perf
             const int logCount = 16;
             string configString = $"{{\"perf\":{{\"LogCount\":{logCount}}}}}";
             var config = Configuration.ConfigurationFromString(configString);
-            const float duration = 48.0f;
+            const double duration = 48.0;
             var perfConfig = new PerformanceMeasurementConfigurationParameters(config, duration);
             var perf = new PerformanceMeasurements(VersionInfo.Version, VersionInfo.Description, perfConfig);
 
@@ -190,7 +190,7 @@ namespace cmsunittests.emod.perf
                     // Log 3/4 of the way through each interval so there is one step and one reaction
                     // per logging bin.
                     Thread.Sleep(10);
-                    float tau = Math.Min((step+0.75f)*perf.SimulationDuration/perf.FrameCount, perf.SimulationDuration);
+                    double tau = Math.Min((step + 0.75) * perf.SimulationDuration / perf.FrameCount, perf.SimulationDuration);
                     // Console.WriteLine("LogStep(1, {0})", tau);
                     perf.LogStep(1, tau);
 //                     Assert.GreaterOrEqual(perf.SolverSteps[step].Sum(), 0, "SolverSteps should be >= 0.");
@@ -202,7 +202,7 @@ namespace cmsunittests.emod.perf
             }
             perf.EndMeasurement();
 
-//             Assert.Greater(perf.TotalTimeTicks, 0.0f, "TotalTime should be > 0.");
+//             Assert.Greater(perf.TotalTimeTicks, 0.0, "TotalTime should be > 0.");
 //             Assert.GreaterOrEqual(perf.TotalTimeTicks, perf.RealizationTimes.Sum());
 
             WriteMeasurementsToConsole(perf);
@@ -255,7 +255,7 @@ namespace cmsunittests.emod.perf
             var configuration = BuildPerformanceMeasurementConfiguration();
             var perf = GeneratePerformanceMeasurements(configuration);
 
-            Assert.Greater(perf.TotalTimeTicks, 0.0f, "TotalTime should be > 0.");
+            Assert.Greater(perf.TotalTimeTicks, 0.0, "TotalTime should be > 0.");
 
             Assert.GreaterOrEqual(perf.TotalTimeTicks, perf.RealizationTimes[0]);
             Assert.GreaterOrEqual(perf.RealizationTimes[0], perf.StepTicks[0].Sum());
@@ -266,7 +266,7 @@ namespace cmsunittests.emod.perf
         }
 */
 
-        private static PerformanceMeasurementConfigurationParameters BuildPerformanceMeasurementConfiguration(bool enabled = true, int logCount = 16, int histogramBins = 16, PerformanceMeasurementConfigurationParameters.LoggingFileFormat logFileFormat = PerformanceMeasurementConfigurationParameters.LoggingFileFormat.JSON, String logFilenamePrefix = "perflog", bool compressOutput = false, float duration = 48.0f)
+        private static PerformanceMeasurementConfigurationParameters BuildPerformanceMeasurementConfiguration(bool enabled = true, int logCount = 16, int histogramBins = 16, PerformanceMeasurementConfigurationParameters.LoggingFileFormat logFileFormat = PerformanceMeasurementConfigurationParameters.LoggingFileFormat.JSON, String logFilenamePrefix = "perflog", bool compressOutput = false, double duration = 48.0)
         {
             var configString = BuildPerformanceMeasurementConfigurationString(enabled: enabled, logCount: logCount, histogramBins: histogramBins, logFileFormat: logFileFormat, logFilenamePrefix: logFilenamePrefix, compressOutput: compressOutput);
             var config       = Configuration.ConfigurationFromString(configString);
@@ -276,7 +276,7 @@ namespace cmsunittests.emod.perf
         }
 
         private static String BuildPerformanceMeasurementConfigurationString(bool enabled = true,
-                                                                             float simulationDuration = 100.0f,
+                                                                             double simulationDuration = 100.0,
                                                                              int logCount = 1,
                                                                              int histogramBins = 16,
                                                                              bool recordRealizationCpuTime = true,
@@ -312,7 +312,7 @@ namespace cmsunittests.emod.perf
             perf.StartMeasurement();
             for (int realization = 0; realization < realizationCount; realization++)
             {
-                float simulationTime = 0.0f;
+                double simulationTime = 0.0;
                 perf.StartRealization();
                 for (int step = 0; step < stepCount; step++)
                 {
@@ -341,13 +341,13 @@ namespace cmsunittests.emod.perf
 
             perf.StartMeasurement();
             {
-                float simulationTime = 0.0f;
+                double simulationTime = 0.0;
                 perf.StartRealization();
                 while (simulationTime < perf.SimulationDuration)
                 {
                     Thread.Sleep(10);
 
-                    float deltaTau = RngLib.RNG.GenerateExponential(3.0f);
+                    double deltaTau = RngLib.RNG.GenerateExponential(3.0);
                     simulationTime += deltaTau;
                     simulationTime = Math.Min(simulationTime, perf.SimulationDuration);
                     int reactionFiringsThisStep = RngLib.RNG.GeneratePoisson(100 * deltaTau);
@@ -363,8 +363,8 @@ namespace cmsunittests.emod.perf
             }
             perf.EndMeasurement();
 
-            Assert.Greater(perf.RealizationTimes[0], 0.0f, "Realization time should be > 0.");
-            Assert.Greater(perf.TotalTimeTicks, 0.0f, "TotalTime should be > 0.");
+            Assert.Greater(perf.RealizationTimes[0], 0.0, "Realization time should be > 0.");
+            Assert.Greater(perf.TotalTimeTicks, 0.0, "TotalTime should be > 0.");
 
             Assert.GreaterOrEqual(perf.TotalTimeTicks, perf.RealizationTimes[0]);
             Assert.GreaterOrEqual(perf.RealizationTimes[0], perf.StepTicks[0].Sum());
@@ -386,7 +386,7 @@ namespace cmsunittests.emod.perf
             {
                 perf.StartRealization();
                 {
-                    perf.LogStep(-10, perf.SimulationDuration/2.0f);
+                    perf.LogStep(-10, perf.SimulationDuration/2.0);
                 }
                 perf.EndRealization();
             }
@@ -404,7 +404,7 @@ namespace cmsunittests.emod.perf
             {
                 perf.StartRealization();
                 {
-                    perf.LogStep(1, perf.SimulationDuration + 1.0f);
+                    perf.LogStep(1, perf.SimulationDuration + 1.0);
                 }
                 perf.EndRealization();
             }

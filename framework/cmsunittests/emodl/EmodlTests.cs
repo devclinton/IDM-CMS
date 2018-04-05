@@ -56,12 +56,12 @@ namespace cmsunittests.emodl
         {
             Console.Write("ParameterInfoTest: Looking for parameter 'delta': ");
             var delta = ModelData.Parameters.First(pi => pi.Name == "delta");
-            Expect(delta.Value == 0.0001f);
+            Expect(delta.Value == 0.0001);
             Console.WriteLine(delta);
 
             Console.Write("ParameterInfoTest: Looking for parameter 'n': ");
             var n = ModelData.Parameters.First(pi => pi.Name == "n");
-            Expect(n.Value == 10.0f);
+            Expect(n.Value == 10.0);
             Console.WriteLine(n);
         }
 

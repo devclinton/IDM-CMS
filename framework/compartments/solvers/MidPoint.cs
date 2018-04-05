@@ -15,13 +15,13 @@ namespace compartments.solvers
 #pragma warning restore 169
         private DistributionSampler _distributionSampler;
 
-        public MidPoint(ModelInfo modelInfo, float duration, int repeats, int samples)
+        public MidPoint(ModelInfo modelInfo, double duration, int repeats, int samples)
             : base(modelInfo, duration, repeats, samples,new MpModelBuilder())
         {
             Configuration config = Configuration.CurrentConfiguration;
             _distributionSampler = RandLibSampler.CreateRandLibSampler(rng);
 
-            epsilon = config.GetParameterWithDefault("midpoint.epsilon", 0.01f);
+            epsilon = config.GetParameterWithDefault("midpoint.epsilon", 0.01);
             nc = config.GetParameterWithDefault("midpoint.Nc", 2);
             multiple = config.GetParameterWithDefault("midpoint.Multiple", 10);
             SSAruns = config.GetParameterWithDefault("midpoint.SSARuns", 100);
@@ -49,7 +49,7 @@ namespace compartments.solvers
                 throw new ApplicationException("SSAruns was set to less than one.");
         }
 
-        protected override void FireNonCriticalReactions(float tauMin, List<Reaction> subreactions, float[] noncritrates)
+        protected override void FireNonCriticalReactions(double tauMin, List<Reaction> subreactions, double[] noncritrates)
         {
             int[] recordIntermediateReactions = new int[subreactions.Count];
 
@@ -57,12 +57,12 @@ namespace compartments.solvers
 
             for (int jReaction = 0; jReaction < subreactions.Count; jReaction++)
             {
-                float change = noncritrates[jReaction] * tauMin;
+                double change = noncritrates[jReaction] * tauMin;
                 int howManyReactions = _distributionSampler.GeneratePoisson(change);
 
                 recordIntermediateReactions[jReaction] = howManyReactions;
 
-                float intermediateNumOfReactions = howManyReactions / 2.0f;
+                double intermediateNumOfReactions = howManyReactions / 2.0;
 
                 FireReaction(subreactions[jReaction], intermediateNumOfReactions);
             }
@@ -78,16 +78,16 @@ namespace compartments.solvers
 
             for (int jReaction = 0; jReaction < subreactions.Count; jReaction++)
             {
-                float change = noncritrates[jReaction] * tauMin;
+                double change = noncritrates[jReaction] * tauMin;
                 int howManyReactions = _distributionSampler.GeneratePoisson(change);
 
-                float delta = howManyReactions - recordIntermediateReactions[jReaction] / 2.0f; 
+                double delta = howManyReactions - recordIntermediateReactions[jReaction] / 2.0;
 
                 FireReaction(subreactions[jReaction], delta);
             }
         }
 
-        public void FireReaction(Reaction reaction, float delta)
+        public void FireReaction(Reaction reaction, double delta)
         {
                 foreach (SpeciesMP species in reaction.Reactants)
                     species.Decrement(delta);

@@ -21,7 +21,7 @@ namespace compartments.solvers.solverbase
 
         public virtual int Count { get; set; }
 
-        public virtual float Value
+        public virtual double Value
         {
             get { return Count; }
             set { ;}
@@ -33,9 +33,9 @@ namespace compartments.solvers.solverbase
             return Count;
         }
 
-        public virtual void Update(float value)
+        public virtual void Update(double value)
         {
-            Count = (int) value;
+            Count = (int)value;
         }
 
         public virtual int Increment() { return ++Count; }

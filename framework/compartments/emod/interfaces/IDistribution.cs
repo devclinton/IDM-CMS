@@ -4,10 +4,10 @@ namespace compartments.emod.interfaces
 {
     interface IDistribution
     {
-        float pdf();
-        float pdf(float x);
-        float cdf();
-        float cdf(float x);
+        double pdf();
+        double pdf(double x);
+        double cdf();
+        double cdf(double x);
         void SetRNG(RandomVariateGenerator rng);
     }
 }
