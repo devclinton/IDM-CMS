@@ -1,5 +1,0 @@
-{
-    "PRNG": { "type": "VANILLA|RANDLIB|PSEUDODES|AESCOUNTER" },
-    "prng_seed" : 2017,
-    "prng_index" : 42
-}
