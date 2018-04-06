@@ -101,14 +101,23 @@ https://web.archive.org/web/20160125103112/http://stat.fsu.edu/pub/diehard/
 ## Randlib:
 
 L'Ecuyer, P. and  Cote, S. "Implementing  a  Random Number Package with  Splitting   Facilities."  ACM  Transactions  on Mathematical Software, 17:98-111 (1991)
+
 R. C. H. Cheng "Generating Beta Variates with Nonintegral Shape Parameters" Communications of the ACM, 21:317-322  (1978)
+
 Ahrens, J.H. and Dieter, U. "Computer Methods for Sampling From the Exponential and Normal Distributions." Comm. ACM, 15,10 (Oct. 1972), 873 - 882.
+
 Ahrens, J.H. and Dieter, U. "Computer Methods for Sampling from Gamma, Beta, Poisson and Binomial Distributions." Computing, 12 (1974), 223-246
+
 Ahrens, J.H. and Dieter, U. "Generating Gamma Variates by a Modified Rejection Technique." Comm. ACM, 25,1 (Jan. 1982), 47 - 54.
+
 Devroye, Luc "Non-Uniform Random Variate Generation."  Springer-Verlag, New York, 1986
+
 Ahrens, J.H. and Dieter, U. "Extensions of Forsythe's Method for Random Sampling from the Normal Distribution." Math. Comput., 27,124 (Oct. 1973), 927 - 937.
+
 Kachitvichyanukul, V. and Schmeiser, B. W. "Binomial Random Variate Generation." Communications of the ACM, 31, 2 (February, 1988) 216.
+
 VORATAS KACHITVICHYANUKUL AND BRUCE SCHMEISER, "BINOMIAL RANDOM VARIATE GENERATION," COMMUNICATIONS OF THE ACM, FORTHCOMING WRITTEN:  SEPTEMBER 1980. LAST REVISED:  MAY 1985, JULY 1987
+
 Ahrens, J.H. and Dieter, U. "Computer Generation of Poisson Deviates From Modified Normal Distributions." ACM Trans. Math. Software, 8, 2 (June 1982),163-179
 
 ## Mersenne Twister:
