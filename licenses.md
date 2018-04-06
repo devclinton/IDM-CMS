@@ -1,29 +1,29 @@
-CMS Licenses/Attribution
+# CMS Licenses/Attribution
 
-AES Counter Mode (CTR) implementation from Intel Whitepaper, "IntelÆ Advanced Encryption Standard (AES) Instructions Set":
+## AES Counter Mode (CTR) implementation from Intel Whitepaper, "Intel¬Æ Advanced Encryption Standard (AES) Instructions Set":
 
 https://software.intel.com/sites/default/files/2d/7a/24917
 
-IronScheme:
+## IronScheme:
 
 This license governs use of the accompanying software. If you use the software, you accept this license. If you do not accept the license, do not use the software.
 1. Definitions
-The terms ìreproduce,î ìreproduction,î ìderivative works,î and ìdistributionî have the same meaning here as under U.S. copyright law.
-A ìcontributionî is the original software, or any additions or changes to the software.
-A ìcontributorî is any person that distributes its contribution under this license.
-ìLicensed patentsî are a contributorís patent claims that read directly on its contribution.
+The terms ‚Äúreproduce,‚Äù ‚Äúreproduction,‚Äù ‚Äúderivative works,‚Äù and ‚Äúdistribution‚Äù have the same meaning here as under U.S. copyright law.
+A ‚Äúcontribution‚Äù is the original software, or any additions or changes to the software.
+A ‚Äúcontributor‚Äù is any person that distributes its contribution under this license.
+‚ÄúLicensed patents‚Äù are a contributor‚Äôs patent claims that read directly on its contribution.
 2. Grant of Rights
 (A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution or any derivative works that you create.
 (B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution in the software or derivative works of the contribution in the software.
 3. Conditions and Limitations
-(A) No Trademark License- This license does not grant you rights to use any contributorsí name, logo, or trademarks.
+(A) No Trademark License- This license does not grant you rights to use any contributors‚Äô name, logo, or trademarks.
 (B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your patent license from such contributor to the software ends automatically.
 (C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution notices that are present in the software.
 (D) If you distribute any portion of the software in source code form, you may do so only under this license by including a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or object code form, you may only do so under a license that complies with this license.
-(E) The software is licensed ìas-is.î You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.
+(E) The software is licensed ‚Äúas-is.‚Äù You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.
 See FAQ.html for answers to frequently asked questions about this license.
 
-Newtonsoft JSON:
+## Newtonsoft JSON:
 
 https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md
 
@@ -33,8 +33,9 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Ionic (DotNetZip):
+## Ionic (DotNetZip):
 
+```cpp
 // Copyright (c) 2011 Dino Chiesa.
 // All rights reserved.
 //
@@ -45,8 +46,9 @@ Ionic (DotNetZip):
 // This code is licensed under the Microsoft Public License.
 // See the file License.txt for the license details.
 // More info on: http://dotnetzip.codeplex.com
+```
 
-NUnit:
+## NUnit:
 
 NUnit is Open Source software and NUnit 3 is released under the MIT license. Earlier releases used the NUnit license.
 Both of these licenses allow the use of NUnit in free and commercial applications and libraries without restrictions.
@@ -77,14 +79,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 http://nunit.org/nuget/license.html
 
 NUnit License
-Copyright © 2002-2015 Charlie Poole
-Copyright © 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
-Copyright © 2000-2002 Philip A. Craig 
+Copyright ¬© 2002-2015 Charlie Poole
+Copyright ¬© 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
+Copyright ¬© 2000-2002 Philip A. Craig 
 This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software. 
 Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions: 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment (see the following) in the product documentation is required. 
 
-Portions Copyright © 2002-2012 Charlie Poole or Copyright © 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov or Copyright © 2000-2002 Philip A. Craig 
+Portions Copyright ¬© 2002-2012 Charlie Poole or Copyright ¬© 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov or Copyright ¬© 2000-2002 Philip A. Craig 
 
 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software. 
 
@@ -92,11 +94,11 @@ Portions Copyright © 2002-2012 Charlie Poole or Copyright © 2002-2004 James W. N
 License Note
 This license is based on the open source zlib/libpng license. The idea was to keep the license as simple as possible to encourage use of NUnit in free and commercial applications and libraries, but to keep the source code together and to give credit to the NUnit contributors for their efforts. While this license allows shipping NUnit in source and binary form, if shipping a NUnit variant is the sole purpose of your product, please let us know.
 
-Diehard PRNG tests:
+## Diehard PRNG tests:
 
 https://web.archive.org/web/20160125103112/http://stat.fsu.edu/pub/diehard/
 
-Randlib:
+## Randlib:
 
 L'Ecuyer, P. and  Cote, S. "Implementing  a  Random Number Package with  Splitting   Facilities."  ACM  Transactions  on Mathematical Software, 17:98-111 (1991)
 R. C. H. Cheng "Generating Beta Variates with Nonintegral Shape Parameters" Communications of the ACM, 21:317-322  (1978)
@@ -109,7 +111,7 @@ Kachitvichyanukul, V. and Schmeiser, B. W. "Binomial Random Variate Generation."
 VORATAS KACHITVICHYANUKUL AND BRUCE SCHMEISER, "BINOMIAL RANDOM VARIATE GENERATION," COMMUNICATIONS OF THE ACM, FORTHCOMING WRITTEN:  SEPTEMBER 1980. LAST REVISED:  MAY 1985, JULY 1987
 Ahrens, J.H. and Dieter, U. "Computer Generation of Poisson Deviates From Modified Normal Distributions." ACM Trans. Math. Software, 8, 2 (June 1982),163-179
 
-Mersenne Twister:
+## Mersenne Twister:
 
 Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
    All rights reserved.
@@ -183,6 +185,7 @@ Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
      ACM Transactions on Modeling and 
      Computer Simulation 8. (Jan. 1998) 3--30.
 
+```cpp
 /**
  * @file tinymt64.h
  * @file tinymt64.c
@@ -199,9 +202,11 @@ Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
  * The 3-clause BSD License is applied to this software, see
  * LICENSE.txt
  */
+```
 
 WELL19937a.h and WELL19937a.cpp:
 
+```cpp
 /* ***************************************************************************** */
 /* Copyright:      Francois Panneton and Pierre L'Ecuyer, University of Montreal */
 /*                 Makoto Matsumoto, Hiroshima University                        */
@@ -209,3 +214,4 @@ WELL19937a.h and WELL19937a.cpp:
 /*                 or non-commercial purposes. For commercial purposes,          */
 /*                 please contact P. L'Ecuyer at: lecuyer@iro.UMontreal.ca       */
 /* ***************************************************************************** */
+```
