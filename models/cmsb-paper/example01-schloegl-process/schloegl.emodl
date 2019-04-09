@@ -1,0 +1,22 @@
+; Shlogl
+
+(import (rnrs) (emodl cmslib))
+(start-model "Schlogl.emodl")
+
+(species B1 100000)
+(species B2 200000)
+(species X 250)
+
+(observe bistable  X)
+
+(param c1 0.0000003)
+(param c2 0.0001)
+(param c3 0.001)
+(param c4 3.5)
+
+(reaction r1   (B1)  (X)   (* c1 (* (- X 1) (* (/ B1 2) X))))
+(reaction r2   (X)  (B1)   (* c2 (/ (* (* X (- X 1)) (- X 2)) 6)))
+(reaction r3   (B2)  (X)   (* c3 B2))
+(reaction r4   (X)  (B2)   (* c4 X))
+
+(end-model)

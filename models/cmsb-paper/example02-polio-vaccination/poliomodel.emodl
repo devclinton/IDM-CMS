@@ -1,0 +1,92 @@
+;Eichner Dietz Polio Model with vaccinations
+
+(import (rnrs) (emodl cmslib))
+
+(start-model "PolioModel.emodl")
+
+(species S 999)
+(species Inc1 1)
+(species Inc2)
+(species W1)
+(species W2)
+(species VInc1)
+(species VInc2)
+(species V1)
+(species V2)
+(species tH 0)
+(species case)
+(species nocase)
+
+(observe susceptible S)
+(observe Wild_exposed (+ Inc1 Inc2))
+(observe Wild_infectious (+ W1 W2))
+(observe Vacc_exposed (+ VInc1 VInc2))
+(observe Vacc_infectious (+ V1 V2))
+(observe cases case)
+(observe noCases nocase)
+(observe newInfections tH)
+
+(param N 1000)  ;Total Population
+(param mu 0.000054795)
+(param nu 0.000054795)
+
+(param delta (/ 1 14))		;Incubation Period
+(param gamma (/ 1 (* 2 30)))	;Infectious Period
+(param p .05)		           ;Routine Vacc
+(param b .25)
+(param R0W 12)
+(param R0V 0.5)
+(param fastRate 1000)
+
+(param BetaW (/ R0W (/ (* (* delta delta) (+ (* 2 gamma) nu)) (* (* (+ gamma nu) (+ gamma nu)) (* (+ delta nu) (+ delta nu))))))
+(param BetaV (/ R0V (/ (* (* delta delta) (+ (* 2 gamma) nu)) (* (* (+ gamma nu) (+ gamma nu)) (* (+ delta nu) (+ delta nu))))))
+
+(func lambdaW (* BetaW (/ (+ W1 W2) N)))
+(func lambdaV (* b (* BetaV (/ (+ V1 V2) N))))
+
+;Wild Type Equations
+
+(reaction exposure   (S) (Inc1) (* lambdaW S))
+(reaction incubation1  (Inc1)   (Inc2)   (* delta Inc1))
+(reaction incubation2  (Inc2)   (W1 tH)   (* delta Inc2))
+(reaction infectious1  (W1)   (W2)   (* gamma W1))
+(reaction infectious2  (W2)   ()   (* gamma W2))
+
+(reaction birth  ()   (S)   (* nu (* N (- 1 p))))
+(reaction death1  (S)   ()   (* mu S))
+(reaction death2  (Inc1)   ()   (* mu Inc1))
+(reaction death3  (Inc2)   ()   (* mu Inc2))
+(reaction death4  (W1)   ()   (* mu W1))
+(reaction death5  (W2)   ()   (* mu W2))
+
+(reaction birthRI  ()   (VInc1)   (* nu (* N p)))
+
+; OPV Equations
+
+(reaction exposureV   (S) (VInc1) (* lambdaV S))
+(reaction incubation1V  (VInc1)   (VInc2)   (* delta VInc1))
+(reaction incubation2V (VInc2)   (V1)   (* delta VInc2))
+(reaction infectious1V  (V1)   (V2)   (* gamma V1))
+(reaction infectious2V  (V2)   ()   (* gamma V2))
+
+(reaction death6  (VInc1)   ()   (* mu VInc1))
+(reaction death7  (VInc2)   ()   (* mu VInc2))
+(reaction death8  (V1)   ()   (* mu V1))
+(reaction death9  (V2)   ()   (* mu V2))
+
+;Case Detection -  Probabilistic observation of cases
+
+(param caseRatio (/ 1 200))
+(reaction Paralysis (tH) (case) (* fastRate (* caseRatio tH)))
+(reaction MissedInfection (tH) (nocase) (* (* fastRate tH) (- 1 caseRatio)))
+
+; Scheduling the SIA
+
+(param daysToSIA 60)
+(species H 36525)	; 100 years
+(state-event detect (> case 0) ((H (+ time daysToSIA))))
+(func siaVaccinating (step (- time H)))
+(param siaRate 0)
+(reaction SIAVaccinating  (S)   (VInc1)   (* siaVaccinating (* siaRate S)))
+
+(end-model)
