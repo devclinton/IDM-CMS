@@ -7,10 +7,12 @@ To view a copy of this license, visit https://creativecommons.org/licenses/by-nc
 
 ***************************************************************************************************/
 
-#include "stdafx.h"
+//#include "stdafx.h"
+#include <cpuid.h>
+#include <cstring>
 #include "AesCounterPrng.h"
 
-#include <intrin.h>
+//#include <intrin.h>
 
 CAesCounterPrng * CAesCounterPrng::CreatePRNG( uint64_t seedData )
 {
@@ -26,10 +28,17 @@ CAesCounterPrng * CAesCounterPrng::CreatePRNG( uint64_t seedData )
 
 bool CAesCounterPrng::CpuSupportsAesInstructions()
 {
+
+    #if defined(_MSC_VER)
     int cpuInfo[4];
     __cpuid(cpuInfo, 1);
-
     return (cpuInfo[2] >> 25) & 0x00000001;
+    #elif defined(__GNUC__)
+    uint32_t eax, ebx, ecx, edx;
+    eax = ebx = ecx = edx = 0;
+    __get_cpuid(1, &eax, &ebx, &ecx, &edx);
+    return (ecx & bit_AES) > 0;
+    #endif
 }
 
 CAesCounterPrng::CAesCounterPrng(uint64_t nonce) :
