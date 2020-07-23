@@ -37,10 +37,10 @@ namespace compartments.solvers
 
             CheckParameters();
 
-            Console.WriteLine("epsilon =  {0}", epsilon);
+           /* Console.WriteLine("epsilon =  {0}", epsilon);
             Console.WriteLine("nc =       {0}", nc);
             Console.WriteLine("multiple = {0}", multiple);
-            Console.WriteLine("SSA runs = {0}", SSAruns);  
+            Console.WriteLine("SSA runs = {0}", SSAruns);  */
         }
 
         private void CheckParameters()
