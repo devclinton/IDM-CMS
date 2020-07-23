@@ -13,11 +13,20 @@ To view a copy of this license, visit https://creativecommons.org/licenses/by-nc
 // that uses this DLL. This way any other project whose source files include this file see 
 // AESCOUNTERPRNG_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
-#ifdef AESCOUNTERPRNG_EXPORTS
-#define AESCOUNTERPRNG_API __declspec(dllexport)
-#else
-#define AESCOUNTERPRNG_API __declspec(dllimport)
+#if defined(_MSC_VER)
+    #ifdef AESCOUNTERPRNG_EXPORTS
+    #define AESCOUNTERPRNG_API __declspec(dllexport)
+    #else
+    #define AESCOUNTERPRNG_API __declspec(dllimport)
+    #endif
+#elif defined(__GNUC__)
+    #ifdef AESCOUNTERPRNG_EXPORTS
+        #define AESCOUNTERPRNG_API __attribute__((visibility("default")))
+    #else
+        #define AESCOUNTERPRNG_API
+    #endif
 #endif
+
 
 /*
 // This class is exported from the AesCounterPrng.dll

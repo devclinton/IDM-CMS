@@ -6,11 +6,16 @@ EMOD is licensed under the Creative Commons Attribution-Noncommercial-ShareAlike
 To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 
 ***************************************************************************************************/
-
+#if defined(_MSC_VER)
 #ifdef AESCOUNTERPRNG_EXPORTS
 #define AESCOUNTERPRNG_API __declspec(dllexport)
 #else
 #define AESCOUNTERPRNG_API __declspec(dllimport)
+#endif
+#elif defined(__GNUC__)
+//  GCC
+#define AESCOUNTERPRNG_API __attribute__((visibility("default")))
+#define IMPORT
 #endif
 
 #include "IRandom.h"

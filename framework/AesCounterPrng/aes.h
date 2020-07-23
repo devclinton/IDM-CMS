@@ -8,11 +8,25 @@ To view a copy of this license, visit https://creativecommons.org/licenses/by-nc
 ***************************************************************************************************/
 
 #include <emmintrin.h>
+#include <memory>
 
-#define ALIGN16 __declspec (align (16))
+
+
+#if defined(_MSC_VER)
+#define ALIGNED_(x) __declspec(align(x))
+#else
+#if defined(__GNUC__)
+#define ALIGNED_(x) __attribute__ ((aligned(x)))
+#endif
+#endif
+
+#define _ALIGNED_TYPE(t,x) typedef t ALIGNED_(x)
+_ALIGNED_TYPE(__m128i, 16) aligned__m128i;
+typedef uint8_t aligned__uint8_t ;
+
 
 typedef struct KEY_SCHEDULE {
-    ALIGN16 __m128i KEY[15];
+    aligned__m128i KEY[15];
     unsigned int nr;
 } AES_KEY;
 
