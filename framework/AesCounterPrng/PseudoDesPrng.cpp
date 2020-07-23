@@ -7,7 +7,11 @@ To view a copy of this license, visit https://creativecommons.org/licenses/by-nc
 
 ***************************************************************************************************/
 
+#if defined(_MSC_VER)
 #include "stdafx.h"
+#elif defined(__GNUC__)
+#include <cstdint>
+#endif
 #include "PseudoDesPrng.h"
 
 CPseudoDesPrng *CPseudoDesPrng::CreatePRNG(uint32_t seedData)

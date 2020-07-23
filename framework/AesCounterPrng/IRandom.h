@@ -8,8 +8,12 @@ To view a copy of this license, visit https://creativecommons.org/licenses/by-nc
 ***************************************************************************************************/
 
 #pragma once
-
+#if defined(_MSC_VER)
 #include <stdint.h>
+#elif defined(__GNUC__)
+#include <cstdlib>
+#include <cstdint>
+#endif
 
 struct IRandom
 {
